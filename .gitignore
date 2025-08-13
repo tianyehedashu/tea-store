@@ -1,0 +1,49 @@
+## Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+
+## Environment files
+.env*
+!.env.example
+
+## Build outputs
+dist/
+build/
+out/
+
+## Next.js
+.next/
+.vercel/
+
+## Test coverage
+coverage/
+
+## Caches
+.cache/
+.eslintcache
+
+## OS / Editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+
+## Project specific
+uploads/
+medusa-db.sql
+tsconfig.tsbuildinfo
+.medusa
+
+## Yarn v2+ (Berry)
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

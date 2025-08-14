@@ -58,6 +58,22 @@
     @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
   }
 
+  .brand-cta {
+    @apply inline-flex items-center gap-2 rounded-full px-5 py-2.5 bg-brand-700 text-white hover:bg-brand-800 transition-bg;
+  }
+
+  .brand-outline {
+    @apply inline-flex items-center gap-2 rounded-full px-5 py-2.5 border border-brand-700 text-brand-700 hover:bg-brand-100 transition-bg;
+  }
+
+  .brand-card {
+    @apply rounded-large bg-white shadow-sm ring-1 ring-grey-20 hover:shadow-md transition;
+  }
+
+  .brand-badge {
+    @apply inline-flex items-center rounded-full bg-brand-100 text-brand-700 px-3 py-1 text-small-semi;
+  }
+
   .text-xsmall-regular {
     @apply text-[10px] leading-4 font-normal;
   }

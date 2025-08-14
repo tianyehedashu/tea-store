@@ -21,6 +21,18 @@ module.exports = {
         padding: "padding-top padding-right padding-bottom padding-left",
       },
       colors: {
+        brand: {
+          50: "#FAF7F1",
+          100: "#F2EAD7",
+          200: "#E5D8B8",
+          300: "#D6C49A",
+          400: "#BFA06B",
+          500: "#A47033", // Oolong amber
+          600: "#6DAA7C", // Jade tea green (accent)
+          700: "#2F6D4D", // Primary deep tea green
+          800: "#234F39",
+          900: "#1A3B2B",
+        },
         grey: {
           0: "#FFFFFF",
           5: "#F9FAFB",
@@ -60,6 +72,7 @@ module.exports = {
       },
       fontFamily: {
         sans: [
+          "var(--font-sans)",
           "Inter",
           "-apple-system",
           "BlinkMacSystemFont",
@@ -68,6 +81,13 @@ module.exports = {
           "Helvetica Neue",
           "Ubuntu",
           "sans-serif",
+        ],
+        display: [
+          "var(--font-display)",
+          "Playfair Display",
+          "ui-serif",
+          "Georgia",
+          "serif",
         ],
       },
       keyframes: {

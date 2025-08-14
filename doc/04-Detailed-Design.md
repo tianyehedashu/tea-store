@@ -5,94 +5,65 @@
 ## 1. 后端设计（Medusa）
 ### 1.1 模块与模型
 - 模块：`backend/src/modules/tea`
-  - 模型 `Origin`
-    - 字段：`id`、`name`、`country`（ISO-3166 Alpha-2）、`region`、`mountain`、`latitude`、`longitude`、`climate`、`soil`、`flavor_profile[]`、`description`、`hero_image`
-  - 模型 `BrewingGuide`
-    - 字段：`id`、`tea_type`、`vessel`、`water_temp_c`、`leaf_gram_per_100ml`、`time_plan[]`（如 `[20, 15, 15]` 秒）`brew_times`、`tips`、`images[]`
+  - 模型 `Origin`、`BrewingGuide`（可选：作为内容缓存与统一筛选支持）
 - 注册：在 `backend/medusa-config.ts` 的 `modules` 中加入 `resolve: "./src/modules/tea"`
 
 ### 1.2 服务与方法（TeaModuleService）
-- `listOrigins(filters)`、`getOrigin(id)`
-- `listGuides(filters)`、`getGuide(id)`、`getGuideByType(teaType)`
-- `upsertOrigin(payload)`、`upsertGuide(payload)`（Admin）
+- `listOrigins(filters)`、`getOrigin(id)`、`listGuides(filters)`、`getGuide(id)`、`getGuideByType(teaType)`
+- （可选）`syncFromSanity`：从 Sanity 同步内容到本地缓存表，支持统一分页与筛选。
 
 ### 1.3 API 路由
-- Store（只读）：
-  - `GET /store/tea/origins`
-  - `GET /store/tea/origins/:id`
-  - `GET /store/tea/guides`
-  - `GET /store/tea/guides/:id`
-  - `GET /store/tea/guides/by-type/:teaType`
-- Admin（读写）：
-  - `POST/PUT/DELETE /admin/tea/origins`
-  - `POST/PUT/DELETE /admin/tea/guides`
+- Store（只读）：`/store/tea/origins*`、`/store/tea/guides*`
+- Admin（读写，可选）：`/admin/tea/origins*`、`/admin/tea/guides*`
 
 ### 1.4 与产品域的整合
-- `Product.metadata` 字段：`tea_type`, `origin_id`, `grade`, `harvest_season`, `cultivar`, `oxidation_level`, `flavor_notes[]`, `aroma_notes[]`, `altitude`, `organic_certified`, `caffeine_level`, `brew_override`。
-- 冲泡展示优先级：`product.metadata.brew_override` > `BrewingGuide`（按 `tea_type`）。
+- `Product.metadata`：`tea_type`, `origin_id`, `grade`, `harvest_season`, `cultivar`, `oxidation_level`, `flavor_notes[]`, `aroma_notes[]`, `altitude`, `organic_certified`, `caffeine_level`, `brew_override`。
+- 冲泡展示优先级：`metadata.brew_override` > Sanity `BrewingGuide`（按 `tea_type`）。
 
 ### 1.5 种子数据（`backend/src/scripts/seed.ts`）
-- 基础 `Region`（多币种）与 `ShippingOptions`（标准/加急）。
-- 集合/分类：`Green`, `Oolong`, `Black`, `Puer` 等。
-- 示例 `Origin`：`Longjing (Hangzhou, CN)`, `Yiwu (Yunnan, CN)`。
-- 示例 `BrewingGuide`：`green`, `oolong`, `black` 的推荐参数。
-- 示例商品与变体：50g/100g/250g。
+- `Region`、`ShippingOptions`、集合/分类（Green/Oolong/Black/Puer）、示例商品/变体、示例产地/指南。
 
 ### 1.6 校验/安全
-- Admin 路由鉴权（Medusa Admin 体系），请求体校验（DTO/Schema）。
-- Store 路由开启 CORS 白名单；必要的速率限制。
+- Admin 路由鉴权、请求体校验、CORS 白名单、速率限制。
 
-## 2. 前端设计（Next.js）
+## 2. 前端设计（Next.js + Tailwind）
 ### 2.1 路由与页面
-- `front/src/app/[countryCode]/(main)/origins/page.tsx`：产地列表
-- `front/src/app/[countryCode]/(main)/origins/[originId]/page.tsx`：产地详情
-- `front/src/app/[countryCode]/(main)/guides/page.tsx`：指南列表
-- `front/src/app/[countryCode]/(main)/guides/[slugOrType]/page.tsx`：指南详情
+- `(main)/origins/*`、`(main)/guides/*`；首页、集合、商品详情、结账、订单完成、账户中心。
 
-### 2.2 组件
-- 新增 `front/src/modules/content/*`：
-  - `origin-card`、`origin-hero`、`guide-steps`、`brew-quick-tips`
-- 复用 `modules/products/components/*` 的价格、库存、图片组件。
+### 2.2 设计系统与 Tailwind
+- 主题令牌（Tailwind `theme.extend`）：
+  - 颜色：`brand.primary`、`brand.accent`、`surface`、`ink`、`muted`；
+  - 字体：衬线标题、无衬线正文；字号/行高刻度；
+  - 间距：4/8pt 刻度；圆角与阴影；暗色模式。
+- 基础组件：按钮、输入、选择、卡片、徽章、Modal、Toast。
+- 品牌组件：`NavBar`、`Hero`、`ProductCard`、`OriginCard`、`GuideSteps`、`BrewQuickTips`、`FooterBrand`。
+- 动效：过渡 150–200ms、淡入/上滑、小范围缩放；谨慎使用视差与大面积动画。
 
-### 2.3 数据访问
-- 新增 `front/src/lib/data/tea.ts`：
-  - `getOrigins`, `getOriginById`, `getGuides`, `getGuideByType`
-- 商品详情 Quick Brew：读取 `product.metadata.brew_override`，无则调用 `getGuideByType(teaType)`。
+### 2.3 数据访问与映射
+- Sanity（服务器端）
+  - `getOriginsCMS()`, `getOriginBySlugCMS()`, `getGuidesCMS()`, `getGuideByTypeCMS()`（GROQ 查询）
+  - DTO 映射：`OriginCMS → OriginDTO`、`BrewingGuideCMS → BrewingGuideDTO`（统一给页面使用）
+- Medusa（JS SDK）
+  - 商品/价格/库存/购物车/订单；`product.metadata` 参与 UI 决策（例如 Quick Brew 覆盖）
 
-### 2.4 筛选与搜索
-- 类目/集合页增加筛选：`tea_type`、`origin_id`、`flavor_notes`、价格区间、库存。
-- 短期基于 `product.metadata` 与 `tags` 客户端/后端组合过滤；后期可接入搜索服务。
+### 2.4 预览与 ISR
+- 预览：`/api/preview` 开启草稿读取（服务器端），仅对 Editor 可见；
+- ISR：`origins/*`、`guides/*`、首页推荐设置 10–60 分钟；Sanity 发布 Webhook → `/api/revalidate` 精确失效。
 
-### 2.5 SEO/可用性
-- `next-sitemap` 注册 `origins/*`、`guides/*`。
-- OpenGraph 与元数据：详情页动态标题/描述/封面。
-- 骨架屏复用 `modules/skeletons`；移动端优先布局。
+### 2.5 SEO/可访问性
+- 动态元信息与结构化数据（产品、文章）；
+- 语义标签与可键盘操作；图片 `alt`、表单 `aria-*`；
+- 站点地图与面包屑；
+- CLS 控制：骨架屏与尺寸占位。
 
-## 3. API 契约（示例）
-- `GET /store/tea/origins?country=CN&region=Yunnan`
-```json
-{
-  "items": [
-    { "id": "orig_longjing", "name": "Longjing", "country": "CN", "region": "Zhejiang" }
-  ],
-  "count": 1
-}
-```
-- `GET /store/tea/guides/by-type/oolong`
-```json
-{
-  "guide": {
-    "tea_type": "oolong",
-    "water_temp_c": 95,
-    "leaf_gram_per_100ml": 3,
-    "time_plan": [20, 15, 15],
-    "brew_times": 5,
-    "tips": "Warm the gaiwan before brewing."
-  }
-}
-```
+## 3. 页面模块要点
+- 商品详情：品牌头图、关键信息（产地、品种、风味）、Quick Brew、相关商品。
+- 产地详情：风土/图片/地图、代表茶、故事模块；
+- 指南详情：参数卡片（温度、时间、投茶量、次数）、步骤组件、推荐商品；
+- 订单完成：订单摘要 + 冲泡提示卡片 + 推荐再次购买；
+- 账户中心：地址簿、订单列表、再次购买、资料编辑。
 
 ## 4. 性能与观测
-- 前端：RSC + ISR；关键路径减小包体；图片懒加载；合理缓存策略。
-- 后端：端点级别 Cache-Control；必要时添加只读缓存层。
-- 观测：前端错误上报、后端日志/请求追踪、业务指标（转化、客单价）。
+- RSC + ISR；列表分页与图片懒加载；Tailwind 按需构建；
+- 指标：LCP/INP/CLS、接口错误率、Sanity Webhook 成功率；
+- 监控与日志：前端错误上报、后端请求追踪、Webhook 失败告警。

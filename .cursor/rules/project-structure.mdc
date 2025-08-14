@@ -1,0 +1,35 @@
+---
+alwaysApply: true
+---
+# Tea Store 项目结构与导航
+
+- 后端（Medusa v2）：`backend`
+  - 配置入口：[backend/medusa-config.ts](mdc:backend/medusa-config.ts)
+  - 文件式路由（Store/Admin）：`backend/src/api/store/**`、`backend/src/api/admin/**`
+    - 示例：[backend/src/api/store/custom/route.ts](mdc:backend/src/api/store/custom/route.ts)
+    - 示例：[backend/src/api/admin/custom/route.ts](mdc:backend/src/api/admin/custom/route.ts)
+  - 模块与扩展：`backend/src/modules/**`（新增功能优先放模块）
+  - 脚本与数据：[backend/src/scripts/seed.ts](mdc:backend/src/scripts/seed.ts)
+  - 测试：`backend/integration-tests/**`，Jest 配置：[backend/jest.config.js](mdc:backend/jest.config.js)
+
+- 前端（Next.js App Router）：`front`
+  - 根布局与全局样式：[front/src/app/layout.tsx](mdc:front/src/app/layout.tsx)、[front/styles/globals.css](mdc:front/styles/globals.css)
+  - 区域化根路由：`front/src/app/[countryCode]/**`（由中间件决定国家/地区）
+    - 中间件：[front/src/middleware.ts](mdc:front/src/middleware.ts)
+  - SDK 与环境：
+    - JS SDK 实例：[front/src/lib/config.ts](mdc:front/src/lib/config.ts)
+    - 站点基础 URL：[front/src/lib/util/env.ts](mdc:front/src/lib/util/env.ts)
+  - 数据访问：`front/src/lib/data/**`
+  - 页面与模块：`front/src/modules/**`、`front/src/app/[countryCode]/(main|checkout)/**`
+
+- 文档（中文）：`doc/`
+  - 索引：[doc/README.md](mdc:doc/README.md)
+  - 架构：[doc/02-Architecture.md](mdc:doc/02-Architecture.md)
+  - 详细设计：[doc/04-Detailed-Design.md](mdc:doc/04-Detailed-Design.md)
+  - 任务拆分：[doc/05-Task-Breakdown.md](mdc:doc/05-Task-Breakdown.md)
+
+- 通用约定（务必遵循）
+  - 新增函数/组件/API 前，先检索可复用实现，避免重复定义。
+  - 文件过大请拆分，保持合适的文件大小与职责边界。
+  - 所有说明/注释/沟通使用简体中文；站点 UI 使用英文。
+

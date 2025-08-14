@@ -1,0 +1,19 @@
+---
+globs: front/**/*.{ts,tsx}
+description: Next.js App Router 前端约定与环境
+---
+# 前端（Next.js App Router）指南
+
+- 路由结构：以 `front/src/app/[countryCode]` 为根，根据中间件注入的国家代码进行区域化路由。
+- 中间件：见 [front/src/middleware.ts](mdc:front/src/middleware.ts)，负责拉取 Medusa `regions` 并重定向至 `/{countryCode}` 路径。
+- SDK：通过 [front/src/lib/config.ts](mdc:front/src/lib/config.ts) 初始化 Medusa JS SDK，需 `MEDUSA_BACKEND_URL` 与 `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`。
+- 站点基础 URL：通过 [front/src/lib/util/env.ts](mdc:front/src/lib/util/env.ts) 提供。
+- 数据访问：统一放置于 `front/src/lib/data/**`，服务端优先运行（RSC / Route Handler）。
+- UI：组件与模板位于 `front/src/modules/**`；站点 UI 使用英文。
+- 环境变量：
+  - 必须设置 `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`（参考 [front/check-env-variables.js](mdc:front/check-env-variables.js)）。
+  - `MEDUSA_BACKEND_URL` 指向后端地址。
+- 性能：
+  - 合理使用 RSC、段级缓存与 ISR；对内容页设置再验证策略。
+  - 避免在客户端引入不必要的大依赖；图片与列表懒加载。
+

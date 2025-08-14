@@ -1,0 +1,25 @@
+---
+alwaysApply: false
+description: 运行、环境变量与常见问题速查
+---
+# 运行与环境配置
+
+## 后端（backend）
+- Node >= 20。
+- 脚本：
+  - 开发：`yarn dev`
+  - 启动：`yarn start`
+  - 构建：`yarn build`
+  - 种子：`yarn seed`
+- 关键环境：`DATABASE_URL`、`STORE_CORS`、`ADMIN_CORS`、`AUTH_CORS`、`JWT_SECRET`、`COOKIE_SECRET`。
+
+## 前端（front）
+- 端口默认 8000：`yarn dev` / `yarn start`。
+- 必需环境：`NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`；后端地址：`MEDUSA_BACKEND_URL`。
+- 中间件依赖 `MEDUSA_BACKEND_URL` 可访问 `/store/regions`。
+
+## 常见问题
+- 未设置 `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`：参考 [front/check-env-variables.js](mdc:front/check-env-variables.js)。
+- 中间件报错“regions not found”：确保后端已启动且已配置 Region（可通过种子脚本写入）。
+- CORS 拒绝：检查 `backend/medusa-config.ts` 的 `projectConfig.http.*Cors`。
+

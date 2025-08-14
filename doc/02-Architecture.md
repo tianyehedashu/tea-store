@@ -1,88 +1,66 @@
-# 架构文档（基于当前 Medusa 项目）
+# 架构文档（Medusa + Sanity + Next.js + Tailwind）
 
-> 后端：`backend`（Medusa v2）；前端：`front`（Next.js App Router）。UI 使用英文。
+> 后端：`backend`（Medusa v2）；前端：`front`（Next.js App Router + Tailwind）。内容：Sanity。UI 使用英文。
 
 ## 1. 仓库结构与关键位置
 - 后端（Medusa）：`backend`
   - 配置：`backend/medusa-config.ts`
-  - 扩展：`backend/src/modules`（模块）、`backend/src/api`（文件式路由）、`backend/src/subscribers`、`backend/src/workflows`
-  - 脚本与数据：`backend/src/scripts/seed.ts`
+  - 扩展：`backend/src/modules`、`backend/src/api`、`backend/src/subscribers`、`backend/src/workflows`
+  - 脚本：`backend/src/scripts/seed.ts`
 - 前端（Next.js）：`front`
   - 路由根：`front/src/app/[countryCode]`
   - SDK：`front/src/lib/config.ts`
   - 数据：`front/src/lib/data/*`
   - 组件与模板：`front/src/modules/*`
 
-## 2. 高层架构
-- 前端通过 Medusa JS SDK 与 Store/Admin API 通信；内容域（产地、指南）通过自定义 Store API 提供只读访问。
-- 后端 Medusa 负责电商域（产品、变体、库存、定价、订单）、地区/配送/支付；自定义模块 `tea` 负责内容域。
-- 数据持久化采用 PostgreSQL（或当前配置的数据源）。
-
+## 2. 高层与端到端流程
+- 前端服务端（RSC/Route Handler）直读 Sanity（GROQ），并通过 Medusa JS SDK 访问电商域；页面使用 ISR；Sanity 发布触发 Webhook → `/api/revalidate` 失效缓存。
+- 端到端示意：
 ```mermaid
 flowchart TD
-  A[Next.js App Router] -->|JS SDK / REST| B[Medusa Backend]
+  X[Sanity CMS] -- GROQ (Server) --> A[Next.js App Router]
+  A -- JS SDK --> B[Medusa Backend]
   B --> C[(PostgreSQL)]
-  B --> D[Stripe / PayPal]
-  B --> F[Module: tea (Origin, BrewingGuide)]
-  A --> E[CDN / Edge Cache]
+  B --> D[Stripe/PayPal]
+  A --> E[CDN/ISR]
+  X -- Webhook --> A
 ```
 
-## 3. 模块与 API 规划
-- 模块：`backend/src/modules/tea`
+## 3. 模块与 API 规划（后端）
+- 模块：`backend/src/modules/tea`（内容域可选缓存/查询层）
   - 模型：`Origin`、`BrewingGuide`
-  - Service：`TeaModuleService`（`listOrigins`, `getOrigin`, `listGuides`, `getGuide`, `getGuideByType`, `upsertOrigin`, `upsertGuide`）
-  - 注册：在 `backend/medusa-config.ts` 的 `modules` 中添加 `resolve: "./src/modules/tea"`
+  - Service：`TeaModuleService`（只读查询 + 可选同步）
 - Store API（只读）：
   - `GET /store/tea/origins`、`GET /store/tea/origins/:id`
-  - `GET /store/tea/guides`、`GET /store/tea/guides/:id`
-  - `GET /store/tea/guides/by-type/:teaType`
+  - `GET /store/tea/guides`、`GET /store/tea/guides/:id`、`GET /store/tea/guides/by-type/:teaType`
 - Admin API（读写）：
-  - `POST/PUT/DELETE /admin/tea/origins`
-  - `POST/PUT/DELETE /admin/tea/guides`
+  - `POST/PUT/DELETE /admin/tea/origins`、`/admin/tea/guides`（若采用后端摄取/缓存模式）
 
-## 4. 数据模型策略
-- 复用 `Product`/`Variant`，以 `product.metadata` 承载茶叶特性：
-  - `tea_type`, `origin_id`, `grade`, `harvest_season`, `cultivar`, `oxidation_level`, `flavor_notes[]`, `aroma_notes[]`, `altitude`, `organic_certified`, `caffeine_level`, `brew_override`
-- 自定义表仅定义内容域：`Origin`、`BrewingGuide`。
+## 4. 数据策略
+- 商品权威：Medusa `Product/Variant`；茶叶属性放在 `product.metadata.*`。
+- 内容权威：Sanity；前端直读，后端仅作为可选缓存层（需要统一分页/筛选时）。
+- 关联策略：`product.metadata.origin_id` ↔ Sanity `Origin.slug`；`product.metadata.tea_type` ↔ `BrewingGuide.tea_type`。
 
-## 5. 地区、定价与物流
-- 使用 `Region` 配置币种/税率；`ShippingOptions` 配置国际运费（标准/加急）。
+## 5. Tailwind 设计系统
+- 在 `front/tailwind.config.js` 扩展主题：
+  - 颜色令牌：`brand.primary`、`brand.accent`、`surface`、`ink`、`muted`；
+  - 字号与行高刻度、间距尺度、圆角与阴影；
+  - 暗色模式（class）。
+- 组件库分层：基础（按钮/输入/卡片）→ 复合（ProductCard/OriginCard/GuideSteps）→ 模板（首页、列表、详情）。
 
-## 6. 缓存与性能
-- 前端：RSC 段级缓存 + ISR（产地/指南），骨架屏与渐进加载。
-- 后端：合理的 Cache-Control；可选服务层只读缓存。
+## 6. 缓存与再验证
+- 前端：RSC 层数据缓存 + ISR；页面维度设置 10–60 分钟；
+- Webhook：Sanity 发布/下线 → 触发 `/api/revalidate`（签名校验）→ 精准失效对应路径；
+- 后端：如启用缓存层，设置短时只读缓存（30–120s），并在 Webhook 时同步失效。
 
-## 7. 环境变量（示例）
-- 前端：`MEDUSA_BACKEND_URL`、`NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`
-- 后端：`DATABASE_URL`、`MEDUSA_*`、`STRIPE_*`/`PAYPAL_*`
-- 内容源模式：`TEA_CONTENT_SOURCE` = `internal|strapi|sanity`
-- Strapi：`STRAPI_API_URL`、`STRAPI_API_TOKEN`
-- Sanity：`SANITY_PROJECT_ID`、`SANITY_DATASET`、`SANITY_API_READ_TOKEN`、`SANITY_STUDIO_URL`
+## 7. 环境变量（Sanity 已选）
+- 前端：
+  - `MEDUSA_BACKEND_URL`
+  - `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`
+  - `SANITY_PROJECT_ID`、`SANITY_DATASET`、`SANITY_API_READ_TOKEN`、`SANITY_STUDIO_URL`
+- 后端：
+  - `DATABASE_URL`、`MEDUSA_*`、`STRIPE_*`/`PAYPAL_*`
 
-## 8. CMS 集成架构（可选）
-- 模式 A（前端直读 CMS，推荐起步）：
-  - Next.js 仅在服务端（RSC/Route Handler）使用 Token 读取 CMS；页面采用 ISR；发布时由 CMS Webhook 触发再验证。
-```mermaid
-flowchart TD
-  A[Next.js Server Components] -->|SDK/HTTP (Server only)| X[CMS (Strapi/Sanity)]
-  A -->|JS SDK| B[Medusa Backend]
-  B --> C[(PostgreSQL)]
-  A --> E[CDN / ISR]
-```
-- 模式 B（后端摄取/同步到 Medusa 模块）：
-  - 后端定时任务/Webhook 同步 CMS 内容到 `tea` 模块表；前端继续只调用 Medusa。
-```mermaid
-flowchart TD
-  X[CMS] -->|Webhook/Cron Sync| B[Medusa Backend]
-  B --> F[Module: tea (DB)]
-  A[Next.js] -->|JS SDK| B
-```
-- 模式 C（混合）：
-  - 列表页索引来自后端（便于筛选/分页），详情页富媒体直读 CMS。
-
-- 对比：
-  - A：零同步、实时预览、实现快；需处理双源（Medusa+CMS）调用与缓存。
-  - B：单一后端、查询统一；需实现同步与冲突解决。
-  - C：折中方案，前后端各取所长。
-
-> 具体选型与落地细节见 `08-CMS-Integration.md`。
+## 8. 安全与权限
+- Sanity Token 仅服务器端；再验证路由签名校验与来源白名单；
+- CORS 白名单（后端）；支付由网关托管；日志脱敏；最小权限原则。

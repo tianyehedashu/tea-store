@@ -1,46 +1,45 @@
 # 任务拆分与里程碑
 
-> 按阶段推进，优先实现最小可用闭环（MVP）。
+> 已选方案：Medusa + Sanity + Next.js + Tailwind。优先完成 Sanity 前端直读 + ISR + Webhook 再验证。
 
 ## 里程碑 M0（准备/配置，1-2 天）
-- 配置 `medusa-config.ts` 与环境变量（数据库、CORS、支付占位）。
-- 扩充 `backend/src/scripts/seed.ts`：基础 `Region`、`ShippingOptions`、集合与示例商品。
-- 前端环境：`MEDUSA_BACKEND_URL`、`NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`。
+- 后端：`medusa-config.ts`、数据库与 CORS；`seed.ts`：Region、ShippingOptions、集合、示例商品。
+- 前端：`MEDUSA_BACKEND_URL`、`NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`；Tailwind 主题搭建。
+- Sanity：创建项目/数据集，定义 `Origin`/`BrewingGuide` Schema，设置只读 Token。
 
-## 里程碑 M1（后端内容域，3-5 天）
-- 新建模块 `backend/src/modules/tea`：`Origin`、`BrewingGuide`、`TeaModuleService`、`index.ts`。
-- 注册模块到 `medusa-config.ts`。
-- Store API：`/store/tea/origins`、`/store/tea/guides`（只读）。
-- Admin API：`/admin/tea/origins`、`/admin/tea/guides`（读写）。
-- 单元/集成测试覆盖：模型与 API。
+## 里程碑 M1（内容域与页面，3-5 天）
+- Sanity GROQ 查询与 DTO 映射：`getOriginsCMS`、`getGuidesCMS` 等。
+- 页面：`(main)/origins/*`、`(main)/guides/*`；组件：`OriginCard`、`GuideSteps`、`BrewQuickTips`。
+- ISR：路径与超时时间配置；`/api/revalidate` 路由（签名校验）。
 
-## 里程碑 M2（前端内容页与商品整合，4-6 天）
-- 新增页面：`(main)/origins/*`、`(main)/guides/*`，组件 `origin-card`、`guide-steps`、`brew-quick-tips`。
-- 商品详情 Quick Brew：读取 `product.metadata.brew_override`，回落到 `BrewingGuide`。
-- 类目筛选扩展：`tea_type`、`origin_id`、`flavor_notes`、价格区间。
-- SEO：sitemap 注册、元数据完善。
+## 里程碑 M2（商品整合与下单，4-6 天）
+- 商品详情 Quick Brew 集成（先读 `metadata.brew_override`，回落 Sanity Guide）。
+- 列表筛选扩展：`tea_type`、`origin_id`、`flavor_notes`、价格区间。
+- 结账：选择 Stripe 或 PayPal 落地；订单完成页“冲泡提示”。
 
-## 里程碑 M3（结账与物流完善，2-4 天）
-- 启用支付网关（Stripe 或 PayPal 二选一先落地）。
-- 配置国际运费模板，验证税费计算。
-- 订单完成页展示冲泡提示与推荐商品。
+## 里程碑 M3（品牌与优化，3-5 天）
+- 品牌页与礼包：`/about`、`Gift Sets`；品牌组件（Hero/Nav/FooterBrand）。
+- 预览模式：`/api/preview` 与草稿读取；权限控制。
+- 性能与 A11y：骨架屏、图片优化、关键指标优化。
 
-## 里程碑 M4（优化与验收，2-4 天）
-- 性能与 A11y 优化；打点与转化漏斗搭建。
-- 修复遗留问题；最终文档与运维交接。
+## 里程碑 M4（验收与交付，2-4 天）
+- 测试：单元/集成/E2E（关键流程与 ISR/预览）。
+- 监控：前端/后端日志与告警、Webhook 成功率仪表。
+- 文档与交付：运维手册、环境变量清单、回滚策略。
 
 ## 任务清单（按模块）
 - 后端
-  - 定义与迁移：`Origin`、`BrewingGuide`
-  - Service：`TeaModuleService`
-  - API：Store（只读）、Admin（读写）
-  - 种子：`seed.ts` 示例产地/指南/商品
+  - `seed.ts`、支付与配送配置
+  - （可选）内容缓存层与 API（摄取/混合模式时启用）
 - 前端
-  - 页面：`origins`、`guides` 列表与详情
-  - 商品页：Quick Brew 集成
-  - 数据函数：`getOrigins`、`getOriginById`、`getGuides`、`getGuideByType`
-  - 筛选：茶类、产地、风味、价格
+  - Tailwind 主题与基础组件
+  - 内容页与商品整合
+  - 数据函数与 DTO 映射（Sanity + Medusa）
+  - 预览与 ISR、`/api/revalidate`
+- Sanity
+  - Schema、角色与权限、Webhook 配置
+  - 编辑工作流（预览→发布→失效）
 - 质量与 DevOps
   - 环境变量与密钥管理
-  - 测试用例与 CI
-  - 监控与日志
+  - 测试、CI、监控与告警
+  - 安全（签名校验、最小权限）

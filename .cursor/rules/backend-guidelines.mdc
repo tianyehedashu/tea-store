@@ -1,0 +1,25 @@
+---
+globs: backend/**/*.ts,backend/**/*.js
+description: Medusa v2 后端开发与测试约定
+---
+# 后端（Medusa v2）开发指南
+
+- 配置：使用 [backend/medusa-config.ts](mdc:backend/medusa-config.ts) 加载环境，`projectConfig.http` 控制 CORS、JWT 与 Cookie Secret。
+- 模块扩展：将新域逻辑放入 `backend/src/modules/<module>`，并在配置中注册。
+- 文件式路由：
+  - Store 侧路径位于 `backend/src/api/store/**`，Admin 位于 `backend/src/api/admin/**`。
+  - 处理函数签名：`(req: MedusaRequest, res: MedusaResponse)`，示例见 custom 路由。
+- 数据：优先复用 Medusa 核心模型；自定义域（如 `tea`）单独建表与 Service。
+- 种子数据：扩充 [backend/src/scripts/seed.ts](mdc:backend/src/scripts/seed.ts) 以提供最小可运行集。
+- 测试：
+  - Jest 配置：[backend/jest.config.js](mdc:backend/jest.config.js)
+  - 脚本：`yarn test:unit`、`yarn test:integration:http`、`yarn test:integration:modules`
+- 运行脚本（package.json）：
+  - `dev`: `medusa develop`
+  - `start`: `medusa start`
+  - `build`: `medusa build`
+  - `seed`: `medusa exec ./src/scripts/seed.ts`
+- 安全与配置：
+  - 设置 `STORE_CORS`、`ADMIN_CORS`、`AUTH_CORS`；生产环境提供强随机 `JWT_SECRET`、`COOKIE_SECRET`。
+  - 严禁在仓库提交真实密钥。
+

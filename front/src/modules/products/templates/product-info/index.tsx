@@ -1,6 +1,7 @@
 import { HttpTypes } from "@medusajs/types"
 import { Heading, Text } from "@medusajs/ui"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import BrewQuickTips from "@modules/products/components/brew-quick-tips"
 
 type ProductInfoProps = {
   product: HttpTypes.StoreProduct
@@ -32,6 +33,8 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         >
           {product.description}
         </Text>
+
+        <BrewQuickTips product={product} />
       </div>
     </div>
   )

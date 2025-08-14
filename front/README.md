@@ -96,6 +96,31 @@ yarn dev
 
 Your site is now running at http://localhost:8000!
 
+## Environment Variables (Tea Store)
+
+Create `.env.local` with:
+
+```env
+MEDUSA_BACKEND_URL=http://localhost:9000
+NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_test_xxx
+SANITY_PROJECT_ID=your_project_id
+SANITY_DATASET=production
+SANITY_API_READ_TOKEN=your_read_token
+SANITY_STUDIO_URL=https://your-project.sanity.studio
+REVALIDATE_SECRET=your_revalidate_secret
+PREVIEW_TOKEN=your_preview_token
+NEXT_PUBLIC_BASE_URL=http://localhost:8000
+```
+
+## Sanity Webhook
+
+- Set webhook to `/api/revalidate` with header `x-revalidate-token: REVALIDATE_SECRET`.
+- Body example:
+
+```json
+{ "type": "origin", "slug": "longjing" }
+```
+
 # Payment integrations
 
 By default this starter supports the following payment integrations

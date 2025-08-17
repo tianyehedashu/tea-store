@@ -21,45 +21,12 @@ import {
   linkSalesChannelsToStockLocationWorkflow,
   updateStoresWorkflow,
 } from "@medusajs/medusa/core-flows";
-import { readFileSync, existsSync, copyFileSync, mkdirSync } from "fs";
-import { join } from "path";
+// 移除本地文件复制与自定义 URL 构造，改用前端公共静态资源路径
 
-// 文件复制辅助函数  
-async function uploadImageFile(container: any, filePath: string, fileName: string): Promise<string> {
-  const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
-  
-  try {
-    // 源文件路径
-    const sourcePath = join(process.cwd(), '..', 'front', 'public', filePath);
-    if (!existsSync(sourcePath)) {
-      logger.warn(`源文件不存在: ${sourcePath}`);
-      return filePath; // 返回原路径作为fallback
-    }
-
-    // 目标目录和文件路径（官方规范：使用 uploads 作为磁盘目录）
-    const uploadsDir = join(process.cwd(), 'uploads');
-    const targetPath = join(uploadsDir, fileName);
-
-    // 确保 uploads 目录存在
-    if (!existsSync(uploadsDir)) {
-      mkdirSync(uploadsDir, { recursive: true });
-      logger.info(`创建 uploads 目录: ${uploadsDir}`);
-    }
-
-    // 复制文件
-    copyFileSync(sourcePath, targetPath);
-    
-    // 返回 Medusa 的文件访问 URL - 官方规范使用 /uploads 前缀
-    const backendUrl = process.env.MEDUSA_BACKEND_URL || "http://localhost:9000";
-    const fileUrl = `${backendUrl}/uploads/${fileName}`;
-    
-    logger.info(`文件复制成功: ${fileName} -> ${fileUrl}`);
-    return fileUrl;
-    
-  } catch (error) {
-    logger.error(`文件复制失败: ${fileName}`, error);
-    return filePath; // 返回原路径作为fallback
-  }
+// 使用 Medusa 默认静态目录（/static）构造可访问的图片 URL
+const backendStatic = (fileName: string) => {
+  const base = process.env.MEDUSA_BACKEND_URL || "http://localhost:9000"
+  return `${base}/static/${fileName}`
 }
 
 export default async function seedDemoData({ container }: ExecArgs) {
@@ -509,10 +476,10 @@ export default async function seedDemoData({ container }: ExecArgs) {
           weight: 200,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          thumbnail: await uploadImageFile(container, "/tea/longjing-1.jpg", "longjing-1.jpg"),
+          thumbnail: backendStatic("longjing-1.jpg"),
           images: [
-            { url: await uploadImageFile(container, "/tea/longjing-1.jpg", "longjing-1.jpg") },
-            { url: await uploadImageFile(container, "/tea/longjing-2.jpg", "longjing-2.jpg") }
+            { url: backendStatic("longjing-1.jpg") },
+            { url: backendStatic("longjing-2.jpg") }
           ],
           metadata: {
             tea_type: "green",
@@ -577,10 +544,10 @@ export default async function seedDemoData({ container }: ExecArgs) {
           weight: 200,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          thumbnail: await uploadImageFile(container, "/tea/tieguanyin-1.jpg", "tieguanyin-1.jpg"),
+          thumbnail: backendStatic("tieguanyin-1.jpg"),
           images: [
-            { url: await uploadImageFile(container, "/tea/tieguanyin-1.jpg", "tieguanyin-1.jpg") },
-            { url: await uploadImageFile(container, "/tea/tieguanyin-2.jpg", "tieguanyin-2.jpg") }
+            { url: backendStatic("tieguanyin-1.jpg") },
+            { url: backendStatic("tieguanyin-2.jpg") }
           ],
           metadata: {
             tea_type: "oolong",
@@ -646,10 +613,10 @@ export default async function seedDemoData({ container }: ExecArgs) {
           weight: 200,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          thumbnail: await uploadImageFile(container, "/tea/dianhong-1.jpg", "dianhong-1.jpg"),
+          thumbnail: backendStatic("dianhong-1.jpg"),
           images: [
-            { url: await uploadImageFile(container, "/tea/dianhong-1.jpg", "dianhong-1.jpg") },
-            { url: await uploadImageFile(container, "/tea/dianhong-2.jpg", "dianhong-2.jpg") }
+            { url: backendStatic("dianhong-1.jpg") },
+            { url: backendStatic("dianhong-2.jpg") }
           ],
           metadata: {
             tea_type: "black",
@@ -714,10 +681,10 @@ export default async function seedDemoData({ container }: ExecArgs) {
           weight: 357,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          thumbnail: await uploadImageFile(container, "/tea/puer-1.jpg", "puer-1.jpg"),
+          thumbnail: backendStatic("puer-1.jpg"),
           images: [
-            { url: await uploadImageFile(container, "/tea/puer-1.jpg", "puer-1.jpg") },
-            { url: await uploadImageFile(container, "/tea/puer-2.jpg", "puer-2.jpg") }
+            { url: backendStatic("puer-1.jpg") },
+            { url: backendStatic("puer-2.jpg") }
           ],
           metadata: {
             tea_type: "puer",
@@ -783,10 +750,10 @@ export default async function seedDemoData({ container }: ExecArgs) {
           weight: 200,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          thumbnail: await uploadImageFile(container, "/tea/silver-needle-1.jpg", "silver-needle-1.jpg"),
+          thumbnail: backendStatic("silver-needle-1.jpg"),
           images: [
-            { url: await uploadImageFile(container, "/tea/silver-needle-1.jpg", "silver-needle-1.jpg") },
-            { url: await uploadImageFile(container, "/tea/silver-needle-2.jpg", "silver-needle-2.jpg") }
+            { url: backendStatic("silver-needle-1.jpg") },
+            { url: backendStatic("silver-needle-2.jpg") }
           ],
           metadata: {
             tea_type: "white",
@@ -852,10 +819,10 @@ export default async function seedDemoData({ container }: ExecArgs) {
           weight: 100,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          thumbnail: await uploadImageFile(container, "/tea/chamomile-1.jpg", "chamomile-1.jpg"),
+          thumbnail: backendStatic("chamomile-1.jpg"),
           images: [
-            { url: await uploadImageFile(container, "/tea/chamomile-1.jpg", "chamomile-1.jpg") },
-            { url: await uploadImageFile(container, "/tea/chamomile-2.jpg", "chamomile-2.jpg") }
+            { url: backendStatic("chamomile-1.jpg") },
+            { url: backendStatic("chamomile-2.jpg") }
           ],
           metadata: {
             tea_type: "herbal",

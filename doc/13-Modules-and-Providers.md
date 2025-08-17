@@ -57,43 +57,8 @@ modules: [
 
 ## 本仓库的文件访问策略与迁移
 
-### 访问路由 `/api/uploads/[...key]`
-仓库提供了一个文件直出路由，将磁盘文件以正确的 MIME 类型返回，并开启长 Cache：
 
-```ts
-// 摘自 backend/src/api/uploads/[...key]/route.ts
-export async function GET(req, res) {
-  // 读取 process.cwd()/uploads 下的文件并返回
-  // 设置 Content-Type 与 Cache-Control
-}
-```
 
-特性：
-- 读取根目录下 `uploads/` 的文件。
-- 进行路径归一化与目录穿越防护。
-- 设置 `Cache-Control: public, max-age=31536000, immutable`。
-
-### 数据链接迁移脚本
-仓库包含一个脚本，用于将数据库中以 `/static/` 开头的媒体链接迁移为 `/uploads/`：
-
-```ts
-// 摘自 backend/src/scripts/migrate-static-to-uploads.ts
-// 将 product.thumbnail 与 product.images[].url 从 /static/ 迁移到 /uploads/
-```
-
-### 目录一致性建议
-当前 Provider 的 `upload_dir` 指向 `static`，而访问路由读取 `uploads/`。为避免混淆，建议完成统一：
-1. 推荐将 Provider 的 `upload_dir` 统一至 `uploads`：
-   - 修改 `backend/medusa-config.ts`：`upload_dir: "uploads"`。
-   - 在项目根目录创建 `uploads/`（生产环境请使用持久化卷/对象存储挂载）。
-2. 执行迁移：
-   - 运行 `migrate-static-to-uploads.ts` 更新数据库中的媒体 URL。
-   - 如有需要，将旧文件从 `backend/static` 移动到 `uploads/`。
-3. 验证：
-   - 上传新文件并确认 URL 指向 `/uploads/...`。
-   - 访问 `/api/uploads/...` 验证缓存与 MIME 类型。
-
-> 若你继续使用 `static/` 目录，请同步调整访问策略（例如新增 `/api/static/...` 路由或直接通过反向代理暴露静态目录）以避免 URL 与磁盘位置不一致。
 
 ---
 
@@ -202,39 +167,5 @@ export const GET = async (req, res) => {
 5. 用 `medusa db:generate <name>` 生成迁移，`medusa db:migrate` 执行迁移。
 
 ---
-
-## 迁移实践：从 static 到 uploads（可选）
-若你决定统一到 `uploads/` 目录：
-1. 修改 Provider：`upload_dir: "uploads"`。
-2. 运行脚本更新链接：`migrate-static-to-uploads.ts`。
-3. 将旧文件移动到新目录：
-   - Windows（PowerShell）：
-     ```powershell
-     New-Item -ItemType Directory -Force uploads | Out-Null
-     Copy-Item -Recurse -Force backend/static/* uploads/
-     ```
-   - Linux/macOS：
-     ```bash
-     mkdir -p uploads
-     cp -r backend/static/* uploads/
-     ```
-4. 验证 `/api/uploads/...` 能正确返回并带有长缓存头。
-
----
-
-## FAQ
-- **为什么配置里只看到一个模块？**
-  - 文件模块需要选择具体 Provider，所以需显式声明；而核心电商域模块由框架自动装配。
-- **如何最安全地上线文件访问？**
-  - 使用对象存储+CDN 或将 `uploads/` 置于持久化卷，通过反向代理限制动词与范围，并配合严格的 CORS 与鉴权策略。
-- **如何排查文件 URL 异常？**
-  - 核对 `MEDUSA_BACKEND_URL`、Provider 的 `upload_dir`、数据库中媒体 URL 前缀（`/static/` 或 `/uploads/`）是否一致。
-
----
-
-## 结论
-- 本项目默认装配了“文件模块（本地 Provider）”，核心电商模块由 `@medusajs/medusa` 自动装配。
-- 通过 Provider 模式，可按需切换到云存储、第三方支付、搜索、通知与配送。
-- 建议尽快统一文件目录（`static` 或 `uploads`）并完善访问边界与缓存策略，确保在开发与生产环境的一致性与可维护性。
 
 

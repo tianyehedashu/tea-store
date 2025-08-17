@@ -9,10 +9,13 @@
   ],
   "scripts": {
     "dev": "next dev --turbopack -p 8000",
+    "dev:no-cache": "node scripts/dev-no-cache.js",
     "build": "next build",
     "start": "next start -p 8000",
     "lint": "next lint",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "clear-cache": "node scripts/clear-cache.js",
+    "cache-manager": "node scripts/cache-manager.js"
   },
   "dependencies": {
     "@medusajs/icons": "latest",

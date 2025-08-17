@@ -11,8 +11,10 @@
 - [05-Task-Breakdown 任务拆分与里程碑](./05-Task-Breakdown.md)
 - [06-Risks-Testing 风险、测试与验收](./06-Risks-Testing.md)
 - [07-Deployment-Operations 部署与运维](./07-Deployment-Operations.md)
-- [08-Sanity-Integration Sanity 集成方案（已选）](./08-CMS-Integration.md)
-- [09-Brand-Design-System 品牌与设计系统（Tailwind）](./09-Brand-Design-System.md)
+- [08-Multiple-API-Keys-Guide 多 API Key 管理指南](./08-Multiple-API-Keys-Guide.md)
+- [09-Sanity-Integration Sanity 集成方案（已选）](./08-CMS-Integration.md)
+- [10-Brand-Design-System 品牌与设计系统（Tailwind）](./09-Brand-Design-System.md)
+- [11-Implementation 实施说明](./10-Implementation.md)
 
 ## 参考仓库结构（关键位置）
 

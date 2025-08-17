@@ -1,0 +1,15 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Tea leaf design -->
+  <path d="M16 4C14.5 4 13.2 4.8 12.5 6.1C11.8 7.4 11.8 8.9 12.5 10.2L14.8 14.8C15.2 15.6 15.8 16.2 16.6 16.6L21.2 18.9C22.5 19.6 24 19.6 25.3 18.9C26.6 18.2 27.4 16.9 27.4 15.4V11.6C27.4 9.6 25.8 8 23.8 8H20C18.9 8 17.9 8.4 17.1 9.1C16.4 8.2 16 7.1 16 6V4Z" fill="#5BA05B"/>
+  
+  <!-- Tea cup -->
+  <path d="M8 14H20C21.1 14 22 14.9 22 16V22C22 24.2 20.2 26 18 26H10C7.8 26 6 24.2 6 22V16C6 14.9 6.9 14 8 14Z" fill="#E8DD9B" stroke="#5BA05B" stroke-width="1"/>
+  
+  <!-- Steam lines -->
+  <path d="M12 12V10" stroke="#7A9A7A" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M14 12V9" stroke="#7A9A7A" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M16 12V10" stroke="#7A9A7A" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <!-- Cup handle -->
+  <path d="M22 18H24C25.1 18 26 18.9 26 20V20C26 21.1 25.1 22 24 22H22" stroke="#5BA05B" stroke-width="1.5" fill="none"/>
+</svg>

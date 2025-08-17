@@ -6,7 +6,7 @@
 - 后端环境变量：`DATABASE_URL`、`MEDUSA_*`、`STRIPE_*`/`PAYPAL_*`、`CORS_ORIGIN`。
 
 ## 2. 构建与发布
-- 后端：`yarn build && medusa start` 或容器化；健康检查与自动重启。
+- 后端：`pnpm build && medusa start` 或容器化；健康检查与自动重启。
 - 前端：Next.js 构建，部署到 Vercel/容器；Edge 中间件处理 `countryCode`；Tailwind 按需构建。
 
 ## 3. 数据与迁移

@@ -9,12 +9,45 @@ import ProductInfo from "@modules/products/templates/product-info"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import { notFound } from "next/navigation"
 import ProductActionsWrapper from "./product-actions-wrapper"
+import TeaProductTemplate from "./tea-product-template"
 import { HttpTypes } from "@medusajs/types"
 
 type ProductTemplateProps = {
   product: HttpTypes.StoreProduct
   region: HttpTypes.StoreRegion
   countryCode: string
+}
+
+// Helper function to detect if a product is tea-related
+const isTeaProduct = (product: HttpTypes.StoreProduct): boolean => {
+  // Check metadata for tea_type
+  if (product.metadata?.tea_type) {
+    return true
+  }
+  
+  // Check product type
+  if (product.type?.value?.toLowerCase().includes('tea')) {
+    return true
+  }
+  
+  // Check categories
+  if (product.categories?.some(cat => 
+    cat.name?.toLowerCase().includes('tea') ||
+    cat.handle?.toLowerCase().includes('tea')
+  )) {
+    return true
+  }
+  
+  // Check collection
+  if (product.collection?.handle?.toLowerCase().includes('tea')) {
+    return true
+  }
+  
+  // Check title/description for tea keywords
+  const teaKeywords = ['tea', 'cha', 'matcha', 'green tea', 'black tea', 'oolong', 'pu-erh', 'white tea']
+  const searchText = `${product.title} ${product.description}`.toLowerCase()
+  
+  return teaKeywords.some(keyword => searchText.includes(keyword))
 }
 
 const ProductTemplate: React.FC<ProductTemplateProps> = ({
@@ -26,6 +59,18 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     return notFound()
   }
 
+  // Use tea-specific template for tea products
+  if (isTeaProduct(product)) {
+    return (
+      <TeaProductTemplate
+        product={product}
+        region={region}
+        countryCode={countryCode}
+      />
+    )
+  }
+
+  // Default template for non-tea products
   return (
     <>
       <div

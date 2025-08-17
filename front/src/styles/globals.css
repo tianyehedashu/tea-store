@@ -51,27 +51,47 @@
 
 @layer components {
   .content-container {
-    @apply max-w-[1440px] w-full mx-auto px-6;
+    @apply max-w-[1440px] w-full mx-auto px-6 small:px-8 medium:px-12;
+  }
+
+  .content-container-narrow {
+    @apply max-w-4xl w-full mx-auto px-6 small:px-8;
+  }
+
+  .content-container-wide {
+    @apply max-w-7xl w-full mx-auto px-6 small:px-8 medium:px-12;
   }
 
   .contrast-btn {
-    @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
+    @apply px-6 py-3 border border-sage-300 rounded-lg hover:bg-sage-50 hover:border-sage-400 transition-all duration-300 ease-out text-sage-700 font-medium;
   }
 
   .brand-cta {
-    @apply inline-flex items-center gap-2 rounded-full px-5 py-2.5 bg-brand-700 text-white hover:bg-brand-800 transition-bg;
+    @apply inline-flex items-center gap-3 rounded-lg px-8 py-4 bg-brand-500 text-white hover:bg-brand-600 transition-all duration-300 ease-out shadow-lg hover:shadow-xl font-semibold;
   }
 
   .brand-outline {
-    @apply inline-flex items-center gap-2 rounded-full px-5 py-2.5 border border-brand-700 text-brand-700 hover:bg-brand-100 transition-bg;
+    @apply inline-flex items-center gap-3 rounded-lg px-8 py-4 border-2 border-brand-500 text-brand-600 hover:bg-brand-50 transition-all duration-300 ease-out font-semibold;
   }
 
   .brand-card {
-    @apply rounded-large bg-white shadow-sm ring-1 ring-grey-20 hover:shadow-md transition;
+    @apply rounded-2xl bg-white shadow-sm ring-1 ring-sage-200 hover:shadow-xl hover:ring-sage-300 transition-all duration-500 ease-out overflow-hidden;
   }
 
   .brand-badge {
-    @apply inline-flex items-center rounded-full bg-brand-100 text-brand-700 px-3 py-1 text-small-semi;
+    @apply inline-flex items-center rounded-full bg-sage-100 text-sage-700 px-3 py-1.5 text-xs font-medium border border-sage-200;
+  }
+
+  .hero-gradient {
+    @apply bg-gradient-to-br from-brand-50 via-sage-50 to-cream-50;
+  }
+
+  .tea-card {
+    @apply relative bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-700 ease-out overflow-hidden border border-sage-100 hover:border-sage-200;
+  }
+
+  .tea-category-card {
+    @apply relative bg-gradient-to-br from-white to-sage-50 rounded-xl shadow-sm hover:shadow-lg transition-all duration-500 ease-out border border-sage-200 hover:border-brand-300 p-6 text-center;
   }
 
   .text-xsmall-regular {
@@ -125,4 +145,109 @@
   .text-3xl-semi {
     @apply text-[32px] leading-[44px] font-semibold;
   }
+
+  /* Modern Layout Utilities */
+  .section-padding {
+    @apply py-16 small:py-20 medium:py-24;
+  }
+
+  .section-padding-sm {
+    @apply py-12 small:py-16;
+  }
+
+  .section-padding-lg {
+    @apply py-20 small:py-24 medium:py-32;
+  }
+
+  /* Focus and Accessibility */
+  .focus-outline {
+    @apply focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2;
+  }
+
+  /* Enhanced Animations */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.5s ease-out forwards;
+  }
+
+  /* Smooth Scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Enhanced Typography */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Mobile-first responsive spacing */
+  .responsive-grid {
+    @apply grid gap-6 small:gap-8 medium:gap-12;
+  }
+
+  .responsive-stack {
+    @apply space-y-6 small:space-y-8 medium:space-y-12;
+  }
+}
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Enhanced Selection */
+::selection {
+  background-color: rgba(91, 160, 91, 0.2);
+  color: rgb(61, 107, 61);
+}
+
+/* Smooth Focus */
+*:focus {
+  @apply transition-all duration-200;
+}
+
+/* Hide scrollbar but keep functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }

@@ -1,0 +1,19 @@
+{
+  "name": "Zentee - Sip the Calm",
+  "short_name": "Zentee",
+  "description": "Tea with a Zen State of Mind. Discover mindful tea experiences that bring tranquility and balance to your daily life.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7FBF7",
+  "theme_color": "#5BA05B",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food", "shopping", "lifestyle"],
+  "lang": "en"
+}

@@ -22,16 +22,40 @@ module.exports = {
       },
       colors: {
         brand: {
-          50: "#FAF7F1",
-          100: "#F2EAD7",
-          200: "#E5D8B8",
-          300: "#D6C49A",
-          400: "#BFA06B",
-          500: "#A47033", // Oolong amber
-          600: "#6DAA7C", // Jade tea green (accent)
-          700: "#2F6D4D", // Primary deep tea green
-          800: "#234F39",
-          900: "#1A3B2B",
+          50: "#F7FBF7",
+          100: "#EDF7ED",
+          200: "#D4EDD4",
+          300: "#AAD8AA",
+          400: "#7BBF7B",
+          500: "#5BA05B", // Primary tea green
+          600: "#4A8A4A", // Darker tea green
+          700: "#3D6B3D", // Deep forest green
+          800: "#2D4F2D",
+          900: "#1F381F",
+        },
+        sage: {
+          50: "#F8FAF8",
+          100: "#F1F5F1",
+          200: "#E2EAE2",
+          300: "#C8D5C8",
+          400: "#A3BBA3",
+          500: "#7A9A7A",
+          600: "#5D7D5D",
+          700: "#4A644A",
+          800: "#3E533E",
+          900: "#314231",
+        },
+        cream: {
+          50: "#FEFDF9",
+          100: "#FDFBF2",
+          200: "#FAF6E5",
+          300: "#F6F0D1",
+          400: "#F0E8B8",
+          500: "#E8DD9B",
+          600: "#D4C574",
+          700: "#BFA94F",
+          800: "#A08A3F",
+          900: "#806F35",
         },
         grey: {
           0: "#FFFFFF",

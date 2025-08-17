@@ -13,8 +13,12 @@
     "medusa"
   ],
   "scripts": {
+    "setup":" medusa  db:setup",
     "build": "medusa build",
     "seed": "medusa exec ./src/scripts/seed.ts",
+    "cleanup": "medusa exec ./src/scripts/cleanup-all-products.ts",
+    "seed:fresh": "pnpm run cleanup && pnpm run seed",
+    "deploy:init": "medusa db:setup && pnpm run seed",
     "start": "medusa start",
     "dev": "medusa develop",
     "test:integration:http": "TEST_TYPE=integration:http NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
@@ -53,5 +57,6 @@
   },
   "engines": {
     "node": ">=20"
-  }
+  },
+  "packageManager": "pnpm@9.12.3"
 }

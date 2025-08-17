@@ -78,10 +78,10 @@ mv .env.template .env.local
 
 ### Install dependencies
 
-Use Yarn to install all dependencies.
+Use pnpm to install all dependencies.
 
 ```shell
-yarn
+pnpm i
 ```
 
 ### Start developing
@@ -89,14 +89,14 @@ yarn
 You are now ready to start up your project.
 
 ```shell
-yarn dev
+pnpm dev
 ```
 
 ### Open the code and start customizing
 
 Your site is now running at http://localhost:8000!
 
-## Environment Variables (Tea Store)
+## Environment Variables (Zentee)
 
 Create `.env.local` with:
 

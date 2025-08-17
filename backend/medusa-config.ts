@@ -22,7 +22,8 @@ module.exports = defineConfig({
             resolve: "@medusajs/medusa/file-local",
             id: "local",
             options: {
-              upload_dir: "static",
+              // 官方规范：对外访问统一使用 /uploads，磁盘目录名与对外 URL 解耦
+              upload_dir: "uploads",
               backend_url: process.env.MEDUSA_BACKEND_URL || "http://localhost:9000"
             },
           },

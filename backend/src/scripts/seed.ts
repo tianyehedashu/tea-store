@@ -36,20 +36,20 @@ async function uploadImageFile(container: any, filePath: string, fileName: strin
       return filePath; // 返回原路径作为fallback
     }
 
-    // 目标目录和文件路径
-    const staticDir = join(process.cwd(), 'static');
-    const targetPath = join(staticDir, fileName);
+    // 目标目录和文件路径（官方规范：使用 uploads 作为磁盘目录）
+    const uploadsDir = join(process.cwd(), 'uploads');
+    const targetPath = join(uploadsDir, fileName);
 
-    // 确保 static 目录存在
-    if (!existsSync(staticDir)) {
-      mkdirSync(staticDir, { recursive: true });
-      logger.info(`创建 static 目录: ${staticDir}`);
+    // 确保 uploads 目录存在
+    if (!existsSync(uploadsDir)) {
+      mkdirSync(uploadsDir, { recursive: true });
+      logger.info(`创建 uploads 目录: ${uploadsDir}`);
     }
 
     // 复制文件
     copyFileSync(sourcePath, targetPath);
     
-    // 返回 Medusa 的文件访问 URL
+    // 返回 Medusa 的文件访问 URL - 官方规范使用 /uploads 前缀
     const backendUrl = process.env.MEDUSA_BACKEND_URL || "http://localhost:9000";
     const fileUrl = `${backendUrl}/uploads/${fileName}`;
     

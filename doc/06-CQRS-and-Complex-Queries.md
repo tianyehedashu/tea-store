@@ -34,7 +34,7 @@
 
 ### 3.1 模块服务 `.list/.listAndCount`（同一模块内复杂筛选）
 适用：同一域内的复杂过滤、排序、分页、选择字段/关系。
-
+文件位置：`backend/src/api/store/custom/route.ts`
 ```ts
 // 示例：在 GET 路由中使用产品模块进行复杂过滤 + 分页 + 字段选择
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
@@ -73,7 +73,7 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
 
 ### 3.2 `remoteQuery`（跨模块聚合查询）
 适用：一次性读取多个模块（如产品 + 库存 + 销售渠道）并做跨域关联的响应组装。
-
+文件位置：`backend/src/api/store/custom/route.ts`
 ```ts
 // 示例：产品 + 变体 + 库存层级 + 销售渠道 的一次性查询（字段结构以当前版本文档为准）
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
@@ -130,6 +130,7 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
 - 支持事务/补偿（步骤失败时回滚）；
 - 由 `POST/PUT/PATCH/DELETE` 路由触发执行。
 
+文件位置：`backend/src/workflows/demo.ts`
 ```ts
 // 极简工作流（详见 backend/src/workflows/README.md）
 import { createWorkflow, createStep, WorkflowResponse, StepResponse } from "@medusajs/framework/workflows-sdk"
@@ -144,6 +145,7 @@ export default createWorkflow("demo", () => {
 
 在路由中触发：
 
+文件位置：`backend/src/api/store/route.ts`
 ```ts
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 import demoWorkflow from "../../workflows/demo"

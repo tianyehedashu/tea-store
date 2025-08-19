@@ -15,6 +15,8 @@
 - [09-Sanity-Integration Sanity 集成方案（已选）](./08-CMS-Integration.md)
 - [10-Brand-Design-System 品牌与设计系统（Tailwind）](./09-Brand-Design-System.md)
 - [11-Implementation 实施说明](./10-Implementation.md)
+- [15-Workflows-Design-and-Guide Medusa 工作流设计与实践](./15-Workflows-Design-and-Guide.md)
+ - [16-Hyperf-Workflow-Design-and-Implementation 在 Hyperf 中实现工作流（参考实现）](./16-Hyperf-Workflow-Design-and-Implementation.md)
 
 ## 参考仓库结构（关键位置）
 

@@ -2,6 +2,8 @@ import { HttpTypes } from "@medusajs/types"
 import { Container } from "@medusajs/ui"
 import Image from "next/image"
 
+import { resolveMedusaAssetUrl } from "@lib/util/medusa-image-url"
+
 type ImageGalleryProps = {
   images: HttpTypes.StoreProductImage[]
 }
@@ -11,15 +13,18 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
     <div className="flex items-start relative">
       <div className="flex flex-col flex-1 small:mx-16 gap-y-4">
         {images.map((image, index) => {
+          const resolvedUrl = image.url
+            ? resolveMedusaAssetUrl(image.url)
+            : undefined
           return (
             <Container
               key={image.id}
               className="relative aspect-[29/34] w-full overflow-hidden bg-ui-bg-subtle"
               id={image.id}
             >
-              {!!image.url && (
+              {resolvedUrl ? (
                 <Image
-                  src={image.url}
+                  src={resolvedUrl}
                   priority={index <= 2 ? true : false}
                   className="absolute inset-0 rounded-rounded"
                   alt={`Product image ${index + 1}`}
@@ -29,7 +34,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                     objectFit: "cover",
                   }}
                 />
-              )}
+              ) : null}
             </Container>
           )
         })}

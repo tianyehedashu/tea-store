@@ -13,7 +13,7 @@
     "medusa"
   ],
   "scripts": {
-    "setup":" medusa  db:setup",
+    "setup": " medusa  db:setup",
     "build": "medusa build",
     "seed": "medusa exec ./src/scripts/seed.ts",
     "cleanup": "medusa exec ./src/scripts/cleanup-all-products.ts",
@@ -28,6 +28,7 @@
   "dependencies": {
     "@medusajs/admin-sdk": "2.8.8",
     "@medusajs/cli": "2.8.8",
+    "@medusajs/dashboard": "2.8.8",
     "@medusajs/framework": "2.8.8",
     "@medusajs/medusa": "2.8.8",
     "@mikro-orm/core": "6.4.3",

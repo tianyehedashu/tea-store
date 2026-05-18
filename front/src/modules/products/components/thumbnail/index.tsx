@@ -3,6 +3,7 @@ import Image from "next/image"
 import React from "react"
 
 import PlaceholderImage from "@modules/common/icons/placeholder-image"
+import { resolveMedusaAssetUrl } from "@lib/util/medusa-image-url"
 
 type ThumbnailProps = {
   thumbnail?: string | null
@@ -22,7 +23,9 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   className,
   "data-testid": dataTestid,
 }) => {
-  const initialImage = thumbnail || images?.[0]?.url
+  // 与详情页图库顺序一致：优先第一张 gallery 图，避免 thumbnail 与 images[0] 不一致时列表「货不对图」
+  const rawUrl = images?.[0]?.url ?? thumbnail
+  const initialImage = resolveMedusaAssetUrl(rawUrl ?? undefined)
 
   return (
     <Container
@@ -51,6 +54,7 @@ const ImageOrPlaceholder = ({
 }: Pick<ThumbnailProps, "size"> & { image?: string }) => {
   return image ? (
     <Image
+      key={image}
       src={image}
       alt="Thumbnail"
       className="absolute inset-0 object-cover object-center"

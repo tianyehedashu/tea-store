@@ -26,7 +26,13 @@ fi
 
 cd backend
 export NODE_OPTIONS="${NODE_OPTIONS:---max-old-space-size=512}"
-pnpm run build
+if ! pnpm run build; then
+  echo "Server build OOM — upload local backend/.medusa/server tarball and public/admin, then re-run."
+  exit 1
+fi
+mkdir -p public
+rm -rf public/admin
+cp -a .medusa/server/public/admin public/admin
 cd ../front
 pnpm run build
 cd ..

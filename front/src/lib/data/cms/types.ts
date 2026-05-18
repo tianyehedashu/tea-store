@@ -22,5 +22,3 @@ export type BrewingGuideDTO = {
   tips?: string
   recommendedProducts?: { handle: string }[]
 }
-
-

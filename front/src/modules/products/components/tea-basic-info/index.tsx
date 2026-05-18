@@ -21,17 +21,17 @@ type TeaBasicInfoProps = {
 
 const TeaBasicInfo = ({ product }: TeaBasicInfoProps) => {
   const metadata = (product.metadata as TeaMetadata) || {}
-  
+
   const teaTypeMap: Record<string, string> = {
     green: "Green Tea",
-    black: "Black Tea", 
+    black: "Black Tea",
     white: "White Tea",
     oolong: "Oolong Tea",
     puer: "Pu-erh Tea",
     dark: "Dark Tea",
     yellow: "Yellow Tea",
     flower: "Flower Tea",
-    herbal: "Herbal Tea"
+    herbal: "Herbal Tea",
   }
 
   return (
@@ -59,19 +59,23 @@ const TeaBasicInfo = ({ product }: TeaBasicInfoProps) => {
         <Heading level="h3" className="text-lg font-semibold text-grey-80 mb-3">
           Origin & Terroir
         </Heading>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Geographic Location */}
           <div className="space-y-2">
             {metadata.origin_province && (
               <div>
-                <Text className="text-sm font-medium text-grey-60">Province</Text>
+                <Text className="text-sm font-medium text-grey-60">
+                  Province
+                </Text>
                 <Text className="text-grey-80">{metadata.origin_province}</Text>
               </div>
             )}
             {metadata.origin_region && (
               <div>
-                <Text className="text-sm font-medium text-grey-60">Specific Region</Text>
+                <Text className="text-sm font-medium text-grey-60">
+                  Specific Region
+                </Text>
                 <Text className="text-grey-80">{metadata.origin_region}</Text>
               </div>
             )}
@@ -81,19 +85,25 @@ const TeaBasicInfo = ({ product }: TeaBasicInfoProps) => {
           <div className="space-y-2">
             {metadata.origin_altitude && (
               <div>
-                <Text className="text-sm font-medium text-grey-60">Altitude</Text>
+                <Text className="text-sm font-medium text-grey-60">
+                  Altitude
+                </Text>
                 <Text className="text-grey-80">{metadata.origin_altitude}</Text>
               </div>
             )}
             {metadata.origin_climate && (
               <div>
-                <Text className="text-sm font-medium text-grey-60">Climate</Text>
+                <Text className="text-sm font-medium text-grey-60">
+                  Climate
+                </Text>
                 <Text className="text-grey-80">{metadata.origin_climate}</Text>
               </div>
             )}
             {metadata.origin_soil && (
               <div>
-                <Text className="text-sm font-medium text-grey-60">Soil Type</Text>
+                <Text className="text-sm font-medium text-grey-60">
+                  Soil Type
+                </Text>
                 <Text className="text-grey-80">{metadata.origin_soil}</Text>
               </div>
             )}
@@ -103,7 +113,9 @@ const TeaBasicInfo = ({ product }: TeaBasicInfoProps) => {
         {/* Geographic Description */}
         {metadata.geographic_description && (
           <div className="pt-3 border-t border-grey-10">
-            <Text className="text-sm font-medium text-grey-60 mb-2">Geographic Environment</Text>
+            <Text className="text-sm font-medium text-grey-60 mb-2">
+              Geographic Environment
+            </Text>
             <Text className="text-sm text-grey-70 leading-relaxed whitespace-pre-line">
               {metadata.geographic_description}
             </Text>
@@ -113,7 +125,9 @@ const TeaBasicInfo = ({ product }: TeaBasicInfoProps) => {
         {/* Cultural & Historical Background */}
         {metadata.origin_history && (
           <div className="pt-3 border-t border-grey-10">
-            <Text className="text-sm font-medium text-grey-60 mb-2">Cultural Heritage</Text>
+            <Text className="text-sm font-medium text-grey-60 mb-2">
+              Cultural Heritage
+            </Text>
             <Text className="text-sm text-grey-70 leading-relaxed whitespace-pre-line">
               {metadata.origin_history}
             </Text>

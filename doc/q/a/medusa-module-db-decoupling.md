@@ -15,10 +15,10 @@ Medusa 中 module 和数据库对象是否实现了解耦？如何体现？
 
 ### 端到端路径（示意）
 
-1) 在 `backend/src/modules/**` 定义模型与服务；
-2) 在 `backend/src/links/**` 用 `defineLink(...)` 建立跨模块关联并 `npx medusa db:migrate`；
-3) 读侧用 `remoteQuery` 聚合返回所需字段；
-4) 写侧用 Workflow 统一编排、回滚与观测。
+1. 在 `backend/src/modules/**` 定义模型与服务；
+2. 在 `backend/src/links/**` 用 `defineLink(...)` 建立跨模块关联并 `npx medusa db:migrate`；
+3. 读侧用 `remoteQuery` 聚合返回所需字段；
+4. 写侧用 Workflow 统一编排、回滚与观测。
 
 ## 参考
 

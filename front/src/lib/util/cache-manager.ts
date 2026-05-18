@@ -23,13 +23,13 @@ export async function clearCacheByTag(tag: keyof typeof CACHE_CONFIG.TAGS) {
  * 清理所有相关缓存
  */
 export async function clearAllCache() {
-  const tags = Object.keys(CACHE_CONFIG.TAGS) as Array<keyof typeof CACHE_CONFIG.TAGS>
-  
-  await Promise.allSettled(
-    tags.map(tag => clearCacheByTag(tag))
-  )
-  
-  console.log('🎉 所有缓存清理完成')
+  const tags = Object.keys(CACHE_CONFIG.TAGS) as Array<
+    keyof typeof CACHE_CONFIG.TAGS
+  >
+
+  await Promise.allSettled(tags.map((tag) => clearCacheByTag(tag)))
+
+  console.log("🎉 所有缓存清理完成")
 }
 
 /**
@@ -37,11 +37,11 @@ export async function clearAllCache() {
  */
 export async function clearProductCache() {
   await Promise.allSettled([
-    clearCacheByTag('PRODUCTS'),
-    clearCacheByTag('CATEGORIES'),
+    clearCacheByTag("PRODUCTS"),
+    clearCacheByTag("CATEGORIES"),
   ])
-  
-  console.log('🛍️ 商品相关缓存清理完成')
+
+  console.log("🛍️ 商品相关缓存清理完成")
 }
 
 /**

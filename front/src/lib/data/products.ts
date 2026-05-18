@@ -4,8 +4,21 @@ import { sdk } from "@lib/config"
 import { sortProducts } from "@lib/util/sort-products"
 import { HttpTypes } from "@medusajs/types"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { PRODUCT_LIST_FIELDS } from "@lib/constants/product-fields"
+import {
+  filterTeaProducts,
+  TeaProductFilters,
+} from "@lib/util/tea-product-filters"
 import { getAuthHeaders, getCacheOptions } from "./cookies"
 import { getRegion, retrieveRegion } from "./regions"
+
+/** Medusa store product list query; SDK types omit several filter fields the API accepts. */
+export type StoreProductListQuery = HttpTypes.FindParams &
+  HttpTypes.StoreProductParams & {
+    handle?: string | string[]
+    collection_id?: string | string[]
+    id?: string | string[]
+  }
 
 export const listProducts = async ({
   pageParam = 1,
@@ -14,13 +27,13 @@ export const listProducts = async ({
   regionId,
 }: {
   pageParam?: number
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
+  queryParams?: StoreProductListQuery
   countryCode?: string
   regionId?: string
 }): Promise<{
   response: { products: HttpTypes.StoreProduct[]; count: number }
   nextPage: number | null
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
+  queryParams?: StoreProductListQuery
 }> => {
   if (!countryCode && !regionId) {
     throw new Error("Country code or region ID is required")
@@ -28,7 +41,7 @@ export const listProducts = async ({
 
   const limit = queryParams?.limit || 12
   const _pageParam = Math.max(pageParam, 1)
-  const offset = (_pageParam === 1) ? 0 : (_pageParam - 1) * limit;
+  const offset = _pageParam === 1 ? 0 : (_pageParam - 1) * limit
 
   let region: HttpTypes.StoreRegion | undefined | null
 
@@ -62,8 +75,7 @@ export const listProducts = async ({
           limit,
           offset,
           region_id: region?.id,
-          fields:
-            "*variants.calculated_price,+handle,+title,thumbnail,images.*,+variants.inventory_quantity,+metadata,+tags",
+          fields: PRODUCT_LIST_FIELDS,
           ...queryParams,
         },
         headers,
@@ -94,15 +106,17 @@ export const listProductsWithSort = async ({
   queryParams,
   sortBy = "created_at",
   countryCode,
+  teaFilters,
 }: {
   page?: number
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
+  queryParams?: StoreProductListQuery
   sortBy?: SortOptions
   countryCode: string
+  teaFilters?: TeaProductFilters
 }): Promise<{
   response: { products: HttpTypes.StoreProduct[]; count: number }
   nextPage: number | null
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
+  queryParams?: StoreProductListQuery
 }> => {
   const limit = queryParams?.limit || 12
 
@@ -117,18 +131,21 @@ export const listProductsWithSort = async ({
     countryCode,
   })
 
-  const sortedProducts = sortProducts(products, sortBy)
+  const filteredProducts = teaFilters
+    ? filterTeaProducts(products, teaFilters)
+    : products
+  const sortedProducts = sortProducts(filteredProducts, sortBy)
 
   const pageParam = (page - 1) * limit
-
-  const nextPage = count > pageParam + limit ? pageParam + limit : null
+  const filteredCount = sortedProducts.length
+  const nextPage = filteredCount > pageParam + limit ? pageParam + limit : null
 
   const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit)
 
   return {
     response: {
       products: paginatedProducts,
-      count,
+      count: filteredCount,
     },
     nextPage,
     queryParams,

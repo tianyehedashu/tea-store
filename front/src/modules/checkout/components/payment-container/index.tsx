@@ -1,10 +1,12 @@
 import { Radio as RadioGroupOption } from "@headlessui/react"
-import { Text, clx } from "@medusajs/ui"
+import { checkoutSummaryLabelClass } from "@lib/util/checkout-summary-classes"
+import { Text } from "@medusajs/ui"
 import React, { useContext, useMemo, type JSX } from "react"
 
 import Radio from "@modules/common/components/radio"
 
 import { isManual } from "@lib/constants"
+import { checkoutOptionClasses } from "@lib/util/checkout-option-classes"
 import SkeletonCardDetails from "@modules/skeletons/components/skeleton-card-details"
 import { CardElement } from "@stripe/react-stripe-js"
 import { StripeCardElementOptions } from "@stripe/stripe-js"
@@ -33,25 +35,23 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
       key={paymentProviderId}
       value={paymentProviderId}
       disabled={disabled}
-      className={clx(
-        "flex flex-col gap-y-2 text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
-        {
-          "border-ui-border-interactive":
-            selectedPaymentOptionId === paymentProviderId,
-        }
+      data-testid={`payment-option-${paymentProviderId}`}
+      className={checkoutOptionClasses(
+        selectedPaymentOptionId === paymentProviderId,
+        { variant: "col", disabled }
       )}
     >
       <div className="flex items-center justify-between ">
         <div className="flex items-center gap-x-4">
           <Radio checked={selectedPaymentOptionId === paymentProviderId} />
-          <Text className="text-base-regular">
+          <Text className="text-sm font-medium text-sage-900">
             {paymentInfoMap[paymentProviderId]?.title || paymentProviderId}
           </Text>
           {isManual(paymentProviderId) && isDevelopment && (
             <PaymentTest className="hidden small:block" />
           )}
         </div>
-        <span className="justify-self-end text-ui-fg-base">
+        <span className="justify-self-end text-sage-700">
           {paymentInfoMap[paymentProviderId]?.icon}
         </span>
       </div>
@@ -92,7 +92,7 @@ export const StripeCardContainer = ({
         },
       },
       classes: {
-        base: "pt-3 pb-1 block w-full h-11 px-4 mt-0 bg-ui-bg-field border rounded-md appearance-none focus:outline-none focus:ring-0 focus:shadow-borders-interactive-with-active border-ui-border-base hover:bg-ui-bg-field-hover transition-all duration-300 ease-in-out",
+        base: "pt-3 pb-1 block w-full h-11 px-4 mt-0 bg-white border border-sage-200 rounded-lg appearance-none focus:outline-none focus:ring-1 focus:ring-brand-200 focus:border-brand-400 hover:border-sage-300 transition-colors",
       },
     }
   }, [])
@@ -107,8 +107,8 @@ export const StripeCardContainer = ({
       {selectedPaymentOptionId === paymentProviderId &&
         (stripeReady ? (
           <div className="my-4 transition-all duration-150 ease-in-out">
-            <Text className="txt-medium-plus text-ui-fg-base mb-1">
-              Enter your card details:
+            <Text className={checkoutSummaryLabelClass}>
+              Enter your card details
             </Text>
             <CardElement
               options={useOptions as StripeCardElementOptions}

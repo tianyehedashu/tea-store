@@ -2,6 +2,7 @@ import { listCartShippingMethods } from "@lib/data/fulfillment"
 import { listCartPaymentMethods } from "@lib/data/payment"
 import { HttpTypes } from "@medusajs/types"
 import Addresses from "@modules/checkout/components/addresses"
+import CheckoutProgress from "@modules/checkout/components/checkout-progress"
 import Payment from "@modules/checkout/components/payment"
 import Review from "@modules/checkout/components/review"
 import Shipping from "@modules/checkout/components/shipping"
@@ -9,9 +10,11 @@ import Shipping from "@modules/checkout/components/shipping"
 export default async function CheckoutForm({
   cart,
   customer,
+  currentStep,
 }: {
   cart: HttpTypes.StoreCart | null
   customer: HttpTypes.StoreCustomer | null
+  currentStep?: string | null
 }) {
   if (!cart) {
     return null
@@ -25,13 +28,11 @@ export default async function CheckoutForm({
   }
 
   return (
-    <div className="w-full grid grid-cols-1 gap-y-8">
+    <div className="w-full space-y-6">
+      <CheckoutProgress currentStep={currentStep ?? "address"} />
       <Addresses cart={cart} customer={customer} />
-
       <Shipping cart={cart} availableShippingMethods={shippingMethods} />
-
       <Payment cart={cart} availablePaymentMethods={paymentMethods} />
-
       <Review cart={cart} />
     </div>
   )

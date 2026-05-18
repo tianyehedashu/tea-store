@@ -67,5 +67,3 @@ export async function sanityFetch<T = any>(
   const json = (await res.json()) as { result: T }
   return json.result
 }
-
-

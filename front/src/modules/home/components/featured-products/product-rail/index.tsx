@@ -33,19 +33,30 @@ export default async function ProductRail({
           <h3 className="font-display text-2xl small:text-3xl font-bold text-sage-900">
             {collection.title}
           </h3>
-          {collection.metadata?.description && (
-            <p className="text-sage-600 max-w-2xl">
-              {String(collection.metadata.description)}
-            </p>
-          )}
+          {typeof collection.metadata?.description === "string" &&
+            collection.metadata.description && (
+              <p className="text-sage-600 max-w-2xl">
+                {collection.metadata.description}
+              </p>
+            )}
         </div>
         <LocalizedClientLink
           href={`/collections/${collection.handle}`}
           className="group flex items-center gap-2 text-brand-600 hover:text-brand-700 font-semibold transition-colors duration-300"
         >
           <span>View All</span>
-          <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          <svg
+            className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
           </svg>
         </LocalizedClientLink>
       </div>

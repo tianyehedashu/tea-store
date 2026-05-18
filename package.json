@@ -1,0 +1,25 @@
+{
+  "name": "tea-store",
+  "private": true,
+  "packageManager": "pnpm@9.12.3",
+  "scripts": {
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,css}\" --ignore-path .prettierignore",
+    "check": "pnpm run check:backend && pnpm run check:front",
+    "check:ci": "pnpm run check:backend && pnpm --dir front lint",
+    "check:front": "pnpm --dir front check",
+    "check:backend": "pnpm --dir backend check",
+    "typecheck": "pnpm run typecheck:backend && pnpm run typecheck:front",
+    "typecheck:front": "pnpm --dir front typecheck",
+    "typecheck:backend": "pnpm --dir backend typecheck",
+    "lint": "pnpm run lint:backend && pnpm run lint:front",
+    "lint:front": "pnpm --dir front lint",
+    "lint:backend": "pnpm --dir backend lint",
+    "test": "pnpm run test:backend && pnpm run test:e2e",
+    "test:backend": "pnpm --dir backend test:integration:http",
+    "test:e2e": "pnpm --dir front test:e2e",
+    "test:e2e:ui": "pnpm --dir front test:e2e:ui",
+    "build": "pnpm run build:backend && pnpm run build:front",
+    "build:backend": "pnpm --dir backend build",
+    "build:front": "pnpm --dir front build"
+  }
+}

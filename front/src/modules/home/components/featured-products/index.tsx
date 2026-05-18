@@ -11,7 +11,12 @@ export default async function FeaturedProducts({
   return (
     <div className="space-y-16">
       {collections.slice(0, 3).map((collection, index) => (
-        <div key={collection.id} className={index % 2 === 1 ? "bg-white rounded-3xl p-8 shadow-sm" : ""}>
+        <div
+          key={collection.id}
+          className={
+            index % 2 === 1 ? "bg-white rounded-3xl p-8 shadow-sm" : ""
+          }
+        >
           <ProductRail collection={collection} region={region} />
         </div>
       ))}

@@ -5,11 +5,11 @@ import { getCacheConfig, CACHE_CONFIG } from "@lib/config/cache"
 
 export const listCategories = async (query?: Record<string, any>) => {
   const limit = query?.limit || 100
-  const cacheConfig = getCacheConfig('CATEGORIES')
+  const cacheConfig = getCacheConfig("CATEGORIES")
 
   // 合并缓存配置
-  const next = CACHE_CONFIG.ENV.CACHE_DISABLED 
-    ? undefined 
+  const next = CACHE_CONFIG.ENV.CACHE_DISABLED
+    ? undefined
     : { ...(await getCacheOptions("categories")), ...cacheConfig.next }
 
   return sdk.client
@@ -31,13 +31,13 @@ export const listCategories = async (query?: Record<string, any>) => {
 
 export const getCategoryByHandle = async (categoryHandle: string[]) => {
   const handle = `${categoryHandle.join("/")}`
-  const cacheConfig = getCacheConfig('CATEGORIES')
+  const cacheConfig = getCacheConfig("CATEGORIES")
 
   // 合并缓存配置
-  const next = CACHE_CONFIG.ENV.CACHE_DISABLED 
-    ? undefined 
-    : { 
-        ...(await getCacheOptions("categories")), 
+  const next = CACHE_CONFIG.ENV.CACHE_DISABLED
+    ? undefined
+    : {
+        ...(await getCacheOptions("categories")),
         ...cacheConfig.next,
         revalidate: CACHE_CONFIG.ENV.CACHE_DISABLED ? 0 : 180, // 开发环境不缓存，生产环境3分钟
       }

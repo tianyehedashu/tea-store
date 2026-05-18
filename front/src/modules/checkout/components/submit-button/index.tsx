@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@medusajs/ui"
+import { clx } from "@medusajs/ui"
 import React from "react"
 import { useFormStatus } from "react-dom"
 
@@ -20,7 +21,10 @@ export function SubmitButton({
   return (
     <Button
       size="large"
-      className={className}
+      className={clx(
+        "!bg-brand-500 hover:!bg-brand-600 text-white border-transparent",
+        className
+      )}
       type="submit"
       isLoading={pending}
       variant={variant || "primary"}

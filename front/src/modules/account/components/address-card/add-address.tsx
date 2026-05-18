@@ -49,7 +49,7 @@ const AddAddress = ({
   return (
     <>
       <button
-        className="border border-ui-border-base rounded-rounded p-5 min-h-[220px] h-full w-full flex flex-col justify-between"
+        className="border border-dashed border-sage-300 rounded-2xl p-5 min-h-[220px] h-full w-full flex flex-col justify-between hover:border-brand-400 hover:bg-sage-50/50 transition-colors text-sage-800"
         onClick={open}
         data-testid="add-address-button"
       >

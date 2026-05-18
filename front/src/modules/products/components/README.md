@@ -11,7 +11,7 @@ The tea detail system automatically detects tea products and provides rich, educ
 ### Core Components
 
 - **TeaBasicInfo** - Tea category, origin, and terroir information
-- **TeaProductionInfo** - Harvest details and processing craftsmanship  
+- **TeaProductionInfo** - Harvest details and processing craftsmanship
 - **TeaStorageGuide** - Storage requirements and container recommendations
 - **TeaBrewingGuide** - Detailed brewing instructions and techniques
 - **TeaToolsRecommend** - Tea tool and accessory recommendations
@@ -38,6 +38,7 @@ The system automatically detects tea products using multiple criteria:
 Each component reads specific metadata fields from the product. Here's the expected structure:
 
 ### Basic Info
+
 ```typescript
 {
   tea_type: "green" | "black" | "white" | "oolong" | "puer" | "dark" | "yellow" | "flower" | "herbal",
@@ -53,6 +54,7 @@ Each component reads specific metadata fields from the product. Here's the expec
 ```
 
 ### Production Info
+
 ```typescript
 {
   harvest_season: "pre-qingming" | "post-qingming" | "pre-guyu" | "post-guyu" | "summer" | "autumn" | "winter",
@@ -71,6 +73,7 @@ Each component reads specific metadata fields from the product. Here's the expec
 ```
 
 ### Storage Guide
+
 ```typescript
 {
   shelf_life: string,
@@ -87,6 +90,7 @@ Each component reads specific metadata fields from the product. Here's the expec
 ```
 
 ### Brewing Guide
+
 ```typescript
 {
   water_temperature: number,
@@ -107,6 +111,7 @@ Each component reads specific metadata fields from the product. Here's the expec
 ```
 
 ### Health Benefits
+
 ```typescript
 {
   active_compounds: Array<{
@@ -135,6 +140,7 @@ Each component reads specific metadata fields from the product. Here's the expec
 ```
 
 ### Culture & Story
+
 ```typescript
 {
   brand_story: string,
@@ -202,13 +208,13 @@ The components use a carefully chosen color palette:
 ## Usage Example
 
 ```tsx
-import TeaProductTemplate from '@modules/products/templates/tea-product-template'
+import TeaProductTemplate from "@modules/products/templates/tea-product-template"
 
 // The template automatically detects tea products and renders accordingly
-<TeaProductTemplate 
-  product={product} 
-  region={region} 
-  countryCode={countryCode} 
+;<TeaProductTemplate
+  product={product}
+  region={region}
+  countryCode={countryCode}
 />
 ```
 

@@ -5,12 +5,17 @@ const REVALIDATE_SECRET = process.env.REVALIDATE_SECRET
 
 export async function POST(req: NextRequest) {
   try {
-    const auth = req.headers.get("x-revalidate-token") || req.nextUrl.searchParams.get("secret")
+    const auth =
+      req.headers.get("x-revalidate-token") ||
+      req.nextUrl.searchParams.get("secret")
     if (!REVALIDATE_SECRET || auth !== REVALIDATE_SECRET) {
-      return NextResponse.json({ ok: false, message: "unauthorized" }, { status: 401 })
+      return NextResponse.json(
+        { ok: false, message: "unauthorized" },
+        { status: 401 }
+      )
     }
 
-    const body = await req.json().catch(() => ({})) as {
+    const body = (await req.json().catch(() => ({}))) as {
       type?: "origin" | "guide" | "home" | "custom"
       slug?: string
       path?: string
@@ -62,7 +67,9 @@ export async function POST(req: NextRequest) {
     } catch {}
 
     if (countryCodes.length) {
-      const localizedPaths = paths.flatMap((p) => countryCodes.map((cc) => `/${cc}${p}`))
+      const localizedPaths = paths.flatMap((p) =>
+        countryCodes.map((cc) => `/${cc}${p}`)
+      )
       await Promise.all(localizedPaths.map((p) => revalidatePath(p)))
     } else {
       // Fallback to non-localized path revalidation
@@ -77,5 +84,3 @@ export async function POST(req: NextRequest) {
     )
   }
 }
-
-

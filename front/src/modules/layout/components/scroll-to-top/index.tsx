@@ -14,15 +14,15 @@ export default function ScrollToTop() {
       }
     }
 
-    window.addEventListener('scroll', toggleVisibility)
+    window.addEventListener("scroll", toggleVisibility)
 
-    return () => window.removeEventListener('scroll', toggleVisibility)
+    return () => window.removeEventListener("scroll", toggleVisibility)
   }, [])
 
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     })
   }
 
@@ -31,17 +31,24 @@ export default function ScrollToTop() {
       <button
         onClick={scrollToTop}
         className={`group w-12 h-12 bg-brand-500 hover:bg-brand-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center hover:scale-105 ${
-          isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+          isVisible
+            ? "opacity-100 scale-100"
+            : "opacity-0 scale-95 pointer-events-none"
         }`}
         aria-label="Scroll to top"
       >
-        <svg 
-          className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform duration-200" 
-          fill="none" 
-          stroke="currentColor" 
+        <svg
+          className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform duration-200"
+          fill="none"
+          stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M5 10l7-7m0 0l7 7m-7-7v18"
+          />
         </svg>
       </button>
     </div>

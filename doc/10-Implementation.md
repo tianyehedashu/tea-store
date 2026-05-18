@@ -3,6 +3,7 @@
 > 站点 UI 使用英文；本文档为中文说明。电商域由 Medusa 承载，内容域（产地/冲泡指南）由 Sanity 承载。
 
 ## 1. 总览
+
 - 目标：支持海外售卖茶叶，提供内容引流（Origins/Guides）→ 商品详情 → Quick Brew → 下单的完整闭环。
 - 关键能力：
   - 商品 → 购物车 → 结账（复用 Starter 模块）
@@ -14,6 +15,7 @@
 ## 2. 目录结构与关键文件
 
 ### 前端（Next.js App Router）
+
 - 内容数据层（Sanity，已独立分层）
   - `front/src/lib/data/cms/client.ts`：GROQ 客户端（Draft/Token/Tag 缓存）
   - `front/src/lib/data/cms/types.ts`：`OriginDTO`、`BrewingGuideDTO`
@@ -37,6 +39,7 @@
   - 预览：`front/src/app/api/preview/route.ts`
 
 ### 后端（Medusa v2）
+
 - 种子数据：`backend/src/scripts/seed.ts`
   - 区域：`Europe (EUR)`、`North America (USD)`
   - 税区：为 EU/NA 国家建立默认税提供者
@@ -48,6 +51,7 @@
 ## 3. 运行与环境变量
 
 ### 前端 `.env.local`
+
 ```
 MEDUSA_BACKEND_URL=http://localhost:9000
 NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_test_xxx
@@ -61,20 +65,24 @@ NEXT_PUBLIC_BASE_URL=http://localhost:8000
 ```
 
 ### 启动
+
 - 后端：`cd backend && pnpm i && pnpm dev`，然后 `pnpm seed`
 - 前端：`cd front && pnpm i && pnpm dev`，访问 `http://localhost:8000`
 
 ### Sanity Webhook（ISR 再验证）
+
 - URL：`/api/revalidate`
 - Header：`x-revalidate-token: REVALIDATE_SECRET`
 - Body 示例：`{ "type": "origin", "slug": "longjing" }`
 - 实现要点：API 内部从 Medusa 拉取 `regions`，将 `/origins/{slug}`、`/guides/{slug}` 展开为 `/{countryCode}/...` 全量 `revalidatePath`；保留 `revalidateTag('origins'|'guides')` 兜底。
 
 ### 预览（Draft）
+
 - URL：`/api/preview?token=PREVIEW_TOKEN`
 - 说明：仅服务器端读取 Draft；客户端不暴露 Token。
 
 ## 4. 业务与展示逻辑
+
 - 产品页 Quick Brew：
   - 优先读取 `product.metadata.brew_override`
   - 若无则回落 `getGuideByTypeCMS(product.metadata.tea_type)`
@@ -84,6 +92,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:8000
   - `Guides`：按茶类展示参数与步骤，推荐商品句柄预留
 
 ## 5. 架构对齐与改动说明
+
 - 已对齐：
   - 电商域权威在 Medusa（商品/库存/订单）；茶叶属性放在 `product.metadata.*`
   - 内容域权威在 Sanity（前端 RSC 直读，服务端持 Token）
@@ -95,6 +104,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:8000
   - 种子新增 NA 区域；后续建议继续将 NA 仓与履约实体完全独立（运营/履约隔离）
 
 ## 6. 后续迭代建议
+
 - 履约拆分：为 NA 新建独立 Stock Location / Fulfillment Set / Shipping Options
 - 列表筛选：基于 `product.metadata` 增加 `tea_type`、`origin_id`、价格区间与风味筛选
 - 支付接入：启用 Stripe 或 PayPal 正式支付
@@ -102,6 +112,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:8000
 - 预览体验：增加关闭预览入口；为 Editor 输出快捷预览链接
 
 ## 7. 变更清单（重要文件）
+
 - Sanity 数据层：
   - `front/src/lib/data/cms/{client.ts, types.ts, origins.ts, guides.ts}`
   - `front/src/lib/data/sanity.ts`

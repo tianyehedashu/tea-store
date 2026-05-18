@@ -1,7 +1,8 @@
 # Medusa v2：模块（Module）与数据库对象（DB）如何解耦（Tea Store 实践）
 
 > 面向 Tea Store（Medusa v2 后端 + Next.js 前端）。本文回答两个问题：
-> 1) 模块与数据库对象是否解耦？2) 具体如何体现与落地？
+>
+> 1. 模块与数据库对象是否解耦？2) 具体如何体现与落地？
 
 ---
 
@@ -33,6 +34,7 @@
 - 业务代码面向服务（Service）编程，而非直接写 SQL。
 
 示例（领域内模型与服务）：
+
 ```ts
 // backend/src/modules/blog/models/post.ts
 import { model } from "@medusajs/framework/utils"
@@ -85,6 +87,7 @@ export default Module(BLOG_MODULE, {
 - Link 定义存放于 `backend/src/links/**`，由 CLI 同步到数据库（通常生成一张链接表/关系）。
 
 示例（来自本仓库的 link 范式）：
+
 ```ts
 import BlogModule from "../modules/blog"
 import ProductModule from "@medusajs/medusa/product"
@@ -97,6 +100,7 @@ export default defineLink(
 ```
 
 随后同步数据库：
+
 ```bash
 npx medusa db:migrate
 ```
@@ -109,6 +113,7 @@ npx medusa db:migrate
 - 仅声明所需字段，减少 N+1 与冗余载荷。
 
 示例（API 路由端取“文章 + 关联产品”）：
+
 ```ts
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 
@@ -117,8 +122,12 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
   const posts = await remoteQuery({
     entryPoint: "post",
     fields: [
-      "id","title","handle",
-      "products.id","products.title","products.thumbnail",
+      "id",
+      "title",
+      "handle",
+      "products.id",
+      "products.title",
+      "products.thumbnail",
     ],
     filters: { published: true },
     pagination: { limit: 20, offset: 0 },
@@ -136,6 +145,7 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
 - 模块可替换为自定义实现或增加 Provider，不影响调用方。
 
 示例（只读路由使用模块服务）：
+
 ```ts
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 
@@ -143,7 +153,12 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
   const blog = req.scope.resolve("blog") // 解析 BlogModuleService
   const [items, count] = await blog.listPosts(
     { published: true },
-    { select: ["id","title","handle"], order: { created_at: "desc" }, take: 10, skip: 0 }
+    {
+      select: ["id", "title", "handle"],
+      order: { created_at: "desc" },
+      take: 10,
+      skip: 0,
+    }
   )
   res.json({ count, items })
 }
@@ -155,25 +170,33 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
 - 工作流的 Step 可解析多个模块服务，具备事务/补偿能力（失败回滚或对称撤销）。
 
 示例（伪代码）：
+
 ```ts
 import { createWorkflow, createStep } from "@medusajs/framework/workflows-sdk"
 
-const addFeaturedLink = createStep("blog.feature-link", async ({ postId, productId }, { container }) => {
-  // 通过 link 建立文章-产品关系（具体实现可为“写 link 表”或调用对应服务）
-})
+const addFeaturedLink = createStep(
+  "blog.feature-link",
+  async ({ postId, productId }, { container }) => {
+    // 通过 link 建立文章-产品关系（具体实现可为“写 link 表”或调用对应服务）
+  }
+)
 
-export default createWorkflow("blog.feature-product", ({ postId, productId }) => {
-  addFeaturedLink({ postId, productId })
-})
+export default createWorkflow(
+  "blog.feature-product",
+  ({ postId, productId }) => {
+    addFeaturedLink({ postId, productId })
+  }
+)
 ```
 
 ---
 
 ## 端到端示例：自定义模块 + 跨模块关联 + 聚合读取
 
-1) 定义模块与模型（见上文 Blog 示例）。
+1. 定义模块与模型（见上文 Blog 示例）。
 
-2) 建立与核心产品模块的链接：`backend/src/links/blog-post-product.ts`
+2. 建立与核心产品模块的链接：`backend/src/links/blog-post-product.ts`
+
 ```ts
 import BlogModule from "../modules/blog"
 import ProductModule from "@medusajs/medusa/product"
@@ -185,12 +208,14 @@ export default defineLink(
 )
 ```
 
-3) 同步数据库与模型变更：
+3. 同步数据库与模型变更：
+
 ```bash
 npx medusa db:migrate
 ```
 
-4) 在路由中读取跨模块数据：
+4. 在路由中读取跨模块数据：
+
 ```ts
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 
@@ -198,7 +223,7 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
   const remoteQuery = req.scope.resolve("remoteQuery")
   const posts = await remoteQuery({
     entryPoint: "post",
-    fields: ["id","title","products.id","products.title"],
+    fields: ["id", "title", "products.id", "products.title"],
     filters: { published: true },
     pagination: { limit: 10, offset: 0 },
   })
@@ -206,7 +231,7 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
 }
 ```
 
-5) 跨模块写入使用工作流（可选）：在“发布文章并关联推荐产品”用例中，将“发布文章（blog 域内写）”与“写 link（跨域）”拆成 Step，由工作流编排。
+5. 跨模块写入使用工作流（可选）：在“发布文章并关联推荐产品”用例中，将“发布文章（blog 域内写）”与“写 link（跨域）”拆成 Step，由工作流编排。
 
 ---
 
@@ -229,12 +254,15 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
 ## 常见问答（FAQ）
 
 - 模块可以共用一个数据库吗？
+
   - 可以。模块共享同一实例（如 PostgreSQL），但通过模型 DSL 与链接机制保持逻辑隔离。
 
 - 一定要用 Link 才能跨域读取吗？
+
   - 推荐。Link 让 `remoteQuery` 知道关系路径，避免在代码层硬编码关系与 join。
 
 - 我能在模块内直接拿到另一个模块的表吗？
+
   - 不推荐。正确做法是：在应用层解析另一个模块的服务或使用 `remoteQuery` 按需读取。
 
 - Link 同步如何进行？
@@ -258,4 +286,3 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
 - `doc/13-Modules-and-Providers.md`：模块与 Provider 装配
 - `doc/06-CQRS-and-Complex-Queries.md`：读写分离与复杂查询
 - `doc/15-Workflows-Design-and-Guide.md`：工作流设计与最佳实践
-

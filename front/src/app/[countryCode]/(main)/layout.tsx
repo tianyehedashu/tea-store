@@ -96,11 +96,9 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
       <main className="flex-1 relative">
         {/* Background pattern for visual interest */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KPGNpcmNsZSBmaWxsPSJyZ2JhKDkxLCAxNTQsIDkxLCAwLjAyKSIgY3g9IjMwIiBjeT0iMzAiIHI9IjEuNSIvPgo8L2c+Cjwvc3ZnPg==')] pointer-events-none"></div>
-        
+
         {/* Content with smooth transitions */}
-        <div className="relative z-10">
-          {props.children}
-        </div>
+        <div className="relative z-10">{props.children}</div>
       </main>
 
       {/* Shopping interactions */}

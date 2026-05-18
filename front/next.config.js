@@ -20,15 +20,16 @@ const nextConfig = {
   },
   // 缓存配置优化
   experimental: {
-    staleTimes: process.env.NODE_ENV === 'development' 
-      ? {
-          dynamic: 0,   // 开发环境：禁用动态页面缓存
-          static: 0,    // 开发环境：禁用静态页面缓存
-        }
-      : {
-          dynamic: 30,  // 生产环境：动态页面缓存 30 秒
-          static: 180,  // 生产环境：静态页面缓存 3 分钟
-        },
+    staleTimes:
+      process.env.NODE_ENV === "development"
+        ? {
+            dynamic: 0, // 开发环境：禁用动态页面缓存
+            static: 0, // 开发环境：禁用静态页面缓存
+          }
+        : {
+            dynamic: 30, // 生产环境：动态页面缓存 30 秒
+            static: 180, // 生产环境：静态页面缓存 3 分钟
+          },
   },
   images: {
     remotePatterns: [

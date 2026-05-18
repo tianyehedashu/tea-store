@@ -26,6 +26,7 @@
   - `GET` 通常只读（查询）；`POST/PUT/PATCH/DELETE` 触发工作流（写侧）。
 
 参考：
+
 - 模块与服务入门：`backend/src/modules/README.md`
 - 工作流入门示例：`backend/src/workflows/README.md`
 - CQRS 说明：`doc/06-CQRS-and-Complex-Queries.md`
@@ -35,7 +36,9 @@
 ## 如何使用（最小示例）
 
 ### 1) 读侧：在路由中调用模块服务（领域服务）
+
 文件位置：`backend/src/api/store/custom/route.ts`
+
 ```ts
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 
@@ -62,31 +65,46 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
 ```
 
 要点：
+
 - 模块服务适合同一域内的复杂筛选、分页、选择字段/关系；
 - 跨域聚合查询可用 `remoteQuery`（见 CQRS 文档中的示例）。
 
 ### 2) 写侧：用工作流作为应用服务进行编排
+
 文件位置：`backend/src/workflows/place-order-lite.ts`
+
 ```ts
-import { createWorkflow, createStep, WorkflowResponse, StepResponse } from "@medusajs/framework/workflows-sdk"
+import {
+  createWorkflow,
+  createStep,
+  WorkflowResponse,
+  StepResponse,
+} from "@medusajs/framework/workflows-sdk"
 
 // 步骤：校验与领域写入可分步抽象（失败时可补偿/回滚）
-const reserveInventory = createStep("reserve-inventory", async (input: { variantId: string; qty: number }) => {
-  // 伪代码：调用库存模块服务进行预留
-  // const inventory = context.container.resolve("inventory")
-  // await inventory.reserve({ variantId: input.variantId, quantity: input.qty })
-  return new StepResponse({ ok: true })
-})
+const reserveInventory = createStep(
+  "reserve-inventory",
+  async (input: { variantId: string; qty: number }) => {
+    // 伪代码：调用库存模块服务进行预留
+    // const inventory = context.container.resolve("inventory")
+    // await inventory.reserve({ variantId: input.variantId, quantity: input.qty })
+    return new StepResponse({ ok: true })
+  }
+)
 
-export default createWorkflow("place-order-lite", (input: { cartId: string }) => {
-  // 伪代码：编排多个步骤，例如校验购物车 → 预留库存 → 创建订单 → 发起支付
-  const r = reserveInventory({ variantId: "var_123", qty: 1 })
-  return new WorkflowResponse({ reserved: r })
-})
+export default createWorkflow(
+  "place-order-lite",
+  (input: { cartId: string }) => {
+    // 伪代码：编排多个步骤，例如校验购物车 → 预留库存 → 创建订单 → 发起支付
+    const r = reserveInventory({ variantId: "var_123", qty: 1 })
+    return new WorkflowResponse({ reserved: r })
+  }
+)
 ```
 
 在路由中触发：
 文件位置：`backend/src/api/store/custom/route.ts`
+
 ```ts
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 import placeOrderLite from "../../../workflows/place-order-lite"
@@ -100,6 +118,7 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
 ```
 
 要点：
+
 - 工作流用于“用例级”编排，跨多个模块；
 - 自带事务/补偿能力，便于保证一致性与幂等；
 - 可从 API 路由、计划任务、事件订阅中执行。
@@ -136,9 +155,16 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
   若你在做可复用的“模块包”，把 Workflow 随模块一起发布是合理的。
 
 ### 示例 1：模块内定义并导出自有 Workflow（由宿主路由触发）
+
 文件位置：`backend/src/modules/brand/workflows/sync-brand.ts`
+
 ```ts
-import { createWorkflow, createStep, WorkflowResponse, StepResponse } from "@medusajs/framework/workflows-sdk"
+import {
+  createWorkflow,
+  createStep,
+  WorkflowResponse,
+  StepResponse,
+} from "@medusajs/framework/workflows-sdk"
 
 const upsertBrandStep = createStep(
   "brand.upsert",
@@ -158,6 +184,7 @@ export const syncBrandWorkflow = createWorkflow(
 ```
 
 文件位置：`backend/src/api/admin/brands/sync/route.ts`
+
 ```ts
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 import { syncBrandWorkflow } from "../../../../modules/brand/workflows/sync-brand"
@@ -169,7 +196,9 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
 ```
 
 ### 示例 2：模块内 Workflow 复用官方 Core Flow
+
 文件位置：`backend/src/modules/brand/workflows/add-bundle-to-cart.ts`
+
 ```ts
 import { createWorkflow } from "@medusajs/framework/workflows-sdk"
 import { addToCartWorkflow } from "@medusajs/medusa/core-flows"
@@ -190,12 +219,15 @@ export const addBrandBundleToCart = createWorkflow(
 ```
 
 文件位置：`backend/src/api/store/cart/add-bundle/route.ts`
+
 ```ts
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 import { addBrandBundleToCart } from "../../../../modules/brand/workflows/add-bundle-to-cart"
 
 export async function POST(req: MedusaRequest, res: MedusaResponse) {
-  const { result } = await addBrandBundleToCart(req.scope).run({ input: req.body })
+  const { result } = await addBrandBundleToCart(req.scope).run({
+    input: req.body,
+  })
   res.json(result)
 }
 ```
@@ -234,6 +266,7 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
 ### 1) 定义积分域模块（领域服务）
 
 文件位置：`backend/src/modules/loyalty/models.ts`
+
 ```ts
 import { model } from "@medusajs/framework/utils"
 
@@ -257,6 +290,7 @@ export const LoyaltyTransaction = model.define("loyalty_transaction", {
 ```
 
 文件位置：`backend/src/modules/loyalty/service.ts`
+
 ```ts
 import { MedusaService } from "@medusajs/framework/utils"
 import { LoyaltyAccount, LoyaltyTransaction } from "./models"
@@ -265,13 +299,24 @@ class LoyaltyModuleService extends MedusaService({
   LoyaltyAccount,
   LoyaltyTransaction,
 }) {
-  async addPoints(input: { customerId: string; points: number; orderId?: string; reason?: string }) {
+  async addPoints(input: {
+    customerId: string
+    points: number
+    orderId?: string
+    reason?: string
+  }) {
     const { customerId, points, orderId, reason } = input
 
     // 查找或创建账户
-    const [existing] = await this.listLoyaltyAccounts({ customer_id: customerId })
+    const [existing] = await this.listLoyaltyAccounts({
+      customer_id: customerId,
+    })
     const account =
-      existing ?? (await this.createLoyaltyAccounts({ customer_id: customerId, balance: 0 }))
+      existing ??
+      (await this.createLoyaltyAccounts({
+        customer_id: customerId,
+        balance: 0,
+      }))
 
     // 记一条流水
     await this.createLoyaltyTransactions({
@@ -283,7 +328,9 @@ class LoyaltyModuleService extends MedusaService({
     })
 
     // 更新余额
-    await this.updateLoyaltyAccounts(account.id, { balance: (account.balance ?? 0) + points })
+    await this.updateLoyaltyAccounts(account.id, {
+      balance: (account.balance ?? 0) + points,
+    })
 
     return this.retrieveLoyaltyAccounts(account.id)
   }
@@ -293,6 +340,7 @@ export default LoyaltyModuleService
 ```
 
 文件位置：`backend/src/modules/loyalty/index.ts`
+
 ```ts
 import LoyaltyModuleService from "./service"
 import { Module } from "@medusajs/framework/utils"
@@ -305,6 +353,7 @@ export default Module(LOYALTY_MODULE, {
 ```
 
 在 `backend/medusa-config.ts` 中装配模块（节选）：
+
 ```ts
 modules: [
   // ... 其他模块
@@ -317,8 +366,14 @@ modules: [
 ### 2) 定义应用服务工作流：按订单发放积分
 
 文件位置：`backend/src/workflows/loyalty/award-points-on-order.ts`
+
 ```ts
-import { createWorkflow, createStep, WorkflowResponse, StepResponse } from "@medusajs/framework/workflows-sdk"
+import {
+  createWorkflow,
+  createStep,
+  WorkflowResponse,
+  StepResponse,
+} from "@medusajs/framework/workflows-sdk"
 
 // 载入订单（跨域读）
 const loadOrder = createStep(
@@ -343,7 +398,10 @@ const calcPoints = createStep(
 // 记账（写入领域服务）
 const addPoints = createStep(
   "loyalty.add",
-  async (input: { customerId: string; points: number; orderId: string }, { container }) => {
+  async (
+    input: { customerId: string; points: number; orderId: string },
+    { container }
+  ) => {
     const loyalty = container.resolve("loyalty")
     const account = await loyalty.addPoints({
       customerId: input.customerId,
@@ -355,33 +413,43 @@ const addPoints = createStep(
   }
 )
 
-export default createWorkflow("loyalty.award-on-order", async (input: { orderId: string }) => {
-  const order = await loadOrder({ orderId: input.orderId })
-  const points = await calcPoints({ amount: order.total ?? 0, currency: order.currency_code })
+export default createWorkflow(
+  "loyalty.award-on-order",
+  async (input: { orderId: string }) => {
+    const order = await loadOrder({ orderId: input.orderId })
+    const points = await calcPoints({
+      amount: order.total ?? 0,
+      currency: order.currency_code,
+    })
 
-  // 无客户或 0 积分则直接返回（早返回）
-  if (!order.customer_id || !points) {
-    return new WorkflowResponse({ skipped: true })
+    // 无客户或 0 积分则直接返回（早返回）
+    if (!order.customer_id || !points) {
+      return new WorkflowResponse({ skipped: true })
+    }
+
+    const account = await addPoints({
+      customerId: order.customer_id,
+      points,
+      orderId: order.id,
+    })
+
+    return new WorkflowResponse({ account, points })
   }
-
-  const account = await addPoints({
-    customerId: order.customer_id,
-    points,
-    orderId: order.id,
-  })
-
-  return new WorkflowResponse({ account, points })
-})
+)
 ```
 
 ### 3) 触发方式 A：事件订阅（推荐生产使用）
 
 文件位置：`backend/src/subscribers/order-completed-loyalty.ts`
+
 ```ts
 import type { SubscriberArgs, SubscriberConfig } from "@medusajs/framework"
 import awardOnOrder from "../workflows/loyalty/award-points-on-order"
 
-export default async function onOrderCompleted({ event: { data }, container }: SubscriberArgs<{ id: string }>) {
+export default async function onOrderCompleted({
+  event: { data },
+  container,
+}: SubscriberArgs<{ id: string }>) {
   // 以“订单完成/支付成功”的事件为触发点（事件名以当前版本为准）
   await awardOnOrder(container).run({ input: { orderId: data.id } })
 }
@@ -396,21 +464,26 @@ export const config: SubscriberConfig = {
 ### 4) 触发方式 B：自定义结账工作流内编排（可选）
 
 文件位置：`backend/src/workflows/checkout/place-order-with-points.ts`
+
 ```ts
 import { createWorkflow } from "@medusajs/framework/workflows-sdk"
 import awardOnOrder from "../loyalty/award-points-on-order"
 // import { placeOrderFromCartWorkflow } from "@medusajs/medusa/core-flows" // 视版本与命名而定
 
-export default createWorkflow("checkout.place-order-with-points", (input: { cart_id: string }) => {
-  // 伪代码：下单 → 发放积分
-  // const order = placeOrderFromCartWorkflow.runAsStep({ input: { cart_id: input.cart_id } })
-  // awardOnOrder.runAsStep({ input: { orderId: order.id } })
-})
+export default createWorkflow(
+  "checkout.place-order-with-points",
+  (input: { cart_id: string }) => {
+    // 伪代码：下单 → 发放积分
+    // const order = placeOrderFromCartWorkflow.runAsStep({ input: { cart_id: input.cart_id } })
+    // awardOnOrder.runAsStep({ input: { orderId: order.id } })
+  }
+)
 ```
 
 ### 5) 查询用户积分（只读 API 示例）
 
 文件位置：`backend/src/api/store/loyalty/balance/route.ts`
+
 ```ts
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 
@@ -419,7 +492,9 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
   if (!customerId) return res.status(401).json({ message: "Unauthorized" })
 
   const loyalty = req.scope.resolve("loyalty")
-  const [account] = await loyalty.listLoyaltyAccounts({ customer_id: customerId })
+  const [account] = await loyalty.listLoyaltyAccounts({
+    customer_id: customerId,
+  })
   res.json({ balance: account?.balance ?? 0 })
 }
 ```

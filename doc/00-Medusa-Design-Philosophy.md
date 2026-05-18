@@ -22,6 +22,7 @@
   - API 路由只做校验、鉴权与编排调用，业务集中在服务/工作流中。
 
 参考：
+
 - 容器与资源：[Medusa Container、Module Container（官方）](https://docs.medusajs.com/learn/fundamentals/medusa-container/index.html.md)
 - 工作流与特性：[Workflows（官方）](https://docs.medusajs.com/learn/fundamentals/workflows/index.html.md)
 
@@ -54,8 +55,12 @@
 ### 4.1 创建工作流并在路由中触发
 
 文件位置：`backend/src/workflows/hello-world.ts`
+
 ```ts
-import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
+import {
+  createWorkflow,
+  WorkflowResponse,
+} from "@medusajs/framework/workflows-sdk"
 
 export const helloWorldWorkflow = createWorkflow(
   "hello-world",
@@ -64,6 +69,7 @@ export const helloWorldWorkflow = createWorkflow(
 ```
 
 文件位置：`backend/src/api/store/custom/route.ts`
+
 ```ts
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 import { helloWorldWorkflow } from "../../../workflows/hello-world"
@@ -75,12 +81,14 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
 ```
 
 要点：
+
 - `req.scope` 是请求级容器，确保工作流和步骤解析到同一套依赖与上下文。
 - 工作流还支持条件（when-then）、Hook、长运行（后台异步）。
 
 ### 4.2 在路由中做跨模块查询（读侧）
 
 文件位置：`backend/src/api/store/custom/route.ts`
+
 ```ts
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 
@@ -100,6 +108,7 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
 ### 4.3 定义模块与服务（领域层）
 
 文件位置：`backend/src/modules/blog/service.ts`
+
 ```ts
 import { MedusaService } from "@medusajs/framework/utils"
 import Post from "./models/post"
@@ -110,6 +119,7 @@ export default BlogModuleService
 ```
 
 文件位置：`backend/src/modules/blog/index.ts`
+
 ```ts
 import BlogModuleService from "./service"
 import { Module } from "@medusajs/framework/utils"
@@ -122,15 +132,15 @@ export default Module(BLOG_MODULE, {
 ```
 
 文件位置：`backend/medusa-config.ts`（片段）
+
 ```ts
-modules: [
-  { resolve: "./src/modules/blog" },
-]
+modules: [{ resolve: "./src/modules/blog" }]
 ```
 
 ### 4.4 通过模块链接与跨域查询聚合数据
 
 文件位置：`backend/src/links/product-brand.ts`
+
 ```ts
 import BrandModule from "../modules/brand"
 import ProductModule from "@medusajs/medusa/product"
@@ -147,8 +157,14 @@ export default defineLink(
 ### 4.5 用步骤化写侧保障一致性（示例）
 
 文件位置：`backend/src/workflows/create-draft-order.ts`
+
 ```ts
-import { createWorkflow, WorkflowResponse, createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
+import {
+  createWorkflow,
+  WorkflowResponse,
+  createStep,
+  StepResponse,
+} from "@medusajs/framework/workflows-sdk"
 import { Modules } from "@medusajs/framework/utils"
 
 const createDraftOrderStep = createStep(
@@ -170,10 +186,13 @@ const createDraftOrderStep = createStep(
   }
 )
 
-export const createDraftOrderWorkflow = createWorkflow("create-draft-order", () => {
-  const { draftOrder } = createDraftOrderStep()
-  return new WorkflowResponse({ draftOrder })
-})
+export const createDraftOrderWorkflow = createWorkflow(
+  "create-draft-order",
+  () => {
+    const { draftOrder } = createDraftOrderStep()
+    return new WorkflowResponse({ draftOrder })
+  }
+)
 ```
 
 ---

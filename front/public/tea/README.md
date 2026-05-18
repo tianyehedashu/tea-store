@@ -15,6 +15,5 @@ Place the following files in this folder to be used by the app seed data:
 - chamomile-1.jpg
 - chamomile-2.jpg
 
-Recommended: 1600x1200 JPG, optimized (~200-400KB). 
+Recommended: 1600x1200 JPG, optimized (~200-400KB).
 Color-safe cropping center, sRGB.
-

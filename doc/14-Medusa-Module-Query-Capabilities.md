@@ -175,6 +175,7 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
 ## 8. 前端 JS SDK 查询能力与用法
 
 - 支持能力：
+
   - 通过 `@medusajs/js-sdk` 的 `sdk.client.fetch(path, { method, query, headers })` 传入查询参数，支持：
     - 模糊 `q`、范围比较（`gte/gt/lte/lt/in/between`）、排序 `order`、分页 `limit/offset`、字段选择 `fields`。
   - 资源化接口 `sdk.store.*` 提供部分资源的读写方法（如订单转移等命令型操作）。
@@ -204,13 +205,21 @@ await sdk.client.fetch("/store/products", {
 // 范围查询（对象式 → 等价于 created_at[gte]/created_at[lt]）
 await sdk.client.fetch("/store/orders", {
   method: "GET",
-  query: { created_at: { gte: "2024-01-01T00:00:00.000Z", lt: "2025-01-01T00:00:00.000Z" } },
+  query: {
+    created_at: {
+      gte: "2024-01-01T00:00:00.000Z",
+      lt: "2025-01-01T00:00:00.000Z",
+    },
+  },
 })
 
 // 范围查询（括号键风格）
 await sdk.client.fetch("/store/orders", {
   method: "GET",
-  query: { "created_at[gte]": "2024-01-01T00:00:00.000Z", "created_at[lt]": "2025-01-01T00:00:00.000Z" },
+  query: {
+    "created_at[gte]": "2024-01-01T00:00:00.000Z",
+    "created_at[lt]": "2025-01-01T00:00:00.000Z",
+  },
 })
 
 // 排序与分页
@@ -222,7 +231,11 @@ await sdk.client.fetch("/store/orders", {
 // 字段选择（缩小载荷）
 await sdk.client.fetch("/store/products", {
   method: "GET",
-  query: { fields: "id,title,handle,*variants.calculated_price", limit: 12, offset: 0 },
+  query: {
+    fields: "id,title,handle,*variants.calculated_price",
+    limit: 12,
+    offset: 0,
+  },
 })
 ```
 
@@ -230,7 +243,12 @@ await sdk.client.fetch("/store/products", {
 
 ```ts
 // 订单转移（命令）
-const { order } = await sdk.store.order.requestTransfer(orderId, {}, { fields: "id,email" }, headers)
+const { order } = await sdk.store.order.requestTransfer(
+  orderId,
+  {},
+  { fields: "id,email" },
+  headers
+)
 ```
 
 > 注：查询型读取在本仓库中主要采用 `sdk.client.fetch` 直接传参；如需统一封装，可在 `front/src/lib/data/*` 内抽象方法集中传入 `query` 参数。
@@ -255,7 +273,7 @@ export async function searchProducts({
   order = "-created_at",
   limit = 12,
   offset = 0,
-  fields = "id,title,handle,thumbnail,*variants.calculated_price"
+  fields = "id,title,handle,thumbnail,*variants.calculated_price",
 }: {
   q?: string
   start?: string
@@ -273,10 +291,10 @@ export async function searchProducts({
     if (end) query.created_at.lt = end
   }
 
-  return sdk.client.fetch<{ products: HttpTypes.StoreProduct[]; count: number }>(
-    "/store/products",
-    { method: "GET", query }
-  )
+  return sdk.client.fetch<{
+    products: HttpTypes.StoreProduct[]
+    count: number
+  }>("/store/products", { method: "GET", query })
 }
 ```
 
@@ -326,22 +344,32 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
   // 范围：支持 created_at[gte]/created_at[lt] 两种写法
   if (req.query["created_at[gte]"] || req.query["created_at[lt]"]) {
     filters.created_at = {}
-    if (req.query["created_at[gte]"]) filters.created_at.gte = req.query["created_at[gte]"]
-    if (req.query["created_at[lt]"]) filters.created_at.lt = req.query["created_at[lt]"]
+    if (req.query["created_at[gte]"])
+      filters.created_at.gte = req.query["created_at[gte]"]
+    if (req.query["created_at[lt]"])
+      filters.created_at.lt = req.query["created_at[lt]"]
   } else if (req.query.created_at) {
     filters.created_at = req.query.created_at
   }
 
-  const order = req.query.order === "-created_at" ? { created_at: "desc" } : { created_at: "asc" }
+  const order =
+    req.query.order === "-created_at"
+      ? { created_at: "desc" }
+      : { created_at: "asc" }
 
   const products = await remoteQuery({
     entryPoint: "product",
     fields: [
-      "id","title","handle","thumbnail",
-      "variants.id","variants.title",
+      "id",
+      "title",
+      "handle",
+      "thumbnail",
+      "variants.id",
+      "variants.title",
       "variants.inventory_items.location_levels.location_id",
       "variants.inventory_items.location_levels.stocked_quantity",
-      "sales_channels.id","sales_channels.name"
+      "sales_channels.id",
+      "sales_channels.name",
     ],
     filters,
     pagination: { limit, offset },
@@ -394,6 +422,7 @@ curl -G "http://localhost:9000/store/products/advanced" \
 ## 10. 默认接口示例（无需自定义后端）
 
 - Products（列表 / Store）：
+
 ```ts
 await sdk.client.fetch("/store/products", {
   method: "GET",
@@ -408,6 +437,7 @@ await sdk.client.fetch("/store/products", {
 ```
 
 - Orders（列表 / Store，需要顾客登录）：
+
 ```ts
 await sdk.client.fetch("/store/orders", {
   method: "GET",
@@ -417,6 +447,7 @@ await sdk.client.fetch("/store/orders", {
 ```
 
 - Collections（列表 / Store）：
+
 ```ts
 await sdk.client.fetch("/store/collections", {
   method: "GET",
@@ -425,6 +456,7 @@ await sdk.client.fetch("/store/collections", {
 ```
 
 - Product Categories（列表 / Store）：
+
 ```ts
 await sdk.client.fetch("/store/product-categories", {
   method: "GET",
@@ -436,6 +468,7 @@ await sdk.client.fetch("/store/product-categories", {
 ```
 
 - Regions（列表 / Store）：
+
 ```ts
 await sdk.client.fetch("/store/regions", {
   method: "GET",

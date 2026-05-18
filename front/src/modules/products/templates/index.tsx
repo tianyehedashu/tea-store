@@ -24,30 +24,42 @@ const isTeaProduct = (product: HttpTypes.StoreProduct): boolean => {
   if (product.metadata?.tea_type) {
     return true
   }
-  
+
   // Check product type
-  if (product.type?.value?.toLowerCase().includes('tea')) {
+  if (product.type?.value?.toLowerCase().includes("tea")) {
     return true
   }
-  
+
   // Check categories
-  if (product.categories?.some(cat => 
-    cat.name?.toLowerCase().includes('tea') ||
-    cat.handle?.toLowerCase().includes('tea')
-  )) {
+  if (
+    product.categories?.some(
+      (cat) =>
+        cat.name?.toLowerCase().includes("tea") ||
+        cat.handle?.toLowerCase().includes("tea")
+    )
+  ) {
     return true
   }
-  
+
   // Check collection
-  if (product.collection?.handle?.toLowerCase().includes('tea')) {
+  if (product.collection?.handle?.toLowerCase().includes("tea")) {
     return true
   }
-  
+
   // Check title/description for tea keywords
-  const teaKeywords = ['tea', 'cha', 'matcha', 'green tea', 'black tea', 'oolong', 'pu-erh', 'white tea']
+  const teaKeywords = [
+    "tea",
+    "cha",
+    "matcha",
+    "green tea",
+    "black tea",
+    "oolong",
+    "pu-erh",
+    "white tea",
+  ]
   const searchText = `${product.title} ${product.description}`.toLowerCase()
-  
-  return teaKeywords.some(keyword => searchText.includes(keyword))
+
+  return teaKeywords.some((keyword) => searchText.includes(keyword))
 }
 
 const ProductTemplate: React.FC<ProductTemplateProps> = ({

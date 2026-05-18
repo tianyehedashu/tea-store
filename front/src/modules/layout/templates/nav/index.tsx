@@ -44,28 +44,41 @@ export default async function Nav() {
               >
                 Shop
               </LocalizedClientLink>
-              
+
               {/* Tea Categories Dropdown */}
               <div className="relative group">
                 <button className="text-sage-700 hover:text-brand-600 transition-colors duration-300 font-medium flex items-center gap-1">
                   Categories
-                  <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <svg
+                    className="w-4 h-4 transition-transform group-hover:rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </button>
-                
+
                 <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-sage-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                   <div className="py-4 px-2">
-                    {categories?.filter(cat => cat.name.includes('Tea')).slice(0, 6).map((category) => (
-                      <LocalizedClientLink
-                        key={category.id}
-                        href={`/categories/${category.handle}`}
-                        className="flex items-center gap-3 px-4 py-3 text-sage-700 hover:text-brand-600 hover:bg-sage-50 rounded-lg transition-colors duration-200"
-                      >
-                        <span className="w-2 h-2 rounded-full bg-brand-400"></span>
-                        {category.name}
-                      </LocalizedClientLink>
-                    ))}
+                    {categories
+                      ?.filter((cat) => cat.name.includes("Tea"))
+                      .slice(0, 6)
+                      .map((category) => (
+                        <LocalizedClientLink
+                          key={category.id}
+                          href={`/categories/${category.handle}`}
+                          className="flex items-center gap-3 px-4 py-3 text-sage-700 hover:text-brand-600 hover:bg-sage-50 rounded-lg transition-colors duration-200"
+                        >
+                          <span className="w-2 h-2 rounded-full bg-brand-400"></span>
+                          {category.name}
+                        </LocalizedClientLink>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -76,14 +89,28 @@ export default async function Nav() {
               >
                 Brewing Guides
               </LocalizedClientLink>
-              
+
               <LocalizedClientLink
                 className="text-sage-700 hover:text-brand-600 transition-colors duration-300 font-medium"
                 href="/origins"
               >
                 Origins
               </LocalizedClientLink>
-              
+
+              <LocalizedClientLink
+                className="text-sage-700 hover:text-brand-600 transition-colors duration-300 font-medium"
+                href="/about"
+              >
+                About
+              </LocalizedClientLink>
+
+              <LocalizedClientLink
+                className="text-sage-700 hover:text-brand-600 transition-colors duration-300 font-medium"
+                href="/help"
+              >
+                Help
+              </LocalizedClientLink>
+
               <LocalizedClientLink
                 className="text-sage-700 hover:text-brand-600 transition-colors duration-300 font-medium"
                 href="/account"
@@ -92,7 +119,7 @@ export default async function Nav() {
                 Account
               </LocalizedClientLink>
             </div>
-            
+
             <Suspense
               fallback={
                 <LocalizedClientLink

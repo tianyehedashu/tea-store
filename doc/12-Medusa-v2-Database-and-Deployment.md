@@ -20,6 +20,7 @@ Medusa v2 提供了完整的数据库管理和部署工具链，支持自动化�
 ### 核心命令
 
 #### `medusa db:setup`
+
 **一键数据库初始化**（推荐用于新环境）
 
 ```bash
@@ -27,16 +28,19 @@ medusa db:setup
 ```
 
 **功能：**
+
 - 创建数据库（如果不存在）
 - 运行所有待执行的迁移
 - 同步数据库模式与应用定义的链接
 
 **适用场景：**
+
 - 新环境部署
 - 全新数据库初始化
 - 开发环境快速搭建
 
 #### `medusa db:create`
+
 **仅创建数据库**
 
 ```bash
@@ -44,14 +48,17 @@ medusa db:create
 ```
 
 **功能：**
+
 - 根据 `DATABASE_URL` 创建数据库
 - 不执行迁移或其他操作
 
 **适用场景：**
+
 - 手动控制初始化流程
 - 数据库服务器已存在，需要创建新的数据库
 
 #### `medusa db:migrate`
+
 **执行数据库迁移**
 
 ```bash
@@ -59,15 +66,18 @@ medusa db:migrate
 ```
 
 **功能：**
+
 - 执行所有待执行的迁移文件
 - 更新数据库模式到最新版本
 
 **适用场景：**
+
 - 应用更新后的数据库升级
 - 生产环境部署
 - 开发环境同步最新模式
 
 #### `medusa db:migrate:scripts`
+
 **运行迁移脚本**
 
 ```bash
@@ -75,10 +85,12 @@ medusa db:migrate:scripts
 ```
 
 **功能：**
+
 - 执行所有模块的迁移脚本
 - 用于数据迁移和转换
 
 #### `medusa db:rollback [modules...]`
+
 **回滚迁移**
 
 ```bash
@@ -90,12 +102,14 @@ medusa db:rollback product inventory
 ```
 
 **功能：**
+
 - 撤销最后执行的迁移批次
 - 支持指定模块回滚
 
 **⚠️ 注意：** 生产环境谨慎使用
 
 #### `medusa db:generate [modules...]`
+
 **生成迁移文件**
 
 ```bash
@@ -107,10 +121,12 @@ medusa db:generate product
 ```
 
 **功能：**
+
 - 基于模型变更生成迁移文件
 - 支持增量迁移
 
 #### `medusa db:sync-links`
+
 **同步数据库链接**
 
 ```bash
@@ -118,12 +134,14 @@ medusa db:sync-links
 ```
 
 **功能：**
+
 - 同步应用定义的模块间链接
 - 确保关系表的一致性
 
 ### 高级命令
 
 #### `medusa user`
+
 **创建管理员用户**
 
 ```bash
@@ -131,6 +149,7 @@ medusa user
 ```
 
 **交互式创建：**
+
 - 邮箱地址
 - 密码
 - 用户角色
@@ -264,7 +283,7 @@ CMD ["pnpm", "run", "start"]
 
 ```yaml
 # docker-compose.yml
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -307,26 +326,26 @@ volumes:
 
 ### 必需环境变量
 
-| 变量名 | 描述 | 示例 |
-|--------|------|------|
-| `DATABASE_URL` | 数据库连接字符串 | `postgresql://user:pass@host:5432/db` |
-| `JWT_SECRET` | JWT 签名密钥 | `your-super-secret-jwt-key` |
-| `COOKIE_SECRET` | Cookie 签名密钥 | `your-super-secret-cookie-key` |
+| 变量名          | 描述             | 示例                                  |
+| --------------- | ---------------- | ------------------------------------- |
+| `DATABASE_URL`  | 数据库连接字符串 | `postgresql://user:pass@host:5432/db` |
+| `JWT_SECRET`    | JWT 签名密钥     | `your-super-secret-jwt-key`           |
+| `COOKIE_SECRET` | Cookie 签名密钥  | `your-super-secret-cookie-key`        |
 
 ### CORS 配置
 
-| 变量名 | 描述 | 示例 |
-|--------|------|------|
-| `STORE_CORS` | 前端商店允许的来源 | `http://localhost:3000,https://store.com` |
-| `ADMIN_CORS` | 管理界面允许的来源 | `http://localhost:7001,https://admin.com` |
-| `AUTH_CORS` | 认证相关允许的来源 | `http://localhost:3000,http://localhost:7001` |
+| 变量名       | 描述               | 示例                                          |
+| ------------ | ------------------ | --------------------------------------------- |
+| `STORE_CORS` | 前端商店允许的来源 | `http://localhost:3000,https://store.com`     |
+| `ADMIN_CORS` | 管理界面允许的来源 | `http://localhost:7001,https://admin.com`     |
+| `AUTH_CORS`  | 认证相关允许的来源 | `http://localhost:3000,http://localhost:7001` |
 
 ### 可选配置
 
-| 变量名 | 描述 | 默认值 |
-|--------|------|--------|
-| `MEDUSA_BACKEND_URL` | 后端 API 地址 | `http://localhost:9000` |
-| `REDIS_URL` | Redis 连接字符串 | `redis://localhost:6379` |
+| 变量名               | 描述             | 默认值                   |
+| -------------------- | ---------------- | ------------------------ |
+| `MEDUSA_BACKEND_URL` | 后端 API 地址    | `http://localhost:9000`  |
+| `REDIS_URL`          | Redis 连接字符串 | `redis://localhost:6379` |
 
 ## 数据库迁移
 
@@ -343,16 +362,18 @@ backend/
 ### 创建自定义迁移
 
 1. **生成迁移文件：**
+
 ```bash
 medusa db:generate
 ```
 
 2. **编辑迁移文件：**
+
 ```typescript
-import { Migration } from '@medusajs/medusa'
+import { Migration } from "@medusajs/medusa"
 
 export default class Migration20231201000000 implements Migration {
-  name = 'Migration20231201000000'
+  name = "Migration20231201000000"
 
   async up(): Promise<void> {
     // 升级逻辑
@@ -367,12 +388,13 @@ export default class Migration20231201000000 implements Migration {
 
   async down(): Promise<void> {
     // 回滚逻辑
-    this.addSql('DROP TABLE custom_table;')
+    this.addSql("DROP TABLE custom_table;")
   }
 }
 ```
 
 3. **执行迁移：**
+
 ```bash
 medusa db:migrate
 ```
@@ -420,8 +442,8 @@ const customCategories = [
   {
     name: "Premium Tea",
     description: "High-quality premium tea collection",
-    handle: "premium-tea"
-  }
+    handle: "premium-tea",
+  },
 ]
 
 const categoryResult = await createProductCategoriesWorkflow(container).run({
@@ -436,11 +458,13 @@ const categoryResult = await createProductCategoriesWorkflow(container).run({
 #### 1. 数据库连接失败
 
 **症状：**
+
 ```
 Error: connect ECONNREFUSED 127.0.0.1:5432
 ```
 
 **解决方案：**
+
 - 检查数据库服务是否运行
 - 验证 `DATABASE_URL` 配置
 - 确认网络连接和防火墙设置
@@ -448,11 +472,13 @@ Error: connect ECONNREFUSED 127.0.0.1:5432
 #### 2. 迁移执行失败
 
 **症状：**
+
 ```
 Error: relation "product" already exists
 ```
 
 **解决方案：**
+
 ```bash
 # 检查迁移状态
 medusa db:migrate --dry-run
@@ -467,11 +493,13 @@ medusa db:setup
 #### 3. 权限错误
 
 **症状：**
+
 ```
 Error: permission denied for database
 ```
 
 **解决方案：**
+
 - 检查数据库用户权限
 - 确认用户有创建数据库的权限
 - 验证连接字符串中的用户名密码
@@ -479,11 +507,13 @@ Error: permission denied for database
 #### 4. 种子数据重复
 
 **症状：**
+
 ```
 Error: duplicate key value violates unique constraint
 ```
 
 **解决方案：**
+
 ```bash
 # 清理现有数据
 pnpm run cleanup
@@ -495,11 +525,13 @@ pnpm run seed
 ### 调试技巧
 
 1. **启用详细日志：**
+
 ```bash
 medusa db:migrate --verbose
 ```
 
 2. **检查数据库状态：**
+
 ```sql
 -- 查看迁移记录
 SELECT * FROM medusa_migrations;
@@ -509,6 +541,7 @@ SELECT * FROM medusa_migrations;
 ```
 
 3. **验证环境变量：**
+
 ```bash
 echo $DATABASE_URL
 ```
@@ -583,6 +616,7 @@ curl -f http://localhost:9000/health || exit 1
 ### 数据安全
 
 1. **定期备份**
+
 ```bash
 # 自动备份脚本
 #!/bin/bash
@@ -591,11 +625,13 @@ find /backups -name "backup_*.sql.gz" -mtime +7 -delete
 ```
 
 2. **敏感信息管理**
+
 - 使用环境变量
 - 密钥轮换
 - 访问控制
 
 3. **监控**
+
 - 数据库性能
 - 迁移状态
 - 错误日志

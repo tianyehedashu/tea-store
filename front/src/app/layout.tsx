@@ -22,8 +22,18 @@ export const metadata: Metadata = {
     default: "Zentee - Sip the Calm",
     template: "%s | Zentee",
   },
-  description: "Tea with a Zen State of Mind. Experience mindful tea ceremonies that nurture tranquility, balance, and inner peace through premium organic teas.",
-  keywords: ["zen tea", "mindful tea", "organic tea", "meditation tea", "wellness tea", "calming tea", "tea ceremony", "mindfulness"],
+  description:
+    "Tea with a Zen State of Mind. Experience mindful tea ceremonies that nurture tranquility, balance, and inner peace through premium organic teas.",
+  keywords: [
+    "zen tea",
+    "mindful tea",
+    "organic tea",
+    "meditation tea",
+    "wellness tea",
+    "calming tea",
+    "tea ceremony",
+    "mindfulness",
+  ],
   authors: [{ name: "Zentee" }],
   creator: "Zentee",
   publisher: "Zentee",
@@ -59,7 +69,8 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Zentee",
     title: "Zentee - Sip the Calm",
-    description: "Tea with a Zen State of Mind. Experience mindful tea ceremonies that nurture tranquility, balance, and inner peace.",
+    description:
+      "Tea with a Zen State of Mind. Experience mindful tea ceremonies that nurture tranquility, balance, and inner peace.",
     images: [
       {
         url: "https://images.unsplash.com/photo-1556760146-a3e5e6e2abd9?w=1200&h=630&fit=crop&crop=center",
@@ -72,8 +83,11 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Zentee - Sip the Calm",
-    description: "Tea with a Zen State of Mind. Experience mindful tea ceremonies that nurture tranquility, balance, and inner peace.",
-    images: ["https://images.unsplash.com/photo-1556760146-a3e5e6e2abd9?w=1200&h=675&fit=crop&crop=center"],
+    description:
+      "Tea with a Zen State of Mind. Experience mindful tea ceremonies that nurture tranquility, balance, and inner peace.",
+    images: [
+      "https://images.unsplash.com/photo-1556760146-a3e5e6e2abd9?w=1200&h=675&fit=crop&crop=center",
+    ],
   },
   robots: {
     index: true,
@@ -93,7 +107,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-mode="light" className={`${brandDisplay.variable} ${brandSans.variable}`}>
+    <html
+      lang="en"
+      data-mode="light"
+      className={`${brandDisplay.variable} ${brandSans.variable}`}
+    >
       <head>
         <meta name="theme-color" content="#5BA05B" />
         <meta name="msapplication-TileColor" content="#5BA05B" />

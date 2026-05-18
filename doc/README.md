@@ -11,12 +11,13 @@
 - [05-Task-Breakdown 任务拆分与里程碑](./05-Task-Breakdown.md)
 - [06-Risks-Testing 风险、测试与验收](./06-Risks-Testing.md)
 - [07-Deployment-Operations 部署与运维](./07-Deployment-Operations.md)
+- [18-VPS-Production-Deployment VPS 生产部署（tea.leodennis.top）](./18-VPS-Production-Deployment.md)
 - [08-Multiple-API-Keys-Guide 多 API Key 管理指南](./08-Multiple-API-Keys-Guide.md)
 - [09-Sanity-Integration Sanity 集成方案（已选）](./08-CMS-Integration.md)
 - [10-Brand-Design-System 品牌与设计系统（Tailwind）](./09-Brand-Design-System.md)
 - [11-Implementation 实施说明](./10-Implementation.md)
 - [15-Workflows-Design-and-Guide Medusa 工作流设计与实践](./15-Workflows-Design-and-Guide.md)
- - [16-Hyperf-Workflow-Design-and-Implementation 在 Hyperf 中实现工作流（参考实现）](./16-Hyperf-Workflow-Design-and-Implementation.md)
+- [16-Hyperf-Workflow-Design-and-Implementation 在 Hyperf 中实现工作流（参考实现）](./16-Hyperf-Workflow-Design-and-Implementation.md)
 
 ## 参考仓库结构（关键位置）
 
@@ -30,5 +31,3 @@
   - 数据访问：`front/src/lib/data/*`
 
 > 注意：在新增功能、组件、API 前，应优先复用现有能力，避免重复定义相同功能。
-
-

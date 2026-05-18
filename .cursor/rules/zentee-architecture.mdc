@@ -1,0 +1,357 @@
+---
+description: Zentee 架构、数据流、完整目录与关键文件对照（项目级，始终生效）
+alwaysApply: true
+---
+
+# Zentee 架构与目录（细粒度）
+
+## 1. 系统架构与请求流
+
+**Zentee** = Medusa（交易） + Sanity（内容） + Next.js 15（展示）。UI 英文；文档/注释中文。
+
+```mermaid
+flowchart TB
+  subgraph client["浏览器"]
+    B[用户]
+  end
+  subgraph next["front/ :8000"]
+    MW["middleware.ts\nEdge: regions + countryCode"]
+    APP["app/[countryCode]"]
+    DATA["lib/data/*\nuse server + sdk"]
+    CMS["lib/data/cms/*\nGROQ"]
+    APP --> DATA
+    APP --> CMS
+    MW --> APP
+  end
+  Sanity[(Sanity)]
+  Medusa["backend/ :9000"]
+  PG[(PostgreSQL)]
+  B --> MW
+  DATA -->|JS SDK + publishable key| Medusa
+  CMS -->|Bearer token 仅服务端| Sanity
+  Medusa --> PG
+  Sanity -->|POST /api/revalidate| APP
+```
+
+| 场景 | 路径 | 说明 |
+|------|------|------|
+| 区域化入口 | `/{countryCode}/...` | 中间件无 country 时 307 重定向；优先 URL → Vercel IP → `NEXT_PUBLIC_DEFAULT_REGION` |
+| 电商读写在服务端 | `lib/data/*.ts` | `"use server"`；禁止在 Client Component 直接 `sdk` 写库 |
+| CMS 只服务端 | `lib/data/cms/*` | `sanityFetch`；`useDraft` 供预览 |
+| 边缘中间件 | `middleware.ts` | 用 `fetch(/store/regions)`，**不用** JS SDK（非 Node） |
+| 缓存隔离 | Cookie `_medusa_cache_id` | `getCacheTag` → `products-{cacheId}` 等，按用户/会话失效 |
+
+**包命令**：`backend/`、`front/` 各自 `pnpm dev`；**pnpm 9.12.3**；Node **>= 20**。
+
+---
+
+## 2. 仓库根目录
+
+```text
+tea-store/
+├── backend/                 # Medusa v2.8.x
+├── front/                   # Next.js 15 + Turbopack
+├── doc/                     # 中文设计与运维文档（见 §12）
+├── AGENTS.md                # Agent 运行/环境速查
+└── .cursor/rules/           # Cursor 项目规则
+```
+
+---
+
+## 3. 后端 `backend/` 目录
+
+```text
+backend/
+├── medusa-config.ts              # databaseUrl, storeCors/adminCors/authCors, jwt/cookie
+├── jest.config.js
+├── integration-tests/
+│   ├── http/                     # HTTP 集成测试
+│   └── setup.js
+└── src/
+    ├── api/
+    │   ├── store/custom/route.ts # 示例 Store 路由
+    │   └── admin/custom/route.ts # 示例 Admin 路由
+    ├── modules/                  # 自定义域（规划 tea；见 doc/04）
+    ├── workflows/                # Medusa 工作流
+    ├── subscribers/              # 领域事件
+    ├── jobs/                     # 定时任务
+    ├── links/                    # 模块链接
+    ├── admin/                    # Admin 扩展（Vite）
+    └── scripts/
+        ├── seed.ts               # Region、商品、Shipping、API Key
+        ├── create-api-key.ts
+        ├── create-multiple-api-keys.ts
+        ├── cleanup-all-products.ts
+        ├── clear-users.ts
+        └── reset-for-onboarding.ts
+```
+
+| 脚本 | 用途 |
+|------|------|
+| `pnpm dev` | `medusa develop` |
+| `pnpm build` / `pnpm start` | 构建与生产启动 |
+| `pnpm seed` | 最小可运行数据集 |
+| `pnpm seed:fresh` | cleanup + seed |
+| `pnpm test:unit` / `test:integration:http` | Jest（集成测试有已知 swc 限制） |
+
+**新增 Store 路由**：`src/api/store/<path>/route.ts` → `GET/POST https://host/store/<path>`  
+**新增 Admin 路由**：`src/api/admin/<path>/route.ts`（需鉴权）  
+**新持久化域**：`src/modules/<name>/` + `medusa-config.ts` 注册  
+
+**规划（未实现）**：`modules/tea` → `/store/tea/origins*`、`/store/tea/guides*`（见 `doc/02-Architecture.md`）。
+
+---
+
+## 4. 前端 `front/` 总览
+
+```text
+front/
+├── check-env-variables.js        # 构建前校验 NEXT_PUBLIC_* 
+├── tailwind.config.js              # brand/sage/cream/grey 令牌 + @medusajs/ui-preset
+├── styles/globals.css
+├── scripts/                        # clear-cache, dev-no-cache, cache-manager
+└── src/
+    ├── app/                        # 路由与 Route Handlers
+    ├── middleware.ts
+    ├── lib/                        # SDK、数据、工具、常量
+    ├── modules/                    # 业务 UI（按域）
+    └── types/global.ts
+```
+
+### 4.1 `app/` 路由表（页面文件）
+
+| URL 模式 | 文件 | 数据源 |
+|----------|------|--------|
+| `/[cc]/` | `(main)/page.tsx` | Medusa 精选 |
+| `/[cc]/store` | `(main)/store/page.tsx` | `listProducts` |
+| `/[cc]/products/[handle]` | `(main)/products/[handle]/page.tsx` | `listProducts` + 模板分支 |
+| `/[cc]/collections/[handle]` | `(main)/collections/[handle]/page.tsx` | collections |
+| `/[cc]/categories/[...category]` | `(main)/categories/[...category]/page.tsx` | categories |
+| `/[cc]/origins` | `(main)/origins/page.tsx` | Sanity |
+| `/[cc]/origins/[slug]` | `(main)/origins/[slug]/page.tsx` | Sanity |
+| `/[cc]/guides` | `(main)/guides/page.tsx` | Sanity |
+| `/[cc]/guides/[slug]` | `(main)/guides/[slug]/page.tsx` | Sanity |
+| `/[cc]/cart` | `(main)/cart/page.tsx` | cart |
+| `/[cc]/checkout` | `(checkout)/checkout/page.tsx` | checkout（独立 layout） |
+| `/[cc]/account` | `(main)/account/layout.tsx` | 并行路由见下 |
+| `/[cc]/account` dashboard | `account/@dashboard/**` | customer |
+| `/[cc]/account` login | `account/@login/page.tsx` | 未登录展示 |
+| `/[cc]/order/[id]/confirmed` | `(main)/order/.../confirmed/page.tsx` | orders |
+| `/[cc]/order/.../transfer/[token]/*` | transfer accept/decline | orders |
+
+**Route Handlers（无 countryCode 前缀）**
+
+| 路径 | 文件 | 职责 |
+|------|------|------|
+| `/api/revalidate` | `app/api/revalidate/route.ts` | Sanity Webhook；`x-revalidate-token`；按 type/slug 失效多国家路径 |
+| `/api/preview` | `app/api/preview/route.ts` | 草稿预览入口 |
+| `/api/cache` | `app/api/cache/route.ts` | 缓存调试/管理 |
+
+**布局**：`app/layout.tsx` 根布局；`(main)/layout.tsx` 店铺壳；`(checkout)/layout.tsx` 精简结账壳。
+
+---
+
+## 5. `lib/` 细目
+
+### 5.1 配置与 SDK
+
+| 文件 | 职责 |
+|------|------|
+| `lib/config.ts` | `Medusa` JS SDK：`baseUrl`、`publishableKey` |
+| `lib/config/cache.ts` | 开发环境缓存状态日志 |
+| `lib/constants.tsx` | 站点级常量 |
+| `lib/constants/product-fields.ts` | **`PRODUCT_LIST_FIELDS`**：列表/详情默认 fields（含 variants/options/inventory） |
+| `lib/context/modal-context.tsx` | 全局 Modal 上下文（客户端） |
+
+**商品 fields**：统一用 `PRODUCT_LIST_FIELDS`，勿在 `products.ts` 硬编码重复字符串；自定义查询可 spread 后追加。
+
+### 5.2 `lib/data/` — Medusa（均 `"use server"`）
+
+| 文件 | 主要导出/职责 |
+|------|----------------|
+| `products.ts` | `listProducts`, `listProductsWithSort` |
+| `cart.ts` | 购物车 CRUD、line items |
+| `customer.ts` | 注册/登录、`retrieveCustomer`、资料 |
+| `orders.ts` | 订单查询、transfer |
+| `payment.ts` | Payment session / providers |
+| `regions.ts` | `getRegion`, `listRegions` |
+| `collections.ts` | 系列与系列内商品 |
+| `categories.ts` | 分类树 |
+| `fulfillment.ts` | Shipping options |
+| `onboarding.ts` | 开店引导状态 |
+| `cookies.ts` | `_medusa_jwt`、`_medusa_cart_id`、**`getCacheOptions`/`getCacheTag`** |
+| `sanity.ts` | 再导出 `cms/*`（页面 import 用 `@lib/data/sanity`） |
+
+### 5.3 `lib/data/cms/` — Sanity
+
+| 文件 | 职责 |
+|------|------|
+| `client.ts` | `sanityFetch`、Draft `perspective=previewDrafts`、`next.tags` |
+| `types.ts` | `OriginDTO`、`BrewingGuideDTO` 等 |
+| `origins.ts` | `getOriginsCMS`, `getOriginBySlugCMS` + GROQ |
+| `guides.ts` | `getGuidesCMS`, `getGuideBySlugCMS`, `getGuideByTypeCMS` |
+
+**Sanity 文档模型**（`doc/08-CMS-Integration.md`）：`Origin`（slug、风土、flavor_profile…）、`BrewingGuide`（tea_type、温度、步骤…）。
+
+### 5.4 `lib/util/` 与 `lib/hooks/`
+
+| 文件 | 用途 |
+|------|------|
+| `env.ts` | 站点 base URL |
+| `get-product-price.ts` / `money.ts` | 价格展示 |
+| `product.ts` / `sort-products.ts` | 商品工具与排序 |
+| `tea-product-filters.ts` | 茶叶筛选逻辑 |
+| `medusa-image-url.ts` | 图片 URL 规范化 |
+| `medusa-error.ts` | API 错误处理 |
+| `compare-addresses.ts` | 地址比对 |
+| `cache-manager.ts` | 缓存辅助 |
+| `hooks/use-toggle-state.tsx` | 客户端 UI 状态 |
+| `hooks/use-in-view.tsx` | 视口内检测（懒加载等） |
+
+---
+
+## 6. `modules/` 业务域与关键组件
+
+约定：`components/` 可复用块；`templates/` 整页组装；页面 `app/**/page.tsx` 只 fetch + 传 props。
+
+### 6.1 `products/`（茶叶核心）
+
+| 路径 | 职责 |
+|------|------|
+| `templates/index.tsx` | **`isTeaProduct()`** 分支 → `TeaProductTemplate` 或通用模板 |
+| `templates/tea-product-template/` | 茶叶详情主布局、`tea-product-tabs` |
+| `templates/product-info/` | 通用商品信息区 |
+| `templates/product-actions-wrapper/` | 服务端包一层 actions（库存/价格） |
+| `components/product-actions/` | 加购、**`option-select`**（依赖 options/variants） |
+| `components/tea-basic-info` | 等级、产地 meta |
+| `components/tea-brewing-guide` | 冲泡（meta 或 Sanity 回落） |
+| `components/brew-quick-tips` | Quick Brew（`getGuideByTypeCMS`） |
+| `components/tea-production-info` / `tea-storage-guide` / `tea-health-benefits` / `tea-tools-recommend` / `tea-culture-story` | 茶叶专题块 |
+| `components/image-gallery` / `related-products` | 图库与关联 |
+
+**茶叶判定**（`templates/index.tsx`）：`metadata.tea_type` → `type` 含 tea → `categories`/`collection` → 标题关键词（tea/matcha/oolong…）。
+
+### 6.2 其他域
+
+| 域 | components 要点 | templates |
+|----|-------------------|-----------|
+| `home` | `hero`, `featured-products/product-rail` | — |
+| `store` | `refinement-list`, `pagination`, `sort-products` | `paginated-products` |
+| `collections` | — | 系列页 |
+| `categories` | — | 分类页 |
+| `cart` | `item`, `cart-item-select`, `empty-cart-message` | `index`, `summary`, `preview` |
+| `checkout` | `addresses`, `shipping`, `payment-*`, `discount-code` | `checkout-form`, `checkout-summary` |
+| `account` | `login`, `register`, `address-book`, `order-card`, `profile-*` | `login-template`, `account-layout` |
+| `order` | `order-details`, `shipping-details`, `transfer-*` | `order-details-template`, `order-completed-template` |
+| `layout` | `nav`, `side-menu`, `cart-button`, `country-select`, `footer` | `index` 主壳 |
+| `common` | `input`, `checkbox`, `line-item-price`, `localized-client-link` | — |
+| `common/icons` | `spinner`, `medusa`, 支付图标等 | — |
+| `skeletons` | 各 loading 占位 | 与页面对应的 skeleton templates |
+| `shipping` | 配送相关（checkout 复用） | — |
+
+---
+
+## 7. 商品 `metadata` 约定（Medusa Product）
+
+与 Sanity 关联及 UI 展示用（详见 `doc/04-Detailed-Design.md`）：
+
+| 字段 | 用途 |
+|------|------|
+| `tea_type` | 关联 `BrewingGuide.tea_type`；茶叶判定 |
+| `origin_id` | 关联 `Origin.slug` |
+| `grade`, `flavor_notes[]` | 列表卡片、基础信息 |
+| `brew_override` | 优先于 Sanity 指南的冲泡展示 |
+| `water_temperature`, `tea_to_water_ratio`, `steeping_times`, `brewing_steps` | Tab：冲泡 |
+| `harvest_season`, `processing_methods`, `vintage_year` | Tab：生产 |
+| `shelf_life`, `storage_temperature`, `storage_container` | Tab：储存 |
+| `health_benefits`, `active_compounds` | Tab：健康 |
+| `essential_tools`, `advanced_tools` | Tab：器具 |
+
+**冲泡优先级**：`metadata.brew_override` > Sanity `getGuideByTypeCMS(tea_type)` > 组件内 meta 字段。
+
+---
+
+## 8. 缓存、Cookie 与 ISR
+
+| 机制 | 位置 | 说明 |
+|------|------|------|
+| Medusa 数据缓存 tag | `cookies.ts` → `getCacheOptions("products")` 等 | tag = `{name}-{cacheId}` |
+| Region 缓存 | `middleware.ts` | 内存 Map，1h 刷新；`fetch` tags `regions-{cacheId}` |
+| Sanity 查询 tag | `cms/*.ts` 传入 `sanityFetch` 的 `tags` | Webhook 可 `revalidateTag` |
+| ISR 失效 | `api/revalidate` | body: `{ type: "origin"\|"guide"\|"home"\|"custom", slug?, path? }`；展开所有 `countryCode` |
+| 预览 | `api/preview` + `sanityFetch({ useDraft: true })` | 仅编辑环境 |
+
+前端脚本：`pnpm clear-cache`、`pnpm cache-manager`、`pnpm dev:no-cache`。
+
+---
+
+## 9. 设计系统（Tailwind）
+
+- 配置：`front/tailwind.config.js`；`darkMode: "class"`；preset `@medusajs/ui-preset`。
+- 品牌色：`brand.*`（茶绿主色）、`sage.*`、`cream.*`、`grey.*`。
+- 圆角：`soft` / `base` / `rounded` / `large` / `circle`。
+- 内容扫描：`src/app/**`、`src/modules/**`、`@medusajs/ui`。
+- 品牌规范：`doc/09-Brand-Design-System.md`。
+
+新 UI 优先用 **Medusa UI** + 现有 `common/components`，保持 spacing/颜色令牌一致。
+
+---
+
+## 10. 环境变量
+
+| 变量 | 侧 | 必需 | 说明 |
+|------|-----|------|------|
+| `DATABASE_URL` | backend | ✓ | PostgreSQL |
+| `STORE_CORS` / `ADMIN_CORS` / `AUTH_CORS` | backend | ✓ | 含前端源 |
+| `JWT_SECRET` / `COOKIE_SECRET` | backend | ✓ | 生产强随机 |
+| `MEDUSA_BACKEND_URL` | front | ✓ | 服务端；中间件也用 |
+| `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` | front | ✓ | Store API |
+| `NEXT_PUBLIC_DEFAULT_REGION` | front |  | 默认 `us` |
+| `SANITY_PROJECT_ID` / `SANITY_DATASET` | front | CMS 页 | |
+| `SANITY_API_READ_TOKEN` | front | ✓ 读草稿/发布 | 仅服务端 |
+| `SANITY_STUDIO_URL` | front |  | Studio 链接 |
+| `REVALIDATE_SECRET` | front | Webhook | 对应 `x-revalidate-token` |
+
+勿提交 `.env` / `.env.local`。
+
+---
+
+## 11. 新增功能落点（决策树）
+
+```
+要做什么？
+├─ 纯 UI / 交互 → modules/<域>/components|templates
+├─ 读写信 commerce → lib/data/<域>.ts（复用 sdk + cookies）
+├─ 读 CMS → lib/data/cms/<实体>.ts + types.ts
+├─ 新页面 → app/[countryCode]/(main|checkout)/.../page.tsx + 对应 template
+├─ 全局 API（无 locale）→ app/api/<name>/route.ts
+├─ Store/Admin HTTP → backend/src/api/{store|admin}/**/route.ts
+├─ 新表/服务/工作流 → backend/src/modules|workflows|subscribers
+└─ 改商品字段查询 → lib/constants/product-fields.ts
+```
+
+**修改前检索**：`front/src/modules/**`、`front/src/lib/**`、`backend/src/**` 是否已有实现。
+
+---
+
+## 12. 文档索引 `doc/`
+
+| 文档 | 内容 |
+|------|------|
+| `README.md` | 索引 |
+| `01-PRD.md` | 产品需求 |
+| `02-Architecture.md` | 高层架构 |
+| `04-Detailed-Design.md` | 前后端详细设计、metadata |
+| `05-Task-Breakdown.md` | 任务拆分 |
+| `08-CMS-Integration.md` | Sanity 模型与 Webhook |
+| `09-Brand-Design-System.md` | 视觉规范 |
+| `13-Modules-and-Providers.md` | Medusa 模块 |
+| `18-VPS-Production-Deployment.md` | 生产部署 |
+
+---
+
+## 13. 已知问题与生产
+
+- 集成测试：`@swc/core` 与 `es2023` 兼容问题（见 AGENTS.md）。
+- 生产店：https://tea.leodennis.top/us/store
+- `listProducts` 已使用 `PRODUCT_LIST_FIELDS`；若规格仍异常，检查单商品查询是否覆盖 fields。

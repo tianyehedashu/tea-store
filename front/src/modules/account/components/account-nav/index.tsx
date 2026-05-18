@@ -12,6 +12,9 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import { HttpTypes } from "@medusajs/types"
 import { signout } from "@lib/data/customer"
 
+const linkClass =
+  "flex items-center justify-between py-3 px-4 rounded-lg text-sage-800 hover:bg-sage-50 hover:text-brand-600 transition-colors"
+
 const AccountNav = ({
   customer,
 }: {
@@ -25,143 +28,132 @@ const AccountNav = ({
   }
 
   return (
-    <div>
+    <div className="small:py-6">
       <div className="small:hidden" data-testid="mobile-account-nav">
         {route !== `/${countryCode}/account` ? (
           <LocalizedClientLink
             href="/account"
-            className="flex items-center gap-x-2 text-small-regular py-2"
+            className="flex items-center gap-x-2 text-sm font-medium text-brand-600 py-2"
             data-testid="account-main-link"
           >
-            <>
-              <ChevronDown className="transform rotate-90" />
-              <span>Account</span>
-            </>
+            <ChevronDown className="transform rotate-90" />
+            <span>Account</span>
           </LocalizedClientLink>
         ) : (
           <>
-            <div className="text-xl-semi mb-4 px-8">
+            <p className="text-lg font-semibold text-sage-900 mb-4 px-1">
               Hello {customer?.first_name}
-            </div>
-            <div className="text-base-regular">
-              <ul>
-                <li>
-                  <LocalizedClientLink
-                    href="/account/profile"
-                    className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
-                    data-testid="profile-link"
-                  >
-                    <>
-                      <div className="flex items-center gap-x-2">
-                        <User size={20} />
-                        <span>Profile</span>
-                      </div>
-                      <ChevronDown className="transform -rotate-90" />
-                    </>
-                  </LocalizedClientLink>
-                </li>
-                <li>
-                  <LocalizedClientLink
-                    href="/account/addresses"
-                    className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
-                    data-testid="addresses-link"
-                  >
-                    <>
-                      <div className="flex items-center gap-x-2">
-                        <MapPin size={20} />
-                        <span>Addresses</span>
-                      </div>
-                      <ChevronDown className="transform -rotate-90" />
-                    </>
-                  </LocalizedClientLink>
-                </li>
-                <li>
-                  <LocalizedClientLink
-                    href="/account/orders"
-                    className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
-                    data-testid="orders-link"
-                  >
-                    <div className="flex items-center gap-x-2">
-                      <Package size={20} />
-                      <span>Orders</span>
-                    </div>
-                    <ChevronDown className="transform -rotate-90" />
-                  </LocalizedClientLink>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    className="flex items-center justify-between py-4 border-b border-gray-200 px-8 w-full"
-                    onClick={handleLogout}
-                    data-testid="logout-button"
-                  >
-                    <div className="flex items-center gap-x-2">
-                      <ArrowRightOnRectangle />
-                      <span>Log out</span>
-                    </div>
-                    <ChevronDown className="transform -rotate-90" />
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </>
-        )}
-      </div>
-      <div className="hidden small:block" data-testid="account-nav">
-        <div>
-          <div className="pb-4">
-            <h3 className="text-base-semi">Account</h3>
-          </div>
-          <div className="text-base-regular">
-            <ul className="flex mb-0 justify-start items-start flex-col gap-y-4">
+            </p>
+            <ul className="space-y-1">
               <li>
-                <AccountNavLink
-                  href="/account"
-                  route={route!}
-                  data-testid="overview-link"
-                >
-                  Overview
-                </AccountNavLink>
-              </li>
-              <li>
-                <AccountNavLink
+                <LocalizedClientLink
                   href="/account/profile"
-                  route={route!}
+                  className={linkClass}
                   data-testid="profile-link"
                 >
-                  Profile
-                </AccountNavLink>
+                  <span className="flex items-center gap-x-2">
+                    <User size={20} />
+                    Profile
+                  </span>
+                  <ChevronDown className="transform -rotate-90 text-sage-400" />
+                </LocalizedClientLink>
               </li>
               <li>
-                <AccountNavLink
+                <LocalizedClientLink
                   href="/account/addresses"
-                  route={route!}
+                  className={linkClass}
                   data-testid="addresses-link"
                 >
-                  Addresses
-                </AccountNavLink>
+                  <span className="flex items-center gap-x-2">
+                    <MapPin size={20} />
+                    Addresses
+                  </span>
+                  <ChevronDown className="transform -rotate-90 text-sage-400" />
+                </LocalizedClientLink>
               </li>
               <li>
-                <AccountNavLink
+                <LocalizedClientLink
                   href="/account/orders"
-                  route={route!}
+                  className={linkClass}
                   data-testid="orders-link"
                 >
-                  Orders
-                </AccountNavLink>
+                  <span className="flex items-center gap-x-2">
+                    <Package size={20} />
+                    Orders
+                  </span>
+                  <ChevronDown className="transform -rotate-90 text-sage-400" />
+                </LocalizedClientLink>
               </li>
-              <li className="text-grey-700">
+              <li>
                 <button
                   type="button"
+                  className={clx(linkClass, "w-full")}
                   onClick={handleLogout}
                   data-testid="logout-button"
                 >
-                  Log out
+                  <span className="flex items-center gap-x-2">
+                    <ArrowRightOnRectangle />
+                    Log out
+                  </span>
                 </button>
               </li>
             </ul>
-          </div>
-        </div>
+          </>
+        )}
+      </div>
+
+      <div className="hidden small:block px-4" data-testid="account-nav">
+        <p className="text-sm font-semibold uppercase tracking-wider text-sage-500 mb-4">
+          Account
+        </p>
+        <ul className="flex flex-col gap-1">
+          <li>
+            <AccountNavLink
+              href="/account"
+              route={route!}
+              data-testid="overview-link"
+            >
+              Overview
+            </AccountNavLink>
+          </li>
+          <li>
+            <AccountNavLink
+              href="/account/profile"
+              route={route!}
+              data-testid="profile-link"
+            >
+              Profile
+            </AccountNavLink>
+          </li>
+          <li>
+            <AccountNavLink
+              href="/account/addresses"
+              route={route!}
+              data-testid="addresses-link"
+            >
+              Addresses
+            </AccountNavLink>
+          </li>
+          <li>
+            <AccountNavLink
+              href="/account/orders"
+              route={route!}
+              data-testid="orders-link"
+            >
+              Orders
+            </AccountNavLink>
+          </li>
+          <li className="pt-2 border-t border-sage-200 mt-2">
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="text-sm text-sage-600 hover:text-brand-600 py-2"
+              data-testid="logout-button"
+            >
+              Log out
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   )
@@ -183,12 +175,16 @@ const AccountNavLink = ({
   const { countryCode }: { countryCode: string } = useParams()
 
   const active = route.split(countryCode)[1] === href
+
   return (
     <LocalizedClientLink
       href={href}
-      className={clx("text-ui-fg-subtle hover:text-ui-fg-base", {
-        "text-ui-fg-base font-semibold": active,
-      })}
+      className={clx(
+        "block px-3 py-2 rounded-lg text-sm transition-colors",
+        active
+          ? "bg-brand-50 text-brand-700 font-medium"
+          : "text-sage-700 hover:bg-sage-50 hover:text-brand-600"
+      )}
       data-testid={dataTestId}
     >
       {children}

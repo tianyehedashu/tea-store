@@ -45,14 +45,27 @@ export default async function CategoryTemplate({
         <div className="max-w-4xl">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-sage-600 mb-6">
-            <LocalizedClientLink href="/store" className="hover:text-brand-600 transition-colors">
+            <LocalizedClientLink
+              href="/store"
+              className="hover:text-brand-600 transition-colors"
+            >
               All Teas
             </LocalizedClientLink>
             {parents &&
               parents.reverse().map((parent) => (
                 <span key={parent.id} className="flex items-center gap-2">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
                   </svg>
                   <LocalizedClientLink
                     className="hover:text-brand-600 transition-colors"
@@ -63,13 +76,26 @@ export default async function CategoryTemplate({
                   </LocalizedClientLink>
                 </span>
               ))}
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
             <span className="text-brand-600 font-medium">{category.name}</span>
           </nav>
 
-          <h1 className="font-display text-4xl small:text-5xl font-bold text-sage-900 mb-4" data-testid="category-page-title">
+          <h1
+            className="font-display text-4xl small:text-5xl font-bold text-sage-900 mb-4"
+            data-testid="category-page-title"
+          >
             {category.name}
           </h1>
           {category.description && (
@@ -86,12 +112,18 @@ export default async function CategoryTemplate({
           className="flex flex-col small:flex-row small:items-start content-container py-12 gap-8"
           data-testid="category-container"
         >
-          <RefinementList sortBy={sort} categories={categories} data-testid="sort-by-container" />
+          <RefinementList
+            sortBy={sort}
+            categories={categories}
+            data-testid="sort-by-container"
+          />
           <main className="flex-1 space-y-8">
             {/* Subcategories */}
             {category.category_children && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-semibold text-sage-900">Explore Subcategories</h2>
+                <h2 className="text-2xl font-semibold text-sage-900">
+                  Explore Subcategories
+                </h2>
                 <div className="grid grid-cols-1 small:grid-cols-2 medium:grid-cols-3 gap-6">
                   {category.category_children?.map((c) => (
                     <LocalizedClientLink
@@ -101,11 +133,23 @@ export default async function CategoryTemplate({
                     >
                       <div className="space-y-3">
                         <div className="w-12 h-12 bg-gradient-to-br from-brand-400 to-brand-600 rounded-xl flex items-center justify-center mx-auto">
-                          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                          <svg
+                            className="w-6 h-6 text-white"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                            />
                           </svg>
                         </div>
-                        <h3 className="text-lg font-semibold text-sage-900 group-hover:text-brand-600 transition-colors">{c.name}</h3>
+                        <h3 className="text-lg font-semibold text-sage-900 group-hover:text-brand-600 transition-colors">
+                          {c.name}
+                        </h3>
                         <div className="text-sm text-sage-600">
                           Explore Collection →
                         </div>
@@ -118,7 +162,9 @@ export default async function CategoryTemplate({
 
             {/* Products Grid */}
             <div className="space-y-6">
-              <h2 className="text-2xl font-semibold text-sage-900">All {category.name}</h2>
+              <h2 className="text-2xl font-semibold text-sage-900">
+                All {category.name}
+              </h2>
               <Suspense
                 fallback={
                   <SkeletonProductGrid

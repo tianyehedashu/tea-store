@@ -75,7 +75,7 @@ const helloWorldWorkflow = createWorkflow(
   (input: WorkflowInput) => {
     const greeting1 = step1()
     const greeting2 = step2(input)
-    
+
     return new WorkflowResponse({
       message1: greeting1,
       message2: greeting2
@@ -92,9 +92,9 @@ export default helloWorldWorkflow
 
 ### 4.1 定义步骤与工作流
 
-1) 在 `backend/src/workflows` 下新建文件，例如 `place-order.ts`。
-2) 使用 `createStep` 把动作（如创建订单、预留库存、发送通知）拆分为多个步骤；
-3) 使用 `createWorkflow` 进行编排，按依赖顺序组织步骤，最终 `return new WorkflowResponse(...)` 聚合返回值。
+1. 在 `backend/src/workflows` 下新建文件，例如 `place-order.ts`。
+2. 使用 `createStep` 把动作（如创建订单、预留库存、发送通知）拆分为多个步骤；
+3. 使用 `createWorkflow` 进行编排，按依赖顺序组织步骤，最终 `return new WorkflowResponse(...)` 聚合返回值。
 
 建议：
 
@@ -133,9 +133,9 @@ export async function GET(
 脚本/批处理中的执行示例（项目内已在多处调用官方核心 Flow）：
 
 ```1:26:backend/src/scripts/create-api-key.ts
-import { 
+import {
   createApiKeysWorkflow,
-  linkSalesChannelsToApiKeyWorkflow 
+  linkSalesChannelsToApiKeyWorkflow
 } from "@medusajs/medusa/core-flows";
 
 export default async function createApiKey({ container }: ExecArgs) {
@@ -243,7 +243,6 @@ export const createEntity = createStep(
 
 如需把新工作流集成到系统，请将文件放在 `backend/src/workflows/*`，并在 API 路由、计划任务或订阅者中以 `myWorkflow(req.scope).run({ input })` 的方式调用。遵循本文最佳实践与项目「复用优先」的约定进行实现。
 
-
 ## 9. 业务实例一：上架新品（Publish New Tea Product）
 
 以「茶叶上新」为例，我们围绕项目中已使用的 `@medusajs/medusa/core-flows` 实现一个从「确保分类存在」到「创建产品与变体」再到「为库位生成库存记录」的完整工作流。示例尽量贴近 `backend/src/scripts/seed.ts` 的真实做法，便于迁移到生产逻辑。
@@ -317,7 +316,9 @@ const ensureCategoryStep = createStep(
     }
 
     const { result } = await createProductCategoriesWorkflow(container).run({
-      input: { product_categories: [{ name: input.category, is_active: true }] },
+      input: {
+        product_categories: [{ name: input.category, is_active: true }],
+      },
     })
 
     return new StepResponse({ categoryId: result[0].id })
@@ -331,7 +332,8 @@ const createProductStep = createStep(
     { container }
   ) => {
     // 将静态文件名映射为可访问 URL（基于后端静态目录 /static）
-    const backendBase = process.env.MEDUSA_BACKEND_URL || "http://localhost:9000"
+    const backendBase =
+      process.env.MEDUSA_BACKEND_URL || "http://localhost:9000"
     const toUrl = (name: string) => `${backendBase}/static/${name}`
 
     const productPayload = {
@@ -341,7 +343,14 @@ const createProductStep = createStep(
       status: ProductStatus.PUBLISHED,
       category_ids: [input.categoryId],
       images: (input.images || []).map((n) => ({ url: toUrl(n) })),
-      options: [{ title: "Size", values: Array.from(new Set(input.variants.map(v => v.options?.Size || "Default"))) }],
+      options: [
+        {
+          title: "Size",
+          values: Array.from(
+            new Set(input.variants.map((v) => v.options?.Size || "Default"))
+          ),
+        },
+      ],
       variants: input.variants.map((v) => ({
         title: v.title,
         sku: v.sku,
@@ -369,17 +378,13 @@ const createInventoryLevelsStep = createStep(
     // 查询刚创建商品下各变体对应的 inventory_item
     const { data: products } = await query.graph({
       entity: "product",
-      fields: [
-        "id",
-        "variants.id",
-        "variants.inventory_items.id",
-      ],
+      fields: ["id", "variants.id", "variants.inventory_items.id"],
       filters: { id: input.productId },
     })
 
     const inventoryItemIds: string[] = []
-    for (const v of (products?.[0]?.variants || [])) {
-      for (const inv of (v.inventory_items || [])) {
+    for (const v of products?.[0]?.variants || []) {
+      for (const inv of v.inventory_items || []) {
         if (inv?.id) inventoryItemIds.push(inv.id)
       }
     }
@@ -404,10 +409,15 @@ const createInventoryLevelsStep = createStep(
 
 const publishTeaProductWorkflow = createWorkflow(
   "publish-tea-product",
-  (input: PublishTeaProductInput): WorkflowResponse<PublishTeaProductOutput> => {
+  (
+    input: PublishTeaProductInput
+  ): WorkflowResponse<PublishTeaProductOutput> => {
     const { categoryId } = ensureCategoryStep(input)
     const { productId } = createProductStep({ ...input, categoryId })
-    createInventoryLevelsStep({ productId, stockLocationId: input.stockLocationId })
+    createInventoryLevelsStep({
+      productId,
+      stockLocationId: input.stockLocationId,
+    })
 
     return new WorkflowResponse({ productId })
   }
@@ -433,7 +443,6 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
 
 > 该示例真实复用了项目 `seed.ts` 中的核心 Flow：`createProductCategoriesWorkflow`、`createProductsWorkflow`、`createInventoryLevelsWorkflow`，同时展示了如何通过图查询 `query.graph` 获取 `inventory_item`，并在指定库位上初始化库存。
 
-
 ## 10. 业务实例二：下单流程（Place Order）
 
 下单往往涉及跨模块的多步动作：校验购物车、预留库存/扣减、计算金额、授权支付、创建订单、发送通知等。这里给出一个「面向业务、通俗清晰」的工作流骨架，便于你按项目模块 API 细化实现。
@@ -448,7 +457,12 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
 ### 10.2 工作流步骤设计
 
 ```ts
-import { createStep, createWorkflow, WorkflowResponse, StepResponse } from "@medusajs/framework/workflows-sdk"
+import {
+  createStep,
+  createWorkflow,
+  WorkflowResponse,
+  StepResponse,
+} from "@medusajs/framework/workflows-sdk"
 import { Modules } from "@medusajs/framework/utils"
 
 type PlaceOrderInput = {
@@ -482,7 +496,9 @@ const reserveInventoryStep = createStep(
     const inventoryService = container.resolve(Modules.INVENTORY) // 伪代码
     const reservations = await inventoryService.reserveForCart(cart)
     // 返回预留记录用于后续发货或补偿释放
-    return new StepResponse<InventoryReservation>({ reservationIds: reservations.map((r: any) => r.id) })
+    return new StepResponse<InventoryReservation>({
+      reservationIds: reservations.map((r: any) => r.id),
+    })
   }
   // 补偿思路：如果后续失败，按 reservationIds 释放库存
 )
@@ -495,7 +511,9 @@ const authorizePaymentStep = createStep(
   ) => {
     const paymentService = container.resolve(Modules.PAYMENT) // 伪代码
     const authorization = await paymentService.authorize(cart, paymentMethod)
-    return new StepResponse<PaymentAuthorization>({ authorizationId: authorization.id })
+    return new StepResponse<PaymentAuthorization>({
+      authorizationId: authorization.id,
+    })
   }
   // 补偿思路：失败或回滚则 void/refund 掉 authorization
 )
@@ -507,7 +525,10 @@ const createOrderStep = createStep(
     { container }
   ) => {
     const orderService = container.resolve(Modules.ORDER) // 伪代码
-    const order = await orderService.createFromCart({ cart, payment_authorization_id: authorizationId })
+    const order = await orderService.createFromCart({
+      cart,
+      payment_authorization_id: authorizationId,
+    })
     return new StepResponse<{ orderId: string }>({ orderId: order.id })
   }
   // 补偿思路：如已创建订单但后续失败，可取消订单并触发退款/释放库存
@@ -518,7 +539,10 @@ const placeOrderWorkflow = createWorkflow(
   (input: PlaceOrderInput): WorkflowResponse<PlaceOrderOutput> => {
     const valid = validateCartStep(input)
     const reservations = reserveInventoryStep(valid)
-    const payment = authorizePaymentStep({ ...valid, paymentMethod: input.paymentMethod })
+    const payment = authorizePaymentStep({
+      ...valid,
+      paymentMethod: input.paymentMethod,
+    })
     const order = createOrderStep({ ...valid, ...payment })
 
     return new WorkflowResponse({ orderId: order.orderId })
@@ -535,7 +559,9 @@ import type { MedusaRequest, MedusaResponse } from "@medusajs/framework"
 import placeOrderWorkflow from "../../../workflows/place-order"
 
 export async function POST(req: MedusaRequest, res: MedusaResponse) {
-  const { result } = await placeOrderWorkflow(req.scope).run({ input: req.body })
+  const { result } = await placeOrderWorkflow(req.scope).run({
+    input: req.body,
+  })
   res.json(result)
 }
 ```
@@ -547,31 +573,35 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
 - 订单创建后根据业务需要触发异步步骤（发票、邮件、履约等）——可在订单创建成功后发送事件或继续在工作流中追加步骤；
 - 对于「超卖」或价格变动等边界情况，校验时应二次确认库存与价格。
 
-
 ## 11. Medusa 工作流是如何运作的（内部机制简述）
 
 > 本节总结 Medusa v2 `@medusajs/framework/workflows-sdk` 在运行时的通用模式，帮助你理解“为什么这样写会工作”。
 
 - 工作流 DSL 与 DAG：
+
   - `createStep(name, handler)` 用于声明原子步骤；`createWorkflow(name, builder)` 在 `builder` 中以“函数调用”的方式串联步骤；
   - 每次在 `builder` 里调用步骤函数（如 `const a = stepA(input)`）会在内部构建一条节点依赖边，形成一个隐式 DAG（数据依赖图）；
   - 返回 `WorkflowResponse({ ... })` 时，SDK 聚合各节点的 `StepResponse` 结果为最终输出。
 
 - 依赖注入与作用域（scope）：
+
   - 通过 `myWorkflow(scope).run({ input })` 执行工作流；`scope` 是请求/任务上下文容器，SDK 将其注入到步骤的 `handler` 第二个参数中；
   - 步骤可通过 `container.resolve(Modules.XYZ)` 或 `ContainerRegistrationKeys.*` 解析出模块与服务，保证与应用主容器一致。
 
 - 输入、输出与上下文传递：
+
   - 步骤 `handler` 的返回值用 `new StepResponse(data)` 包裹；
   - 在 `builder` 中，步骤的调用返回值可作为下游步骤的输入一部分，如：`const { id } = createA(input); createB({ aId: id })`；
   - 最终 `WorkflowResponse` 用于聚合与返回请求侧真正需要的字段。
 
 - 失败与补偿的理念：
+
   - 工作流强调“失败即补偿”的思路，步骤应尽量为有副作用的动作设计对应的回滚策略（如释放库存、作废支付授权、删除刚创建的资源）；
   - 关键标识（资源 ID、预留记录 ID 等）应通过 `StepResponse` 向后传递，便于在补偿中使用；
   - 具体补偿 API/写法以官方文档与所用模块的接口为准，项目落地时需要一一对齐。
 
 - 并行与执行顺序：
+
   - SDK 会按照数据依赖顺序组织步骤；
   - 没有依赖关系的步骤可在 `builder` 内按并行策略组织（以官方支持为准），以加速整体执行；
   - 若存在“先聚合再下游”的需求，可通过一个“聚合步骤”整合并行结果后继续。
@@ -580,4 +610,3 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
   - `@medusajs/medusa/core-flows` 提供了内置的、覆盖典型电商场景的工作流（如 `createProductsWorkflow`、`createRegionsWorkflow`、`deleteProductsWorkflow` 等）；
   - 在自定义工作流中直接复用这些内置 flow，可显著减少你需要实现与维护的代码量；
   - 本项目的 `seed.ts` 与示例工作流即采用了“自定义流程 + 复用核心 flow”的组合方式。
-

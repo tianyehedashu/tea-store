@@ -30,7 +30,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   return (
     <Container
       className={clx(
-        "relative w-full overflow-hidden bg-ui-bg-subtle rounded-large",
+        "relative w-full overflow-hidden bg-sage-100 rounded-2xl",
         className,
         {
           "aspect-[4/5]": size !== "square",

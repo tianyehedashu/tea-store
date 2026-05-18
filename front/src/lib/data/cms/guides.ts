@@ -63,35 +63,35 @@ const mapGuide = (g: any): BrewingGuideDTO => ({
 })
 
 export const getGuidesCMS = cache(async (opts?: SanityClientOptions) => {
-  const res = await sanityFetch<any[]>(GUIDES_LIST_GROQ, {}, {
-    useDraft: opts?.useDraft,
-    tags: ["guides"],
-  })
+  const res = await sanityFetch<any[]>(
+    GUIDES_LIST_GROQ,
+    {},
+    {
+      useDraft: opts?.useDraft,
+      tags: ["guides"],
+    }
+  )
   return (res || []).map(mapGuide)
 })
 
-export const getGuideBySlugCMS = cache(async (
-  slug: string,
-  opts?: SanityClientOptions
-) => {
-  const res = await sanityFetch<any>(
-    GUIDE_BY_SLUG_GROQ,
-    { slug },
-    { useDraft: opts?.useDraft, tags: ["guides", `guide-${slug}`] }
-  )
-  return res ? mapGuide(res) : null
-})
+export const getGuideBySlugCMS = cache(
+  async (slug: string, opts?: SanityClientOptions) => {
+    const res = await sanityFetch<any>(
+      GUIDE_BY_SLUG_GROQ,
+      { slug },
+      { useDraft: opts?.useDraft, tags: ["guides", `guide-${slug}`] }
+    )
+    return res ? mapGuide(res) : null
+  }
+)
 
-export const getGuideByTypeCMS = cache(async (
-  teaType: string,
-  opts?: SanityClientOptions
-) => {
-  const res = await sanityFetch<any>(
-    GUIDE_BY_TYPE_GROQ,
-    { teaType },
-    { useDraft: opts?.useDraft, tags: ["guides", `guide-type-${teaType}`] }
-  )
-  return res ? mapGuide(res) : null
-})
-
-
+export const getGuideByTypeCMS = cache(
+  async (teaType: string, opts?: SanityClientOptions) => {
+    const res = await sanityFetch<any>(
+      GUIDE_BY_TYPE_GROQ,
+      { teaType },
+      { useDraft: opts?.useDraft, tags: ["guides", `guide-type-${teaType}`] }
+    )
+    return res ? mapGuide(res) : null
+  }
+)

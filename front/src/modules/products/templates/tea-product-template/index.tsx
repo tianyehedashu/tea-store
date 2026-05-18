@@ -37,11 +37,10 @@ const TeaProductTemplate: React.FC<TeaProductTemplateProps> = ({
   }
 
   // Check if this is a tea product by checking metadata
-  const isTeaProduct = product.metadata?.tea_type || 
-                      product.type?.value?.toLowerCase().includes('tea') ||
-                      product.categories?.some(cat => 
-                        cat.name?.toLowerCase().includes('tea')
-                      )
+  const isTeaProduct =
+    product.metadata?.tea_type ||
+    product.type?.value?.toLowerCase().includes("tea") ||
+    product.categories?.some((cat) => cat.name?.toLowerCase().includes("tea"))
 
   // If not a tea product, render basic product template
   if (!isTeaProduct) {

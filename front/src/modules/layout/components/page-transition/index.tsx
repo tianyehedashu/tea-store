@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 
-export default function PageTransition({ children }: { children: React.ReactNode }) {
+export default function PageTransition({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [isLoading, setIsLoading] = useState(false)
   const pathname = usePathname()
 
@@ -24,9 +28,13 @@ export default function PageTransition({ children }: { children: React.ReactNode
           </div>
         </div>
       )}
-      
+
       {/* Page content */}
-      <div className={`transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+      <div
+        className={`transition-opacity duration-300 ${
+          isLoading ? "opacity-0" : "opacity-100"
+        }`}
+      >
         {children}
       </div>
     </div>

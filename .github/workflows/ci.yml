@@ -1,0 +1,216 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PNPM_VERSION: "9.12.3"
+  NODE_VERSION: "22"
+  DATABASE_URL: postgres://medusa:medusa@localhost:5432/medusa
+  STORE_CORS: http://localhost:8000
+  ADMIN_CORS: http://localhost:9000,http://localhost:7001
+  AUTH_CORS: http://localhost:9000,http://localhost:7001
+  JWT_SECRET: ci-jwt-secret-change-me
+  COOKIE_SECRET: ci-cookie-secret-change-me
+  MEDUSA_BACKEND_URL: http://localhost:9000
+  NEXT_PUBLIC_BASE_URL: http://localhost:8000
+  PLAYWRIGHT_BASE_URL: http://localhost:8000
+  E2E_COUNTRY_CODE: us
+  E2E_CUSTOMER_PASSWORD: E2eTestPass123!
+
+jobs:
+  check:
+    name: Lint & format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Prettier
+        run: pnpm format:check
+
+      - name: Backend check
+        run: pnpm run check:backend
+
+      - name: Frontend lint
+        run: pnpm --dir front lint
+
+  backend-integration:
+    name: Backend integration (Medusa)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: medusa
+          POSTGRES_PASSWORD: medusa
+          POSTGRES_DB: medusa
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U medusa -d medusa"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Migrate database
+        working-directory: backend
+        run: pnpm exec medusa db:migrate
+
+      - name: Run HTTP integration tests
+        working-directory: backend
+        run: pnpm test:integration:http
+
+  e2e:
+    name: Playwright E2E
+    runs-on: ubuntu-latest
+    needs: [check]
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: medusa
+          POSTGRES_PASSWORD: medusa
+          POSTGRES_DB: medusa
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U medusa -d medusa"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        working-directory: front
+        run: pnpm exec playwright install chromium --with-deps
+
+      - name: Migrate database
+        working-directory: backend
+        run: pnpm exec medusa db:migrate
+
+      - name: Seed database
+        id: seed
+        working-directory: backend
+        run: |
+          pnpm seed 2>&1 | tee seed.log
+          KEY=$(grep -E '^NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=' seed.log | tail -1 | cut -d= -f2-)
+          if [ -z "$KEY" ]; then
+            echo "Publishable API key not found in seed output"
+            exit 1
+          fi
+          echo "publishable_key=$KEY" >> "$GITHUB_OUTPUT"
+
+      - name: Build Medusa
+        working-directory: backend
+        run: pnpm build
+
+      - name: Start Medusa
+        working-directory: backend
+        run: |
+          pnpm start > ../medusa.log 2>&1 &
+          echo $! > ../medusa.pid
+
+      - name: Wait for Medusa
+        run: |
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:9000/health; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Medusa failed to start"
+          cat medusa.log || true
+          exit 1
+
+      - name: Build storefront
+        working-directory: front
+        env:
+          NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${{ steps.seed.outputs.publishable_key }}
+        run: pnpm build
+
+      - name: Start storefront
+        working-directory: front
+        env:
+          NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${{ steps.seed.outputs.publishable_key }}
+        run: |
+          pnpm start > ../storefront.log 2>&1 &
+          echo $! > ../storefront.pid
+
+      - name: Wait for storefront
+        run: |
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:8000/us/store; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Storefront failed to start"
+          cat storefront.log || true
+          exit 1
+
+      - name: Run Playwright
+        working-directory: front
+        env:
+          NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${{ steps.seed.outputs.publishable_key }}
+        run: pnpm test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: front/playwright-report/
+          retention-days: 7
+
+      - name: Stop servers
+        if: always()
+        run: |
+          if [ -f medusa.pid ]; then kill "$(cat medusa.pid)" 2>/dev/null || true; fi
+          if [ -f storefront.pid ]; then kill "$(cat storefront.pid)" 2>/dev/null || true; fi

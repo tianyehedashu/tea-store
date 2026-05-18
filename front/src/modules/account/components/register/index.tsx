@@ -17,15 +17,15 @@ const Register = ({ setCurrentView }: Props) => {
 
   return (
     <div
-      className="max-w-sm flex flex-col items-center"
+      className="max-w-sm w-full flex flex-col items-center mx-auto"
       data-testid="register-page"
     >
-      <h1 className="text-large-semi uppercase mb-6">
-        Become a Medusa Store Member
+      <h1 className="font-display text-2xl font-bold text-sage-900 mb-2 text-center">
+        Join Zentee
       </h1>
-      <p className="text-center text-base-regular text-ui-fg-base mb-4">
-        Create your Medusa Store Member profile, and get access to an enhanced
-        shopping experience.
+      <p className="text-center text-sage-600 mb-6 leading-relaxed">
+        Create an account for order history, saved addresses, and a smoother
+        checkout.
       </p>
       <form className="w-full flex flex-col" action={formAction}>
         <div className="flex flex-col w-full gap-y-2">
@@ -68,37 +68,40 @@ const Register = ({ setCurrentView }: Props) => {
           />
         </div>
         <ErrorMessage error={message} data-testid="register-error" />
-        <span className="text-center text-ui-fg-base text-small-regular mt-6">
-          By creating an account, you agree to Medusa Store&apos;s{" "}
+        <p className="text-center text-xs text-sage-600 mt-6 leading-relaxed">
+          By creating an account, you agree to Zentee&apos;s{" "}
           <LocalizedClientLink
-            href="/content/privacy-policy"
-            className="underline"
+            href="/privacy"
+            className="text-brand-600 hover:underline"
           >
             Privacy Policy
           </LocalizedClientLink>{" "}
           and{" "}
           <LocalizedClientLink
-            href="/content/terms-of-use"
-            className="underline"
+            href="/terms"
+            className="text-brand-600 hover:underline"
           >
-            Terms of Use
+            Terms of Service
           </LocalizedClientLink>
           .
-        </span>
-        <SubmitButton className="w-full mt-6" data-testid="register-button">
-          Join
+        </p>
+        <SubmitButton
+          className="w-full mt-6 !bg-brand-500 hover:!bg-brand-600"
+          data-testid="register-button"
+        >
+          Create account
         </SubmitButton>
       </form>
-      <span className="text-center text-ui-fg-base text-small-regular mt-6">
+      <p className="text-center text-sm text-sage-600 mt-6">
         Already a member?{" "}
         <button
+          type="button"
           onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)}
-          className="underline"
+          className="text-brand-600 font-medium hover:underline"
         >
           Sign in
         </button>
-        .
-      </span>
+      </p>
     </div>
   )
 }

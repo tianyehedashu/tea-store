@@ -11,18 +11,22 @@ export default async function Footer() {
   const productCategories = await listCategories()
 
   // Filter for tea-related categories
-  const teaCategories = productCategories?.filter(cat => 
-    cat.name.toLowerCase().includes('tea') || 
-    cat.handle?.toLowerCase().includes('tea')
-  ) || []
+  const teaCategories =
+    productCategories?.filter(
+      (cat) =>
+        cat.name.toLowerCase().includes("tea") ||
+        cat.handle?.toLowerCase().includes("tea")
+    ) || []
 
   // Filter for tea collections
-  const teaCollections = collections?.filter(col =>
-    col.title.toLowerCase().includes('tea') ||
-    col.handle?.toLowerCase().includes('tea') ||
-    col.handle?.toLowerCase().includes('organic') ||
-    col.handle?.toLowerCase().includes('premium')
-  ) || []
+  const teaCollections =
+    collections?.filter(
+      (col) =>
+        col.title.toLowerCase().includes("tea") ||
+        col.handle?.toLowerCase().includes("tea") ||
+        col.handle?.toLowerCase().includes("organic") ||
+        col.handle?.toLowerCase().includes("premium")
+    ) || []
 
   return (
     <footer className="bg-gradient-to-b from-sage-50 to-sage-100 border-t border-sage-200">
@@ -30,7 +34,6 @@ export default async function Footer() {
         {/* Main Footer Content */}
         <div className="py-16 lg:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
-            
             {/* Brand Section */}
             <div className="lg:col-span-1 space-y-6">
               <div>
@@ -41,15 +44,17 @@ export default async function Footer() {
                   Zentee
                 </LocalizedClientLink>
                 <p className="mt-3 text-sage-600 text-sm leading-relaxed">
-                  Discover the art of mindful tea drinking. Premium organic teas 
-                  sourced from the finest gardens, bringing zen and tranquility to your daily ritual.
+                  Discover the art of mindful tea drinking. Premium organic teas
+                  sourced from the finest gardens, bringing zen and tranquility
+                  to your daily ritual.
                 </p>
               </div>
-              
+
               {/* Tea Philosophy */}
               <div className="p-4 bg-white/60 rounded-lg border border-sage-200">
                 <p className="text-xs text-sage-700 italic leading-relaxed">
-                  "Every cup of tea is a conversation with nature"<br/>
+                  "Every cup of tea is a conversation with nature"
+                  <br />
                   <span className="text-sage-500">— Ancient Tea Wisdom</span>
                 </p>
               </div>
@@ -115,8 +120,8 @@ export default async function Footer() {
                 </h3>
                 <ul className="space-y-2">
                   <li>
-                    <LocalizedClientLink 
-                      href="/guides" 
+                    <LocalizedClientLink
+                      href="/guides"
                       className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
@@ -124,8 +129,8 @@ export default async function Footer() {
                     </LocalizedClientLink>
                   </li>
                   <li>
-                    <LocalizedClientLink 
-                      href="/origins" 
+                    <LocalizedClientLink
+                      href="/origins"
                       className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
@@ -133,8 +138,8 @@ export default async function Footer() {
                     </LocalizedClientLink>
                   </li>
                   <li>
-                    <LocalizedClientLink 
-                      href="/about" 
+                    <LocalizedClientLink
+                      href="/about"
                       className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
@@ -150,8 +155,8 @@ export default async function Footer() {
                 </h3>
                 <ul className="space-y-2">
                   <li>
-                    <LocalizedClientLink 
-                      href="/account" 
+                    <LocalizedClientLink
+                      href="/account"
                       className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
@@ -159,22 +164,13 @@ export default async function Footer() {
                     </LocalizedClientLink>
                   </li>
                   <li>
-                    <a 
-                      href="/contact" 
+                    <LocalizedClientLink
+                      href="/help"
                       className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
-                      Contact Us
-                    </a>
-                  </li>
-                  <li>
-                    <a 
-                      href="/shipping" 
-                      className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
-                      Shipping Info
-                    </a>
+                      Help & FAQ
+                    </LocalizedClientLink>
                   </li>
                 </ul>
               </div>
@@ -190,14 +186,29 @@ export default async function Footer() {
                 © {new Date().getFullYear()} Zentee. All rights reserved.
               </Text>
               <div className="flex items-center gap-4 text-xs">
-                <a href="/privacy" className="hover:text-brand-600 transition-colors">Privacy Policy</a>
+                <LocalizedClientLink
+                  href="/privacy"
+                  className="hover:text-brand-600 transition-colors"
+                >
+                  Privacy Policy
+                </LocalizedClientLink>
                 <span className="text-sage-400">•</span>
-                <a href="/terms" className="hover:text-brand-600 transition-colors">Terms of Service</a>
+                <LocalizedClientLink
+                  href="/terms"
+                  className="hover:text-brand-600 transition-colors"
+                >
+                  Terms of Service
+                </LocalizedClientLink>
                 <span className="text-sage-400">•</span>
-                <a href="/returns" className="hover:text-brand-600 transition-colors">Returns</a>
+                <LocalizedClientLink
+                  href="/returns"
+                  className="hover:text-brand-600 transition-colors"
+                >
+                  Returns
+                </LocalizedClientLink>
               </div>
             </div>
-            
+
             {/* Zen Quote */}
             <div className="text-center md:text-right">
               <p className="text-xs text-sage-500 italic">

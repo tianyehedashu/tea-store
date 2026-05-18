@@ -13,7 +13,9 @@ const ORIGINS_LIST_GROQ = `
     region,
     mountain,
     flavor_profile,
-    hero_image,
+    "hero_image": hero_image{
+      "url": asset->url
+    },
     "products": related_products[]->{"handle": medusa_handle}
   }
 `
@@ -27,7 +29,9 @@ const ORIGIN_BY_SLUG_GROQ = `
     region,
     mountain,
     flavor_profile,
-    hero_image,
+    "hero_image": hero_image{
+      "url": asset->url
+    },
     "products": related_products[]->{"handle": medusa_handle}
   }
 `
@@ -45,23 +49,24 @@ const mapOrigin = (o: any): OriginDTO => ({
 })
 
 export const getOriginsCMS = cache(async (opts?: SanityClientOptions) => {
-  const res = await sanityFetch<any[]>(ORIGINS_LIST_GROQ, {}, {
-    useDraft: opts?.useDraft,
-    tags: ["origins"],
-  })
+  const res = await sanityFetch<any[]>(
+    ORIGINS_LIST_GROQ,
+    {},
+    {
+      useDraft: opts?.useDraft,
+      tags: ["origins"],
+    }
+  )
   return (res || []).map(mapOrigin)
 })
 
-export const getOriginBySlugCMS = cache(async (
-  slug: string,
-  opts?: SanityClientOptions
-) => {
-  const res = await sanityFetch<any>(
-    ORIGIN_BY_SLUG_GROQ,
-    { slug },
-    { useDraft: opts?.useDraft, tags: ["origins", `origin-${slug}`] }
-  )
-  return res ? mapOrigin(res) : null
-})
-
-
+export const getOriginBySlugCMS = cache(
+  async (slug: string, opts?: SanityClientOptions) => {
+    const res = await sanityFetch<any>(
+      ORIGIN_BY_SLUG_GROQ,
+      { slug },
+      { useDraft: opts?.useDraft, tags: ["origins", `origin-${slug}`] }
+    )
+    return res ? mapOrigin(res) : null
+  }
+)

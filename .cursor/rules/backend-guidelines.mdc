@@ -13,7 +13,7 @@ description: Medusa v2 后端开发与测试约定
 - 种子数据：扩充 [backend/src/scripts/seed.ts](mdc:backend/src/scripts/seed.ts) 以提供最小可运行集。
 - 测试：
   - Jest 配置：[backend/jest.config.js](mdc:backend/jest.config.js)
-  - 脚本：`yarn test:unit`、`yarn test:integration:http`、`yarn test:integration:modules`
+  - 脚本：`pnpm test:unit`、`pnpm test:integration:http`、`pnpm test:integration:modules`
 - 运行脚本（package.json）：
   - `dev`: `medusa develop`
   - `start`: `medusa start`

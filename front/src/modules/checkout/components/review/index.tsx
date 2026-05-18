@@ -1,9 +1,11 @@
 "use client"
 
-import { Heading, Text, clx } from "@medusajs/ui"
+import { Text } from "@medusajs/ui"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import CheckoutStepShell from "@modules/checkout/components/checkout-step-shell"
+import { useSearchParams } from "next/navigation"
 
 import PaymentButton from "../payment-button"
-import { useSearchParams } from "next/navigation"
 
 const Review = ({ cart }: { cart: any }) => {
   const searchParams = useSearchParams()
@@ -15,40 +17,50 @@ const Review = ({ cart }: { cart: any }) => {
 
   const previousStepsCompleted =
     cart.shipping_address &&
+    cart.shipping_methods &&
     cart.shipping_methods.length > 0 &&
     (cart.payment_collection || paidByGiftcard)
 
   return (
-    <div className="bg-white">
-      <div className="flex flex-row items-center justify-between mb-6">
-        <Heading
-          level="h2"
-          className={clx(
-            "flex flex-row text-3xl-regular gap-x-2 items-baseline",
-            {
-              "opacity-50 pointer-events-none select-none": !isOpen,
-            }
-          )}
-        >
-          Review
-        </Heading>
-      </div>
-      {isOpen && previousStepsCompleted && (
+    <CheckoutStepShell
+      title="Review & place order"
+      isOpen={isOpen}
+      isDisabled={!previousStepsCompleted && !isOpen}
+    >
+      {isOpen && previousStepsCompleted ? (
         <>
-          <div className="flex items-start gap-x-1 w-full mb-6">
-            <div className="w-full">
-              <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                By clicking the Place Order button, you confirm that you have
-                read, understand and accept our Terms of Use, Terms of Sale and
-                Returns Policy and acknowledge that you have read Medusa
-                Store&apos;s Privacy Policy.
-              </Text>
-            </div>
-          </div>
+          <p className="text-sm text-sage-600 leading-relaxed mb-6">
+            By placing your order, you agree to our{" "}
+            <LocalizedClientLink
+              href="/terms"
+              className="text-brand-600 hover:underline"
+            >
+              Terms of Service
+            </LocalizedClientLink>
+            ,{" "}
+            <LocalizedClientLink
+              href="/returns"
+              className="text-brand-600 hover:underline"
+            >
+              Returns Policy
+            </LocalizedClientLink>
+            , and{" "}
+            <LocalizedClientLink
+              href="/privacy"
+              className="text-brand-600 hover:underline"
+            >
+              Privacy Policy
+            </LocalizedClientLink>
+            .
+          </p>
           <PaymentButton cart={cart} data-testid="submit-order-button" />
         </>
-      )}
-    </div>
+      ) : !isOpen ? (
+        <Text className="text-sm text-sage-500">
+          Complete the steps above to review and place your order.
+        </Text>
+      ) : null}
+    </CheckoutStepShell>
   )
 }
 

@@ -6,10 +6,10 @@
 
 Tea e-commerce store ("Zentee") with two workspace packages:
 
-| Service | Path | Port | Command |
-|---------|------|------|---------|
-| Medusa v2 backend | `backend/` | 9000 | `pnpm dev` |
-| Next.js 15 storefront | `front/` | 8000 | `pnpm dev` |
+| Service               | Path       | Port | Command    |
+| --------------------- | ---------- | ---- | ---------- |
+| Medusa v2 backend     | `backend/` | 9000 | `pnpm dev` |
+| Next.js 15 storefront | `front/`   | 8000 | `pnpm dev` |
 
 ### Prerequisites
 
@@ -34,15 +34,24 @@ After creating a PostgreSQL database, run `cd /workspace/backend && npx medusa d
 
 ### Lint / Test / Build
 
-- **Frontend lint**: `cd /workspace/front && pnpm lint` — has a pre-existing ESLint config issue (`@next/next/no-html-link-for-pages` rule).
-- **Backend tests**: `cd /workspace/backend && pnpm test:integration:http` — has a pre-existing `@swc/core` compatibility issue (`es2023` target not supported by pinned v1.5.7).
+- **CI (GitHub Actions)**: `.github/workflows/ci.yml` — lint/format, backend integration (Postgres + Jest), Playwright E2E (full stack).
+- **Local checks**: `pnpm check:ci` (lint without frontend typecheck), `pnpm format:check`, `pnpm test:backend`, `pnpm test:e2e` (requires Medusa + storefront running).
+- **Frontend lint**: `cd /workspace/front && pnpm lint`
+- **Backend tests**: `cd /workspace/backend && pnpm test:integration:http` (Jest `target: es2022` in `jest.config.js`; use `cross-env` on Windows).
+- **E2E**: `cd /workspace/front && pnpm exec playwright install chromium` then `pnpm test:e2e` with backend on :9000 and front on :8000.
+- **E2E account order flow**: `front/e2e/account-order.spec.ts` registers a customer, completes checkout (manual payment), and opens order details. Optional env: `E2E_CUSTOMER_EMAIL`, `E2E_CUSTOMER_PASSWORD`, `E2E_COUNTRY_CODE` (default `us`).
 - **Frontend build**: `cd /workspace/front && pnpm build` — works correctly.
-- **Backend build**: `cd /workspace/backend && pnpm build` — backend server compilation succeeds, but admin dashboard compilation fails due to missing `@medusajs/dashboard` dependency.
+- **Backend build**: `cd /workspace/backend && pnpm build` — compiles server; admin assets require `@medusajs/dashboard` (listed in dependencies).
 
 ### Known issues
 
 - The Medusa admin UI (`/app`) does not load because `@medusajs/dashboard` is not listed as a dependency. The backend API itself works fine.
 - Product detail pages show "Out of stock" without variant selectors because the `listProducts` field query in `front/src/lib/data/products.ts` does not request `options.*` or `variants.options.*` from the Medusa API. The backend inventory is correct (verified via direct API calls and add-to-cart flow).
+
+### Production (VPS)
+
+- Store: https://tea.leodennis.top/us/store
+- Deploy guide: [doc/18-VPS-Production-Deployment.md](doc/18-VPS-Production-Deployment.md)
 
 ### Useful API commands
 

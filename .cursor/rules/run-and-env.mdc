@@ -18,6 +18,15 @@ description: 运行、环境变量与常见问题速查
 - 必需环境：`NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`；后端地址：`MEDUSA_BACKEND_URL`。
 - 中间件依赖 `MEDUSA_BACKEND_URL` 可访问 `/store/regions`。
 
+## 代码检查（仓库根目录）
+
+- 全量：`pnpm check`（先后端、后前端）
+- 仅前端：`cd front && pnpm check`（`next lint` + `tsc --noEmit`）
+- 仅后端：`cd backend && pnpm check`（`tsc --noEmit` + `eslint`）
+- 格式化：`pnpm format:check` 在各包内；根目录 `.prettierrc` 统一风格
+- VS Code/Cursor：工作区 `.vscode/settings.json` 已启用保存时 Prettier + ESLint 修复
+- 说明：`front/next.config.js` 构建仍 `ignoreDuringBuilds` / `ignoreBuildErrors`，日常严格检查请用 `pnpm check`
+
 ## 常见问题
 - 未设置 `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY`：参考 [front/check-env-variables.js](mdc:front/check-env-variables.ts)。
 - 中间件报错“regions not found”：确保后端已启动且已配置 Region（可通过种子脚本写入）。

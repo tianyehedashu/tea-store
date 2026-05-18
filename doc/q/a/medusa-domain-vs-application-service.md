@@ -22,4 +22,3 @@
 
 - 详细实现与代码片段：`doc/07-Domain-and-Application-Services.md`
 - CQRS 与复杂查询：`doc/06-CQRS-and-Complex-Queries.md`
-

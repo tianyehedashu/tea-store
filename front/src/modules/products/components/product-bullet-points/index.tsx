@@ -17,11 +17,15 @@ export default function ProductBulletPoints({
 
   return (
     <ul
-      className="list-disc pl-5 space-y-2 text-sm text-sage-800"
+      className="grid gap-2 text-sm text-sage-800"
       data-testid="product-bullet-points"
     >
       {bullets.map((point) => (
-        <li key={point} className="leading-relaxed">
+        <li key={point} className="flex gap-3 leading-relaxed">
+          <span
+            className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-brand-500"
+            aria-hidden="true"
+          />
           {point}
         </li>
       ))}

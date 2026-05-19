@@ -26,21 +26,31 @@ const TeaBasicInfo = ({ product }: TeaBasicInfoProps) => {
   }
 
   return (
-    <div className="space-y-4 rounded-2xl border border-sage-100 bg-sage-50/60 p-4">
-      <Heading level="h3" className="mb-3 text-lg font-semibold text-sage-900">
-        Origin & Terroir
-      </Heading>
+    <section className="space-y-5 rounded-[2rem] border border-sage-100 bg-white/80 p-5 shadow-sm backdrop-blur small:p-6">
+      <div className="flex flex-col gap-2 small:flex-row small:items-end small:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600">
+            Origin notes
+          </p>
+          <Heading
+            level="h3"
+            className="mt-2 font-display text-2xl font-semibold text-sage-900"
+          >
+            Terroir, softly stated.
+          </Heading>
+        </div>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-2">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        <div className="space-y-3">
           {metadata.origin_province && (
-            <div>
+            <div className="rounded-2xl bg-sage-50/70 p-4">
               <Text className="text-sm font-medium text-sage-600">Province</Text>
               <Text className="text-sage-900">{metadata.origin_province}</Text>
             </div>
           )}
           {metadata.origin_region && (
-            <div>
+            <div className="rounded-2xl bg-sage-50/70 p-4">
               <Text className="text-sm font-medium text-sage-600">
                 Specific Region
               </Text>
@@ -49,21 +59,21 @@ const TeaBasicInfo = ({ product }: TeaBasicInfoProps) => {
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-3">
           {metadata.origin_altitude && (
-            <div>
+            <div className="rounded-2xl bg-sage-50/70 p-4">
               <Text className="text-sm font-medium text-sage-600">Altitude</Text>
               <Text className="text-sage-900">{metadata.origin_altitude}</Text>
             </div>
           )}
           {metadata.origin_climate && (
-            <div>
+            <div className="rounded-2xl bg-sage-50/70 p-4">
               <Text className="text-sm font-medium text-sage-600">Climate</Text>
               <Text className="text-sage-900">{metadata.origin_climate}</Text>
             </div>
           )}
           {metadata.origin_soil && (
-            <div>
+            <div className="rounded-2xl bg-sage-50/70 p-4">
               <Text className="text-sm font-medium text-sage-600">Soil Type</Text>
               <Text className="text-sage-900">{metadata.origin_soil}</Text>
             </div>
@@ -92,7 +102,7 @@ const TeaBasicInfo = ({ product }: TeaBasicInfoProps) => {
           </Text>
         </div>
       )}
-    </div>
+    </section>
   )
 }
 

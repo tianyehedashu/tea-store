@@ -16,93 +16,98 @@ type TeaProductTabsProps = {
   product: HttpTypes.StoreProduct
 }
 
+type TeaDetailsMetadata = Record<string, unknown>
+
+const hasMetadataValue = (metadata: TeaDetailsMetadata, key: string) =>
+  Boolean(metadata[key])
+
 const TeaProductTabs = ({ product }: TeaProductTabsProps) => {
   const tabs = [
     {
       id: "brewing-guide",
-      label: "🍵 Brewing Guide",
+      label: "Brewing guide",
       component: <TeaBrewingGuide product={product} />,
     },
     {
       id: "production-info",
-      label: "🌱 Harvest & Production",
+      label: "Harvest & production",
       component: <TeaProductionInfo product={product} />,
     },
     {
       id: "storage-guide",
-      label: "📦 Storage & Care",
+      label: "Storage & care",
       component: <TeaStorageGuide product={product} />,
     },
     {
       id: "health-benefits",
-      label: "💊 Health & Wellness",
+      label: "Health & wellness",
       component: <TeaHealthBenefits product={product} />,
     },
     {
       id: "tools-recommend",
-      label: "🛠️ Tea Tools & Accessories",
+      label: "Tea tools & accessories",
       component: <TeaToolsRecommend product={product} />,
     },
     {
       id: "culture-story",
-      label: "📚 Culture & Story",
+      label: "Culture & story",
       component: <TeaCultureStory product={product} />,
     },
   ]
 
   // Filter out empty tabs based on product metadata
   const availableTabs = tabs.filter((tab) => {
-    const metadata = product.metadata as any
+    const metadata = (product.metadata ?? {}) as TeaDetailsMetadata
 
     switch (tab.id) {
       case "brewing-guide":
-        return (
-          metadata?.water_temperature ||
-          metadata?.tea_to_water_ratio ||
-          metadata?.steeping_times ||
-          metadata?.brewing_steps
-        )
+        return [
+          "water_temperature",
+          "tea_to_water_ratio",
+          "steeping_times",
+          "brewing_steps",
+        ].some((key) => hasMetadataValue(metadata, key))
 
       case "production-info":
-        return (
-          metadata?.harvest_season ||
-          metadata?.harvest_standard ||
-          metadata?.processing_methods ||
-          metadata?.vintage_year
-        )
+        return [
+          "harvest_season",
+          "harvest_standard",
+          "processing_methods",
+          "vintage_year",
+        ].some((key) => hasMetadataValue(metadata, key))
 
       case "storage-guide":
-        return (
-          metadata?.shelf_life ||
-          metadata?.storage_temperature ||
-          metadata?.storage_container ||
-          metadata?.recommended_containers
-        )
+        return [
+          "shelf_life",
+          "storage_temperature",
+          "storage_container",
+          "recommended_containers",
+        ].some((key) => hasMetadataValue(metadata, key))
 
       case "health-benefits":
-        return (
-          metadata?.active_compounds ||
-          metadata?.health_benefits ||
-          metadata?.nutritional_info ||
-          metadata?.suitable_for
-        )
+        return [
+          "active_compounds",
+          "health_benefits",
+          "nutritional_info",
+          "suitable_for",
+        ].some((key) => hasMetadataValue(metadata, key))
 
       case "tools-recommend":
-        return (
-          metadata?.essential_tools ||
-          metadata?.advanced_tools ||
-          metadata?.tea_set_recommendations ||
-          metadata?.brewing_accessories
-        )
+        return [
+          "essential_tools",
+          "advanced_tools",
+          "tea_set_recommendations",
+          "brewing_accessories",
+        ].some((key) => hasMetadataValue(metadata, key))
 
       case "culture-story":
-        return (
-          metadata?.brand_story ||
-          metadata?.tea_tradition ||
-          metadata?.farm_story ||
-          metadata?.celebrity_endorsements ||
-          metadata?.tea_master_profile
-        )
+        return [
+          "brand_story",
+          "tea_tradition",
+          "farm_story",
+          "celebrity_endorsements",
+          "tea_master_profile",
+        ].some((key) => hasMetadataValue(metadata, key))
 
       default:
         return true
@@ -114,50 +119,52 @@ const TeaProductTabs = ({ product }: TeaProductTabsProps) => {
   }
 
   return (
-    <div className="w-full">
-      {/* Tab Section Header */}
-      <div className="text-center mb-8">
-        <Heading level="h2" className="text-2xl font-bold text-grey-80 mb-2">
-          Tea Details & Information
+    <section className="w-full rounded-[2rem] border border-sage-100 bg-white p-6 shadow-sm small:p-8">
+      <div className="mb-8 max-w-2xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">
+          Deeper knowledge
+        </p>
+        <Heading
+          level="h2"
+          className="mt-3 font-display text-3xl font-semibold text-sage-900"
+        >
+          Tea details & information
         </Heading>
-        <p className="text-grey-60 max-w-2xl mx-auto">
-          Discover everything about this tea - from brewing techniques to
-          cultural heritage. Click on each section below to explore detailed
-          information.
+        <p className="mt-3 text-sm leading-6 text-sage-600">
+          Explore brewing technique, production, care, and cultural context only
+          when you want the detail.
         </p>
       </div>
 
-      {/* Accordion Tabs */}
-      <Accordion type="multiple" className="space-y-4">
-        {availableTabs.map((tab, i) => (
+      <Accordion type="multiple" className="space-y-3">
+        {availableTabs.map((tab) => (
           <Accordion.Item
             key={tab.id}
             title={tab.label}
             headingSize="medium"
             value={tab.id}
-            className="border border-grey-20 rounded-lg overflow-hidden"
+            className="overflow-hidden rounded-2xl border border-sage-100 bg-sage-50/40"
           >
-            <div className="px-6 py-4">{tab.component}</div>
+            <div className="border-t border-sage-100 bg-white px-5 py-5 small:px-6">
+              {tab.component}
+            </div>
           </Accordion.Item>
         ))}
       </Accordion>
 
-      {/* Educational Footer */}
-      <div className="mt-12 text-center p-6 bg-cream-50 rounded-lg border border-cream-200">
+      <div className="mt-8 rounded-2xl border border-cream-200 bg-cream-50 p-6">
         <Heading
           level="h3"
-          className="text-lg font-semibold text-cream-800 mb-2"
+          className="mb-2 font-display text-xl font-semibold text-cream-900"
         >
-          🌿 Tea Culture & Education
+          Tea culture, without the noise
         </Heading>
-        <p className="text-cream-700 text-sm max-w-3xl mx-auto">
-          Tea is more than just a beverage - it's a journey through culture,
-          tradition, and mindfulness. Each cup tells a story of the land, the
-          people, and the centuries-old wisdom that brings this leaf from garden
-          to your cup. Explore, taste, and discover the world of tea.
+        <p className="max-w-3xl text-sm leading-6 text-cream-800">
+          Each cup carries land, craft, and time. The page keeps that story close
+          to the purchase decision, but never lets it obscure the essentials.
         </p>
       </div>
-    </div>
+    </section>
   )
 }
 

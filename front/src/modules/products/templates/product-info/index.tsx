@@ -5,7 +5,11 @@ import BrewQuickTips from "@modules/products/components/brew-quick-tips"
 import ProductBulletPoints from "@modules/products/components/product-bullet-points"
 import ProductFlavorNotes from "@modules/products/components/product-flavor-notes"
 import ProductKeyHighlights from "@modules/products/components/product-key-highlights"
-import { getBrandName, getTeaMetadata } from "@lib/types/tea-product-metadata"
+import {
+  formatTeaType,
+  getBrandName,
+  getTeaMetadata,
+} from "@lib/types/tea-product-metadata"
 
 type ProductInfoProps = {
   product: HttpTypes.StoreProduct
@@ -14,26 +18,48 @@ type ProductInfoProps = {
 const ProductInfo = ({ product }: ProductInfoProps) => {
   const metadata = getTeaMetadata(product)
   const brandName = getBrandName(metadata)
+  const originLabel =
+    metadata.origin_region ||
+    metadata.origin_province ||
+    metadata.origin_id?.replace(/-/g, " ")
+  const summaryItems = [
+    {
+      label: "Type",
+      value: formatTeaType(metadata.tea_type) || metadata.tea_category,
+    },
+    {
+      label: "Origin",
+      value: originLabel,
+    },
+    {
+      label: "Grade",
+      value: metadata.grade,
+    },
+  ].filter((item): item is { label: string; value: string } =>
+    Boolean(item.value)
+  )
 
   return (
     <div id="product-info">
-      <div className="mx-auto flex flex-col gap-y-4 lg:max-w-[500px]">
-        {product.collection && (
-          <LocalizedClientLink
-            href={`/collections/${product.collection.handle}`}
-            className="text-sm font-medium text-sage-600 transition-colors hover:text-brand-600"
-          >
-            {product.collection.title}
-          </LocalizedClientLink>
-        )}
+      <div className="mx-auto flex flex-col gap-y-5">
+        <div className="flex flex-wrap items-center gap-3">
+          {product.collection && (
+            <LocalizedClientLink
+              href={`/collections/${product.collection.handle}`}
+              className="rounded-full border border-sage-200 bg-white px-3 py-1 text-xs font-medium text-sage-700 transition-colors hover:border-brand-300 hover:text-brand-700"
+            >
+              {product.collection.title}
+            </LocalizedClientLink>
+          )}
 
-        <Text className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">
-          {brandName}
-        </Text>
+          <Text className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">
+            {brandName}
+          </Text>
+        </div>
 
         <Heading
           level="h1"
-          className="font-display text-4xl leading-[1.08] text-sage-900 small:text-5xl"
+          className="max-w-3xl font-display text-5xl leading-[0.98] tracking-[-0.03em] text-sage-900 small:text-6xl"
           data-testid="product-title"
         >
           {product.title}
@@ -43,9 +69,27 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         <ProductBulletPoints product={product} />
         <ProductFlavorNotes product={product} />
 
+        {summaryItems.length ? (
+          <div className="grid gap-3 xsmall:grid-cols-3">
+            {summaryItems.map((item) => (
+              <div
+                key={item.label}
+                className="rounded-2xl border border-sage-100 bg-white/75 p-4"
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-sage-500">
+                  {item.label}
+                </p>
+                <p className="mt-1 text-sm font-medium capitalize text-sage-900">
+                  {item.value}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : null}
+
         {product.description && (
           <Text
-            className="text-base leading-7 text-sage-700 whitespace-pre-line"
+            className="max-w-3xl text-base leading-7 text-sage-700 whitespace-pre-line"
             data-testid="product-description"
           >
             {product.description}

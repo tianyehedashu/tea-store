@@ -22,7 +22,7 @@ type ProductActionsProps = {
 const optionsAsKeymap = (
   variantOptions: HttpTypes.StoreProductVariant["options"]
 ) => {
-  return variantOptions?.reduce((acc: Record<string, string>, varopt: any) => {
+  return variantOptions?.reduce((acc: Record<string, string>, varopt) => {
     acc[varopt.option_id] = varopt.value
     return acc
   }, {})
@@ -96,6 +96,12 @@ export default function ProductActions({
     return false
   }, [selectedVariant])
 
+  const purchaseStateLabel = !selectedVariant
+    ? "Select a size"
+    : inStock
+    ? "Ready to ship"
+    : "Currently unavailable"
+
   const actionsRef = useRef<HTMLDivElement>(null)
 
   const inView = useIntersection(actionsRef, "0px")
@@ -117,7 +123,21 @@ export default function ProductActions({
 
   return (
     <>
-      <div className="flex flex-col gap-y-4" ref={actionsRef}>
+      <div className="flex flex-col gap-y-5" ref={actionsRef}>
+        <div className="flex items-center justify-between gap-4 rounded-2xl border border-sage-100 bg-sage-50/70 px-4 py-3">
+          <span className="text-sm font-medium text-sage-800">
+            {purchaseStateLabel}
+          </span>
+          <span
+            className={
+              inStock && selectedVariant
+                ? "h-2.5 w-2.5 rounded-full bg-brand-500"
+                : "h-2.5 w-2.5 rounded-full bg-sage-300"
+            }
+            aria-hidden="true"
+          />
+        </div>
+
         <div>
           {(product.variants?.length ?? 0) > 1 && (
             <div className="flex flex-col gap-y-4">
@@ -140,7 +160,7 @@ export default function ProductActions({
           )}
         </div>
 
-        <div className="rounded-2xl bg-sage-50/80 p-4">
+        <div className="rounded-2xl border border-sage-100 bg-white p-4 shadow-sm">
           <ProductPrice product={product} variant={selectedVariant} />
 
           <ProductPurchaseMeta product={product} variant={selectedVariant} />
@@ -184,12 +204,20 @@ export default function ProductActions({
           isLoading={isAdding}
           data-testid="add-product-button"
         >
-          {!selectedVariant && !options
+          {!selectedVariant
             ? "Select variant"
             : !inStock || !isValidVariant
             ? "Out of stock"
             : "Add to cart"}
         </Button>
+        <div className="grid gap-2 text-xs text-sage-600">
+          <p className="rounded-xl bg-cream-50 px-3 py-2">
+            Carefully packed to protect aroma and leaf shape.
+          </p>
+          <p className="rounded-xl bg-sage-50 px-3 py-2">
+            Brewing guidance included for a consistent first cup.
+          </p>
+        </div>
         <MobileActions
           product={product}
           variant={selectedVariant}

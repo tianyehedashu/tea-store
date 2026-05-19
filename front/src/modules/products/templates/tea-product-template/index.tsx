@@ -10,6 +10,7 @@ import ProductCompliance from "@modules/products/components/product-compliance"
 import ProductSpecifications from "@modules/products/components/product-specifications"
 import RelatedProducts from "@modules/products/components/related-products"
 import TeaBasicInfo from "@modules/products/components/tea-basic-info"
+import TeaProductStory from "@modules/products/components/tea-product-story"
 import ProductInfo from "@modules/products/templates/product-info"
 import ProductActionsWrapper from "@modules/products/templates/product-actions-wrapper"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
@@ -85,28 +86,28 @@ const TeaProductTemplate: React.FC<TeaProductTemplateProps> = ({
     <>
       <ProductBreadcrumb product={product} />
 
-      <section className="border-t border-sage-100 bg-gradient-to-b from-cream-50/80 via-white to-white">
+      <section className="relative overflow-hidden border-t border-sage-100 bg-gradient-to-b from-cream-50 via-white to-sage-50">
+        <div className="pointer-events-none absolute -left-24 top-0 h-96 w-96 rounded-full bg-brand-100/70 blur-3xl" />
+        <div className="pointer-events-none absolute left-8 top-16 hidden h-44 w-px bg-gradient-to-b from-transparent via-brand-300/60 to-transparent large:block" />
+        <div className="pointer-events-none absolute right-0 top-24 h-64 w-64 rounded-full bg-cream-200/35 blur-3xl" />
         <div
-          className="content-container grid gap-6 py-8 small:py-12 large:grid-cols-[minmax(0,420px)_minmax(420px,560px)_minmax(320px,380px)] large:items-start large:gap-10 xlarge:gap-14"
+          className="content-container relative grid gap-8 py-8 small:py-12 large:grid-cols-[minmax(0,1fr)_minmax(330px,390px)] large:items-start large:gap-12 xlarge:gap-16"
           data-testid="tea-product-container"
         >
-          <div className="order-2 flex w-full flex-col gap-y-5 rounded-[2rem] border border-sage-100 bg-white/85 p-5 shadow-sm backdrop-blur small:p-6 large:sticky large:top-28 large:order-1">
+          <div className="flex min-w-0 flex-col gap-8">
             <ProductInfo product={product} />
+            <ImageGallery images={product?.images || []} />
             <TeaBasicInfo product={product} />
           </div>
 
-          <div className="order-1 w-full large:order-2">
-            <ImageGallery images={product?.images || []} />
-          </div>
-
-          <aside className="order-3 w-full rounded-[2rem] border border-sage-100 bg-white p-5 shadow-[0_24px_70px_rgba(49,66,49,0.10)] small:p-6 large:sticky large:top-28">
+          <aside className="w-full rounded-[2rem] border border-sage-100 bg-white/92 p-5 shadow-[0_24px_70px_rgba(49,66,49,0.10)] backdrop-blur small:p-6 large:sticky large:top-28">
             <div className="mb-5 border-b border-sage-100 pb-4">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">
-                Reserve your tea
+                Reserve the ritual
               </p>
               <p className="mt-2 text-sm leading-6 text-sage-600">
-                Select a size, review the harvest notes, and add this blend to
-                your cart.
+                Choose a size, review the essentials, and keep the purchase path
+                calm and clear.
               </p>
             </div>
             <div className="flex flex-col gap-y-6">
@@ -128,6 +129,7 @@ const TeaProductTemplate: React.FC<TeaProductTemplateProps> = ({
       </section>
 
       <div className="content-container my-12 space-y-10 small:my-16">
+        <TeaProductStory product={product} />
         <ProductSpecifications product={product} />
         <TeaProductTabs product={product} />
         <ProductCompliance product={product} />

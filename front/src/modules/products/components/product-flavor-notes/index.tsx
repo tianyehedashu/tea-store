@@ -25,14 +25,14 @@ export default function ProductFlavorNotes({
     <div className="space-y-3" data-testid="product-flavor-notes">
       {notes.length > 0 && (
         <div>
-          <p className="text-xs font-medium text-sage-700 uppercase tracking-wide mb-2">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-sage-500">
             Flavor notes
           </p>
           <div className="flex flex-wrap gap-1.5">
             {notes.map((note) => (
               <span
                 key={note}
-                className="inline-block px-3 py-1 text-xs bg-sage-50 text-sage-700 rounded-full border border-sage-200 capitalize"
+                className="inline-block rounded-full border border-sage-200 bg-white/80 px-3 py-1 text-xs capitalize text-sage-700 shadow-sm"
               >
                 {note}
               </span>

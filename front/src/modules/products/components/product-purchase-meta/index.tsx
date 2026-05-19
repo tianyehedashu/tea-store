@@ -24,7 +24,7 @@ export default function ProductPurchaseMeta({
 
   return (
     <div
-      className="flex flex-col gap-1 text-xs text-sage-600"
+      className="mt-3 flex flex-col gap-1 border-t border-sage-100 pt-3 text-xs text-sage-600"
       data-testid="product-purchase-meta"
     >
       {sku && (

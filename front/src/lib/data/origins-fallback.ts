@@ -2,11 +2,18 @@ import { ORIGIN_CATALOG, OriginCatalogEntry } from "@lib/constants/origin-catalo
 import { resolveMedusaAssetUrl } from "@lib/util/medusa-image-url"
 import { OriginDTO } from "./cms/types"
 
-function catalogEntryToOrigin(entry: OriginCatalogEntry): OriginDTO {
-  const imageUrl = entry.heroImagePath
-    ? resolveMedusaAssetUrl(entry.heroImagePath)
-    : undefined
+function resolveCatalogHeroImage(path?: string): OriginDTO["heroImage"] {
+  if (!path) {
+    return undefined
+  }
+  if (path.startsWith("/images/")) {
+    return { path }
+  }
+  const url = resolveMedusaAssetUrl(path)
+  return url ? { url } : undefined
+}
 
+function catalogEntryToOrigin(entry: OriginCatalogEntry): OriginDTO {
   return {
     id: `fallback-${entry.slug}`,
     title: entry.title,
@@ -24,7 +31,7 @@ function catalogEntryToOrigin(entry: OriginCatalogEntry): OriginDTO {
     highlights: entry.highlights,
     teaStyles: entry.teaStyles,
     history: entry.history,
-    heroImage: imageUrl ? { url: imageUrl } : undefined,
+    heroImage: resolveCatalogHeroImage(entry.heroImagePath),
     products: entry.productHandles.map((handle) => ({ handle })),
   }
 }

@@ -18,7 +18,7 @@ export type OriginCatalogEntry = {
   highlights?: string[]
   teaStyles?: string[]
   history?: string
-  /** Medusa /static 路径，如 /static/longjing-1.jpg */
+  /** Next public 路径，如 /images/origins/longjing-hero.jpg */
   heroImagePath?: string
   productHandles: string[]
 }
@@ -49,7 +49,7 @@ export const ORIGIN_CATALOG: OriginCatalogEntry[] = [
     ],
     history:
       "Longjing received imperial favor during the Qing dynasty and remains a benchmark for Chinese green tea. The name refers to an old well whose water was said to twist like a dragon—local lore still shapes how the tea is marketed and enjoyed today.",
-    heroImagePath: "/static/longjing-1.jpg",
+    heroImagePath: "/images/origins/longjing-hero.jpg",
     productHandles: ["longjing-green-tea"],
   },
   {
@@ -77,7 +77,7 @@ export const ORIGIN_CATALOG: OriginCatalogEntry[] = [
     ],
     history:
       "Legends tie Tieguanyin to a devout farmer and a vision of Guanyin; whether myth or marketing, the cultivar has defined Anxi's economy for centuries. Modern gardens blend heritage processing with selective oxidation for export and specialty markets.",
-    heroImagePath: "/static/tieguanyin-1.jpg",
+    heroImagePath: "/images/origins/anxi-hero.jpg",
     productHandles: ["tieguanyin-oolong"],
   },
   {
@@ -109,7 +109,7 @@ export const ORIGIN_CATALOG: OriginCatalogEntry[] = [
     ],
     history:
       "Yunnan is often cited as a cradle of tea culture, with trade routes carrying compressed tea north for centuries. Today's market blends village maocha with factory blending—transparency in harvest year and fermentation matters for serious drinkers.",
-    heroImagePath: "/static/dianhong-1.jpg",
+    heroImagePath: "/images/origins/yunnan-hero.jpg",
     productHandles: ["yunnan-dianhong-black", "shu-puer-cake-2019"],
   },
   {
@@ -137,7 +137,7 @@ export const ORIGIN_CATALOG: OriginCatalogEntry[] = [
     ],
     history:
       "White tea's commercial rise is relatively recent compared to green or oolong, yet Fujian processors have codified grades around bud count and leaf ratio. Export demand has expanded gardens while rewarding hand-picked spring lots.",
-    heroImagePath: "/static/silver-needle-1.jpg",
+    heroImagePath: "/images/origins/fujian-hero.jpg",
     productHandles: ["silver-needle-white-tea"],
   },
 ]

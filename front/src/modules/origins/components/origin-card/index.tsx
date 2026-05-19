@@ -1,10 +1,10 @@
 import Image from "next/image"
 import { OriginDTO } from "@lib/data/cms/types"
-import { resolveSanityImageUrl } from "@lib/util/sanity-image-url"
+import { resolveOriginHeroImageUrl } from "@lib/util/origin-hero-image"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 export default function OriginCard({ origin }: { origin: OriginDTO }) {
-  const imageUrl = resolveSanityImageUrl(origin.heroImage, 600)
+  const imageUrl = resolveOriginHeroImageUrl(origin.heroImage, 800)
   const location = [origin.mountain, origin.region, origin.country]
     .filter(Boolean)
     .join(" · ")
@@ -20,7 +20,8 @@ export default function OriginCard({ origin }: { origin: OriginDTO }) {
             src={imageUrl}
             alt={origin.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+            quality={85}
             sizes="(max-width: 768px) 100vw, 33vw"
           />
         ) : (

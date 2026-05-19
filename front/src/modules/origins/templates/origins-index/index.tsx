@@ -1,7 +1,6 @@
 import { OriginDTO } from "@lib/data/cms/types"
 import EmptyState from "@modules/common/components/empty-state"
-import PageHero from "@modules/common/components/page-hero"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import OriginsIndexHero from "@modules/origins/components/origins-index-hero"
 import OriginCard from "@modules/origins/components/origin-card"
 
 export default function OriginsIndexTemplate({
@@ -10,18 +9,10 @@ export default function OriginsIndexTemplate({
   origins: OriginDTO[]
 }) {
   return (
-    <div className="min-h-screen bg-white">
-      <PageHero
-        eyebrow="Tea Origins"
-        title="Where every leaf begins"
-        description="Explore mountain gardens, regional terroir, and the flavor profiles that shape each harvest. Every Zentee tea is tied to a place you can trust."
-      >
-        <LocalizedClientLink href="/store" className="brand-cta text-sm">
-          Shop by origin
-        </LocalizedClientLink>
-      </PageHero>
+    <div className="min-h-screen bg-cream-50/30">
+      <OriginsIndexHero />
 
-      <section className="content-container py-12">
+      <section className="content-container py-12 small:py-16">
         {origins.length === 0 ? (
           <EmptyState
             title="Origins coming soon"
@@ -32,13 +23,19 @@ export default function OriginsIndexTemplate({
             secondaryHref="/guides"
           />
         ) : (
-          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {origins.map((origin) => (
-              <li key={origin.id}>
-                <OriginCard origin={origin} />
-              </li>
-            ))}
-          </ul>
+          <>
+            <p className="text-center text-sage-600 max-w-2xl mx-auto mb-10">
+              {origins.length} growing regions in our current collection — select
+              a origin to read about terroir, flavor, and linked teas.
+            </p>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-10">
+              {origins.map((origin) => (
+                <li key={origin.id}>
+                  <OriginCard origin={origin} />
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </section>
     </div>

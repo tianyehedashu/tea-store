@@ -117,7 +117,7 @@ export default function ProductActions({
 
   return (
     <>
-      <div className="flex flex-col gap-y-2" ref={actionsRef}>
+      <div className="flex flex-col gap-y-4" ref={actionsRef}>
         <div>
           {(product.variants?.length ?? 0) > 1 && (
             <div className="flex flex-col gap-y-4">
@@ -140,12 +140,17 @@ export default function ProductActions({
           )}
         </div>
 
-        <ProductPrice product={product} variant={selectedVariant} />
+        <div className="rounded-2xl bg-sage-50/80 p-4">
+          <ProductPrice product={product} variant={selectedVariant} />
 
-        <ProductPurchaseMeta product={product} variant={selectedVariant} />
+          <ProductPurchaseMeta product={product} variant={selectedVariant} />
+        </div>
 
         <div className="flex flex-col gap-y-2">
-          <label className="text-sm text-sage-700" htmlFor="product-quantity">
+          <label
+            className="text-sm font-medium text-sage-800"
+            htmlFor="product-quantity"
+          >
             Quantity
           </label>
           <select
@@ -153,7 +158,7 @@ export default function ProductActions({
             value={quantity}
             onChange={(e) => setQuantity(Number(e.target.value))}
             disabled={!!disabled || isAdding || !selectedVariant}
-            className="h-10 px-3 border border-sage-200 rounded-lg text-sm text-sage-900 bg-white focus:outline-none focus:ring-1 focus:ring-brand-200 focus:border-brand-400"
+            className="h-11 rounded-xl border border-sage-200 bg-white px-3 text-sm text-sage-900 focus:border-brand-400 focus:outline-none focus:ring-1 focus:ring-brand-200"
             data-testid="product-quantity-select"
             aria-label="Quantity"
           >
@@ -175,7 +180,7 @@ export default function ProductActions({
             !isValidVariant
           }
           variant="primary"
-          className="w-full h-10"
+          className="h-12 w-full rounded-xl bg-brand-700 text-white shadow-sm transition hover:bg-brand-800 disabled:bg-sage-200 disabled:text-sage-500"
           isLoading={isAdding}
           data-testid="add-product-button"
         >

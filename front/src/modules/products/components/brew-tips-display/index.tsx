@@ -9,35 +9,37 @@ type BrewTipsDisplayProps = {
 export default function BrewTipsDisplay({
   brew,
   title = "Quick Brew",
-  className = "rounded-2xl border border-sage-200 bg-sage-50/50 p-6",
+  className = "rounded-2xl border border-sage-100 bg-gradient-to-br from-sage-50 to-cream-50/70 p-5 shadow-sm",
 }: BrewTipsDisplayProps) {
   return (
     <div className={className}>
-      <p className="text-base font-semibold mb-2">{title}</p>
+      <p className="mb-3 text-base font-semibold text-sage-900">{title}</p>
       <div className="grid grid-cols-2 gap-3 text-sm">
         {typeof brew.waterTempC === "number" && (
-          <div>
+          <div className="rounded-xl bg-white/70 p-3">
             <div className="text-sage-500">Water Temp</div>
-            <div className="font-medium">{brew.waterTempC} C</div>
+            <div className="font-medium text-sage-900">{brew.waterTempC} C</div>
           </div>
         )}
         {typeof brew.leafGramPer100ml === "number" && (
-          <div>
+          <div className="rounded-xl bg-white/70 p-3">
             <div className="text-sage-500">Leaf / 100ml</div>
-            <div className="font-medium">{brew.leafGramPer100ml} g</div>
+            <div className="font-medium text-sage-900">
+              {brew.leafGramPer100ml} g
+            </div>
           </div>
         )}
         {typeof brew.brewTimes === "number" && (
-          <div>
+          <div className="rounded-xl bg-white/70 p-3">
             <div className="text-sage-500">Times</div>
-            <div className="font-medium">{brew.brewTimes}x</div>
+            <div className="font-medium text-sage-900">{brew.brewTimes}x</div>
           </div>
         )}
       </div>
       {brew.timePlan?.length ? (
         <div className="mt-3">
-          <div className="text-sage-500 text-sm mb-1">Time Plan</div>
-          <ul className="list-disc list-inside text-sm">
+          <div className="mb-1 text-sm text-sage-500">Time Plan</div>
+          <ul className="list-inside list-disc text-sm text-sage-800">
             {brew.timePlan.map((t, idx) => (
               <li key={idx}>
                 {typeof t.time_s === "number" ? `${t.time_s}s` : "-"}
@@ -49,8 +51,8 @@ export default function BrewTipsDisplay({
       ) : null}
       {brew.tips ? (
         <div className="mt-3 text-sm">
-          <div className="text-sage-500 mb-1">Tips</div>
-          <p className="whitespace-pre-line">{brew.tips}</p>
+          <div className="mb-1 text-sage-500">Tips</div>
+          <p className="whitespace-pre-line text-sage-800">{brew.tips}</p>
         </div>
       ) : null}
     </div>

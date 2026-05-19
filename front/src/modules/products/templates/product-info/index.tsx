@@ -17,23 +17,23 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
 
   return (
     <div id="product-info">
-      <div className="flex flex-col gap-y-4 lg:max-w-[500px] mx-auto">
+      <div className="mx-auto flex flex-col gap-y-4 lg:max-w-[500px]">
         {product.collection && (
           <LocalizedClientLink
             href={`/collections/${product.collection.handle}`}
-            className="text-sm text-sage-600 hover:text-brand-600 transition-colors"
+            className="text-sm font-medium text-sage-600 transition-colors hover:text-brand-600"
           >
             {product.collection.title}
           </LocalizedClientLink>
         )}
 
-        <Text className="text-sm font-medium text-brand-600 uppercase tracking-wide">
+        <Text className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">
           {brandName}
         </Text>
 
         <Heading
           level="h1"
-          className="font-display text-3xl leading-10 text-sage-900"
+          className="font-display text-4xl leading-[1.08] text-sage-900 small:text-5xl"
           data-testid="product-title"
         >
           {product.title}
@@ -45,7 +45,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
 
         {product.description && (
           <Text
-            className="text-sm text-sage-600 leading-relaxed whitespace-pre-line"
+            className="text-base leading-7 text-sage-700 whitespace-pre-line"
             data-testid="product-description"
           >
             {product.description}

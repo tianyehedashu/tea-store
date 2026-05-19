@@ -25,20 +25,25 @@ export default function ProductSpecifications({
 
   return (
     <section
-      className="w-full border border-sage-200 rounded-xl p-6 bg-white"
+      className="w-full rounded-[2rem] border border-sage-100 bg-white p-6 shadow-sm small:p-8"
       data-testid="product-specifications"
     >
-      <Heading level="h2" className="text-xl font-semibold text-sage-900 mb-6">
+      <Heading level="h2" className="mb-6 text-2xl font-semibold text-sage-900">
         Product details
       </Heading>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 text-small-regular">
+      <div className="grid grid-cols-1 gap-x-12 gap-y-4 text-small-regular md:grid-cols-2">
         {[left, right].map((column, colIndex) => (
           <div key={colIndex} className="flex flex-col gap-y-4">
             {column.map((row) => (
-              <div key={row.label}>
-                <span className="font-semibold text-sage-800">{row.label}</span>
+              <div
+                key={row.label}
+                className="rounded-2xl bg-sage-50/70 px-4 py-3"
+              >
+                <span className="text-xs font-semibold uppercase tracking-wide text-sage-500">
+                  {row.label}
+                </span>
                 {row.href ? (
-                  <p className="text-sage-700 capitalize">
+                  <p className="mt-1 text-sage-800 capitalize">
                     <LocalizedClientLink
                       href={row.href}
                       className="text-brand-600 hover:text-brand-700"
@@ -47,7 +52,7 @@ export default function ProductSpecifications({
                     </LocalizedClientLink>
                   </p>
                 ) : (
-                  <p className="text-sage-700">{row.value}</p>
+                  <p className="mt-1 text-sage-800">{row.value}</p>
                 )}
               </div>
             ))}

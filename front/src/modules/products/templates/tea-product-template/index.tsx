@@ -85,36 +85,49 @@ const TeaProductTemplate: React.FC<TeaProductTemplateProps> = ({
     <>
       <ProductBreadcrumb product={product} />
 
-      <div
-        className="content-container flex flex-col large:flex-row large:items-start py-6 relative gap-8"
-        data-testid="tea-product-container"
-      >
-        <div className="flex flex-col large:sticky large:top-48 large:py-0 large:max-w-[380px] w-full py-8 gap-y-6">
-          <ProductInfo product={product} />
-          <TeaBasicInfo product={product} />
-        </div>
+      <section className="border-t border-sage-100 bg-gradient-to-b from-cream-50/80 via-white to-white">
+        <div
+          className="content-container grid gap-6 py-8 small:py-12 large:grid-cols-[minmax(0,420px)_minmax(420px,560px)_minmax(320px,380px)] large:items-start large:gap-10 xlarge:gap-14"
+          data-testid="tea-product-container"
+        >
+          <div className="order-2 flex w-full flex-col gap-y-5 rounded-[2rem] border border-sage-100 bg-white/85 p-5 shadow-sm backdrop-blur small:p-6 large:sticky large:top-28 large:order-1">
+            <ProductInfo product={product} />
+            <TeaBasicInfo product={product} />
+          </div>
 
-        <div className="block w-full relative large:max-w-[500px]">
-          <ImageGallery images={product?.images || []} />
-        </div>
+          <div className="order-1 w-full large:order-2">
+            <ImageGallery images={product?.images || []} />
+          </div>
 
-        <div className="flex flex-col large:sticky large:top-48 large:py-0 large:max-w-[320px] w-full py-8 gap-y-12">
-          <ProductOnboardingCta />
-          <Suspense
-            fallback={
-              <ProductActions
-                disabled={true}
-                product={product}
-                region={region}
-              />
-            }
-          >
-            <ProductActionsWrapper id={product.id} region={region} />
-          </Suspense>
+          <aside className="order-3 w-full rounded-[2rem] border border-sage-100 bg-white p-5 shadow-[0_24px_70px_rgba(49,66,49,0.10)] small:p-6 large:sticky large:top-28">
+            <div className="mb-5 border-b border-sage-100 pb-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">
+                Reserve your tea
+              </p>
+              <p className="mt-2 text-sm leading-6 text-sage-600">
+                Select a size, review the harvest notes, and add this blend to
+                your cart.
+              </p>
+            </div>
+            <div className="flex flex-col gap-y-6">
+              <ProductOnboardingCta />
+              <Suspense
+                fallback={
+                  <ProductActions
+                    disabled={true}
+                    product={product}
+                    region={region}
+                  />
+                }
+              >
+                <ProductActionsWrapper id={product.id} region={region} />
+              </Suspense>
+            </div>
+          </aside>
         </div>
-      </div>
+      </section>
 
-      <div className="content-container my-12 space-y-12">
+      <div className="content-container my-12 space-y-10 small:my-16">
         <ProductSpecifications product={product} />
         <TeaProductTabs product={product} />
         <ProductCompliance product={product} />

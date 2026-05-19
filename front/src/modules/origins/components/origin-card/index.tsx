@@ -50,6 +50,11 @@ export default function OriginCard({ origin }: { origin: OriginDTO }) {
         </div>
       </div>
       <div className="p-5 space-y-3">
+        {origin.summary ? (
+          <p className="text-sm text-sage-600 leading-relaxed line-clamp-3">
+            {origin.summary}
+          </p>
+        ) : null}
         {origin.flavorProfile?.length ? (
           <div className="flex flex-wrap gap-1.5">
             {origin.flavorProfile.slice(0, 4).map((note) => (
@@ -58,11 +63,7 @@ export default function OriginCard({ origin }: { origin: OriginDTO }) {
               </span>
             ))}
           </div>
-        ) : (
-          <p className="text-sm text-sage-600">
-            Explore terroir, flavor, and teas from this origin.
-          </p>
-        )}
+        ) : null}
         <span className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 group-hover:text-brand-700">
           View origin
           <svg

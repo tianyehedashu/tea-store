@@ -6,6 +6,7 @@ import { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import Divider from "@modules/common/components/divider"
 import OptionSelect from "@modules/products/components/product-actions/option-select"
+import ProductPurchaseMeta from "@modules/products/components/product-purchase-meta"
 import { isEqual } from "lodash"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
@@ -32,6 +33,7 @@ export default function ProductActions({
   disabled,
 }: ProductActionsProps) {
   const [options, setOptions] = useState<Record<string, string | undefined>>({})
+  const [quantity, setQuantity] = useState(1)
   const [isAdding, setIsAdding] = useState(false)
   const countryCode = useParams().countryCode as string
 
@@ -106,7 +108,7 @@ export default function ProductActions({
 
     await addToCart({
       variantId: selectedVariant.id,
-      quantity: 1,
+      quantity,
       countryCode,
     })
 
@@ -139,6 +141,29 @@ export default function ProductActions({
         </div>
 
         <ProductPrice product={product} variant={selectedVariant} />
+
+        <ProductPurchaseMeta product={product} variant={selectedVariant} />
+
+        <div className="flex flex-col gap-y-2">
+          <label className="text-sm text-sage-700" htmlFor="product-quantity">
+            Quantity
+          </label>
+          <select
+            id="product-quantity"
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            disabled={!!disabled || isAdding || !selectedVariant}
+            className="h-10 px-3 border border-sage-200 rounded-lg text-sm text-sage-900 bg-white focus:outline-none focus:ring-1 focus:ring-brand-200 focus:border-brand-400"
+            data-testid="product-quantity-select"
+            aria-label="Quantity"
+          >
+            {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <Button
           onClick={handleAddToCart}

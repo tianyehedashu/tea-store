@@ -42,10 +42,34 @@ flowchart TD
 
 1. 创建 Sanity 项目/数据集；
 2. 定义 `Origin`/`BrewingGuide` Schema 与 Studio；
-3. 配置环境变量：`SANITY_PROJECT_ID`、`SANITY_DATASET`、`SANITY_API_READ_TOKEN`、`SANITY_STUDIO_URL`；
+3. 配置环境变量：`SANITY_PROJECT_ID`、`SANITY_DATASET`、`SANITY_API_READ_TOKEN`、`SANITY_STUDIO_URL`（见 `front/.env.example`）；
 4. 在 Next.js 服务器端实现 GROQ 查询与 DTO 映射；
 5. 配置 Webhook → `/api/revalidate`（签名）；
 6. 商品页整合 Quick Brew 回落逻辑。
+
+### 5.1 Origins 页为何空白 & 如何补充
+
+| 现象 | 原因 |
+|------|------|
+| 列表只有 Hero +「Origins coming soon」 | Sanity 未配置、Token 无效，或数据集里没有任何 `_type == "origin"` 文档 |
+| `/origins/[slug]` 404 | slug 与商品 `metadata.origin_id` 不一致 |
+
+**本地开发（无 Sanity）**：前端已内置回落目录 `front/src/lib/constants/origin-catalog.ts`，与 `backend` seed 的 `origin_id` 对齐。配置好 `MEDUSA_BACKEND_URL` 并执行 `pnpm seed` 后，访问 `/us/origins` 即可看到 4 个产地卡片及详情（图片走 Medusa `/static`）。
+
+**生产 / 完整 CMS**：在 Sanity Studio 新建 `Origin` 文档，**`slug` 必须与 seed 一致**：
+
+| slug | 标题建议 | 关联商品 handle（related_products） |
+|------|----------|-------------------------------------|
+| `longjing` | West Lake Longjing | `longjing-green-tea` |
+| `anxi` | Anxi Oolong Country | `tieguanyin-oolong` |
+| `yunnan` | Yunnan Highlands | `yunnan-dianhong-black`, `shu-puer-cake-2019` |
+| `fujian` | Fujian White Tea Gardens | `silver-needle-white-tea` |
+
+发布后调用 Webhook 或等待 ISR（`revalidate = 600`）刷新。Sanity 有数据时**优先使用 CMS**，回落目录不再展示。
+
+数据读取入口：`getOrigins` / `getOriginBySlug`（`front/src/lib/data/origins.ts`）。
+
+**仓库内完整文案**：`front/src/lib/constants/origin-catalog.ts`（含 summary、description、terroir、highlights、history）。Sanity 仅有部分字段时，会自动用 catalog 补全缺失段落（图片与关联商品仍以 CMS 为准）。
 
 ## 6. GROQ 查询示例
 

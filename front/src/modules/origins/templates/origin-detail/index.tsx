@@ -3,6 +3,7 @@ import { OriginDTO } from "@lib/data/cms/types"
 import { resolveSanityImageUrl } from "@lib/util/sanity-image-url"
 import ProductsByHandles from "@modules/common/components/products-by-handles"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import OriginTerroirGrid from "@modules/origins/components/origin-terroir-grid"
 
 export default function OriginDetailTemplate({
   origin,
@@ -47,15 +48,40 @@ export default function OriginDetailTemplate({
           {location ? (
             <p className="mt-3 text-lg text-white/90">{location}</p>
           ) : null}
+          {origin.summary ? (
+            <p className="mt-4 text-base text-white/85 max-w-2xl leading-relaxed">
+              {origin.summary}
+            </p>
+          ) : null}
         </div>
       </section>
 
       <article className="content-container py-12 space-y-12 max-w-4xl">
+        {origin.description ? (
+          <section className="space-y-4">
+            <h2 className="text-xl font-semibold text-sage-900">About this origin</h2>
+            <p className="text-sage-700 leading-relaxed text-base">
+              {origin.description}
+            </p>
+          </section>
+        ) : null}
+
+        <OriginTerroirGrid origin={origin} />
+
+        {origin.teaStyles?.length ? (
+          <section className="space-y-4">
+            <h2 className="text-xl font-semibold text-sage-900">Tea styles</h2>
+            <ul className="list-disc list-inside space-y-2 text-sage-700">
+              {origin.teaStyles.map((style) => (
+                <li key={style}>{style}</li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
         {origin.flavorProfile?.length ? (
           <section className="space-y-4">
-            <h2 className="text-xl font-semibold text-sage-900">
-              Flavor profile
-            </h2>
+            <h2 className="text-xl font-semibold text-sage-900">Flavor profile</h2>
             <div className="flex flex-wrap gap-2">
               {origin.flavorProfile.map((note) => (
                 <span key={note} className="brand-badge capitalize text-sm">
@@ -67,6 +93,33 @@ export default function OriginDetailTemplate({
               Teas from this origin often express these notes in the cup. Use
               them as a guide when choosing your next loose-leaf selection.
             </p>
+          </section>
+        ) : null}
+
+        {origin.highlights?.length ? (
+          <section className="space-y-4">
+            <h2 className="text-xl font-semibold text-sage-900">Why it matters</h2>
+            <ul className="space-y-3">
+              {origin.highlights.map((item) => (
+                <li
+                  key={item}
+                  className="flex gap-3 text-sage-700 leading-relaxed"
+                >
+                  <span
+                    className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500"
+                    aria-hidden
+                  />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
+        {origin.history ? (
+          <section className="space-y-4 rounded-2xl border border-sage-200 bg-cream-50/80 p-6">
+            <h2 className="text-xl font-semibold text-sage-900">History & culture</h2>
+            <p className="text-sage-700 leading-relaxed">{origin.history}</p>
           </section>
         ) : null}
 

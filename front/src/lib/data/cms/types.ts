@@ -8,6 +8,17 @@ export type OriginDTO = {
   flavorProfile?: string[]
   heroImage?: unknown
   products?: { handle: string }[]
+  /** 列表卡片摘要 */
+  summary?: string
+  /** 详情页导语 */
+  description?: string
+  climate?: string
+  soil?: string
+  altitude?: string
+  harvestSeason?: string
+  highlights?: string[]
+  teaStyles?: string[]
+  history?: string
 }
 
 export type BrewingGuideDTO = {

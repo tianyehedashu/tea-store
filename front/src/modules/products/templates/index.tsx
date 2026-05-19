@@ -3,6 +3,9 @@ import React, { Suspense } from "react"
 import ImageGallery from "@modules/products/components/image-gallery"
 import ProductActions from "@modules/products/components/product-actions"
 import ProductOnboardingCta from "@modules/products/components/product-onboarding-cta"
+import ProductBreadcrumb from "@modules/products/components/product-breadcrumb"
+import ProductCompliance from "@modules/products/components/product-compliance"
+import ProductSpecifications from "@modules/products/components/product-specifications"
 import ProductTabs from "@modules/products/components/product-tabs"
 import RelatedProducts from "@modules/products/components/related-products"
 import ProductInfo from "@modules/products/templates/product-info"
@@ -18,19 +21,15 @@ type ProductTemplateProps = {
   countryCode: string
 }
 
-// Helper function to detect if a product is tea-related
 const isTeaProduct = (product: HttpTypes.StoreProduct): boolean => {
-  // Check metadata for tea_type
   if (product.metadata?.tea_type) {
     return true
   }
 
-  // Check product type
   if (product.type?.value?.toLowerCase().includes("tea")) {
     return true
   }
 
-  // Check categories
   if (
     product.categories?.some(
       (cat) =>
@@ -41,12 +40,10 @@ const isTeaProduct = (product: HttpTypes.StoreProduct): boolean => {
     return true
   }
 
-  // Check collection
   if (product.collection?.handle?.toLowerCase().includes("tea")) {
     return true
   }
 
-  // Check title/description for tea keywords
   const teaKeywords = [
     "tea",
     "cha",
@@ -71,7 +68,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     return notFound()
   }
 
-  // Use tea-specific template for tea products
   if (isTeaProduct(product)) {
     return (
       <TeaProductTemplate
@@ -82,9 +78,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     )
   }
 
-  // Default template for non-tea products
   return (
     <>
+      <ProductBreadcrumb product={product} />
       <div
         className="content-container flex flex-col small:flex-row small:items-start py-6 relative"
         data-testid="product-container"
@@ -110,6 +106,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
             <ProductActionsWrapper id={product.id} region={region} />
           </Suspense>
         </div>
+      </div>
+      <div className="content-container my-12 space-y-12">
+        <ProductSpecifications product={product} />
+        <ProductCompliance product={product} />
       </div>
       <div
         className="content-container my-16 small:my-32"

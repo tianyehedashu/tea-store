@@ -25,7 +25,7 @@ export default function OriginsIndexTemplate({
         {origins.length === 0 ? (
           <EmptyState
             title="Origins coming soon"
-            description="We are publishing origin stories in Sanity. Browse our full tea collection while new regions go live."
+            description="Origin profiles are being updated. Browse our full tea collection or check back soon for new regions."
             actionLabel="Browse all teas"
             actionHref="/store"
             secondaryLabel="Brewing guides"

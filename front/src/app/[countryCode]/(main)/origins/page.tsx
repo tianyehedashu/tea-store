@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { getOriginsCMS } from "@lib/data/sanity"
+import { getOrigins } from "@lib/data/origins"
 import { listRegions } from "@lib/data/regions"
 import OriginsIndexTemplate from "@modules/origins/templates/origins-index"
 
@@ -24,12 +24,6 @@ export async function generateStaticParams() {
 }
 
 export default async function OriginsIndex() {
-  let origins = [] as Awaited<ReturnType<typeof getOriginsCMS>>
-  try {
-    origins = await getOriginsCMS()
-  } catch {
-    origins = []
-  }
-
+  const origins = await getOrigins()
   return <OriginsIndexTemplate origins={origins} />
 }

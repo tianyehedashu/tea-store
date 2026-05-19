@@ -2,10 +2,25 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
+import { getBrandName, getTeaMetadata } from "@lib/types/tea-product-metadata"
+import ProductJsonLd from "@modules/products/components/product-json-ld"
 import ProductTemplate from "@modules/products/templates"
 
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
+}
+
+const SITE_NAME = "Zentee"
+
+function truncateDescription(text: string | null | undefined, max = 160): string {
+  if (!text) {
+    return ""
+  }
+  const trimmed = text.replace(/\s+/g, " ").trim()
+  if (trimmed.length <= max) {
+    return trimmed
+  }
+  return `${trimmed.slice(0, max - 1)}…`
 }
 
 export async function generateStaticParams() {
@@ -68,13 +83,21 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
+  const metadata = getTeaMetadata(product)
+  const brand = getBrandName(metadata)
+  const description = truncateDescription(product.description)
+
   return {
-    title: `${product.title} | Medusa Store`,
-    description: `${product.title}`,
+    title: `${product.title} | ${brand} | ${SITE_NAME}`,
+    description: description || `${product.title} — ${brand}`,
     openGraph: {
-      title: `${product.title} | Medusa Store`,
-      description: `${product.title}`,
-      images: product.thumbnail ? [product.thumbnail] : [],
+      title: `${product.title} | ${SITE_NAME}`,
+      description: description || product.title,
+      images: product.images?.[0]?.url
+        ? [product.images[0].url]
+        : product.thumbnail
+          ? [product.thumbnail]
+          : [],
     },
   }
 }
@@ -97,10 +120,13 @@ export default async function ProductPage(props: Props) {
   }
 
   return (
-    <ProductTemplate
-      product={pricedProduct}
-      region={region}
-      countryCode={params.countryCode}
-    />
+    <>
+      <ProductJsonLd product={pricedProduct} countryCode={params.countryCode} />
+      <ProductTemplate
+        product={pricedProduct}
+        region={region}
+        countryCode={params.countryCode}
+      />
+    </>
   )
 }

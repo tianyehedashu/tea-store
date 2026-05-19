@@ -487,6 +487,22 @@ export default async function seedDemoData({ container }: ExecArgs) {
 
   // Removed apparel products - focusing only on tea products
 
+  const teaListingMetadata = (
+    overrides: Record<string, unknown>
+  ): Record<string, unknown> => ({
+    brand_name: "Zentee",
+    item_form: "Loose Leaf",
+    unit_count: 1,
+    manufacturer: "Zentee Tea Co.",
+    ingredients: "100% tea leaves.",
+    allergen_information:
+      "Packed in a facility that may also process tree nuts and gluten.",
+    legal_disclaimer:
+      "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+    country_of_origin: "China",
+    ...overrides,
+  })
+
   // Additional tea products for Tea Store domain
   const teaProducts = [
     {
@@ -498,6 +514,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
         "Early spring pan-roasted green tea from Hangzhou. Fresh, sweet, and nutty with chestnut notes.",
       handle: "longjing-green-tea",
       weight: 200,
+      origin_country: "cn",
       status: ProductStatus.PUBLISHED,
       shipping_profile_id: shippingProfile.id,
       thumbnail: backendStatic("longjing-1.jpg"),
@@ -506,6 +523,17 @@ export default async function seedDemoData({ container }: ExecArgs) {
         { url: backendStatic("longjing-2.jpg") },
       ],
       metadata: {
+        ...teaListingMetadata({
+          organic_certified: true,
+          caffeine_level: "Medium",
+          bullet_points: [
+            "Authentic Hangzhou Longjing pan-roasted green tea",
+            "Early spring harvest with chestnut and sweet vegetal notes",
+            "Loose leaf format for gongfu or Western steeping",
+            "Premium grade leaves from West Lake terroir",
+            "Packed fresh at source for vibrant aroma",
+          ],
+        }),
         tea_type: "green",
         origin_id: "longjing",
         grade: "premium",
@@ -574,6 +602,16 @@ export default async function seedDemoData({ container }: ExecArgs) {
         { url: backendStatic("tieguanyin-2.jpg") },
       ],
       metadata: {
+        ...teaListingMetadata({
+          caffeine_level: "Medium",
+          bullet_points: [
+            "Classic Anxi Tieguanyin oolong with orchid aroma",
+            "Balanced oxidation for floral and honeyed finish",
+            "Ideal for multiple short infusions",
+            "Premium autumn harvest loose leaf",
+            "Sourced from traditional Fujian gardens",
+          ],
+        }),
         tea_type: "oolong",
         origin_id: "anxi",
         grade: "premium",
@@ -643,6 +681,16 @@ export default async function seedDemoData({ container }: ExecArgs) {
         { url: backendStatic("dianhong-2.jpg") },
       ],
       metadata: {
+        ...teaListingMetadata({
+          caffeine_level: "High",
+          bullet_points: [
+            "Yunnan Dianhong black tea with malt and honey sweetness",
+            "Full oxidation for a bold yet smooth cup",
+            "Excellent as morning tea or with milk",
+            "Select grade spring harvest",
+            "Loose leaf packed for freshness",
+          ],
+        }),
         tea_type: "black",
         origin_id: "yunnan",
         grade: "select",
@@ -705,6 +753,16 @@ export default async function seedDemoData({ container }: ExecArgs) {
         { url: backendStatic("puer-2.jpg") },
       ],
       metadata: {
+        ...teaListingMetadata({
+          caffeine_level: "Medium",
+          bullet_points: [
+            "2019 ripe (shu) puer cake from Yunnan",
+            "Earthy, smooth profile with date-like sweetness",
+            "Aged fermentation for mellow depth",
+            "Suitable for gongfu or thermos brewing",
+            "Available in sample, tin, and cake sizes",
+          ],
+        }),
         tea_type: "puer",
         origin_id: "yunnan",
         grade: "shu",
@@ -774,6 +832,17 @@ export default async function seedDemoData({ container }: ExecArgs) {
         { url: backendStatic("silver-needle-2.jpg") },
       ],
       metadata: {
+        ...teaListingMetadata({
+          organic_certified: true,
+          caffeine_level: "Low",
+          bullet_points: [
+            "Silver Needle white tea buds from Fujian",
+            "Delicate floral sweetness with minimal astringency",
+            "Hand-picked spring buds, premium grade",
+            "Best enjoyed with lower-temperature water",
+            "Loose leaf for mindful single-origin brewing",
+          ],
+        }),
         tea_type: "white",
         origin_id: "fujian",
         grade: "premium",
@@ -835,6 +904,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
         "Caffeine-free herbal blend with soothing chamomile flowers and lavender.",
       handle: "chamomile-dreams",
       weight: 100,
+      origin_country: "de",
       status: ProductStatus.PUBLISHED,
       shipping_profile_id: shippingProfile.id,
       thumbnail: backendStatic("chamomile-1.jpg"),
@@ -843,6 +913,19 @@ export default async function seedDemoData({ container }: ExecArgs) {
         { url: backendStatic("chamomile-2.jpg") },
       ],
       metadata: {
+        ...teaListingMetadata({
+          organic_certified: true,
+          country_of_origin: "Germany",
+          ingredients:
+            "Chamomile flowers, lavender, natural flavors. Caffeine-free herbal blend.",
+          bullet_points: [
+            "Caffeine-free chamomile and lavender herbal blend",
+            "Soothing floral cup ideal for evening relaxation",
+            "USDA-style organic certified ingredients",
+            "Loose leaf for full aroma extraction",
+            "Naturally sweet—enjoy plain or with honey",
+          ],
+        }),
         tea_type: "herbal",
         origin_id: "blend",
         grade: "organic",

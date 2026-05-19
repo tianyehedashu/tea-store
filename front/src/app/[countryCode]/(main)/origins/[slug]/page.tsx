@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { getOriginBySlugCMS, getOriginsCMS } from "@lib/data/sanity"
+import { getOriginBySlug, getOrigins } from "@lib/data/origins"
 import { listRegions } from "@lib/data/regions"
 import OriginDetailTemplate from "@modules/origins/templates/origin-detail"
 import { notFound } from "next/navigation"
@@ -10,7 +10,7 @@ export async function generateStaticParams() {
   try {
     const [regions, origins] = await Promise.all([
       listRegions(),
-      getOriginsCMS(),
+      getOrigins(),
     ])
     const countryCodes = regions
       ?.map((r) => r.countries?.map((c) => c.iso_2))
@@ -27,7 +27,7 @@ export async function generateMetadata(props: {
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await props.params
-  const origin = await getOriginBySlugCMS(slug).catch(() => null)
+  const origin = await getOriginBySlug(slug)
   if (!origin) {
     return { title: "Origin | Zentee" }
   }
@@ -43,7 +43,7 @@ export default async function OriginDetail({
   params: Promise<{ countryCode: string; slug: string }>
 }) {
   const p = await params
-  const origin = await getOriginBySlugCMS(p.slug)
+  const origin = await getOriginBySlug(p.slug)
   if (!origin) {
     return notFound()
   }

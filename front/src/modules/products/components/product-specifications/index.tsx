@@ -25,7 +25,7 @@ export default function ProductSpecifications({
 
   return (
     <section
-      className="w-full rounded-[2rem] border border-sage-100 bg-white p-6 shadow-sm small:p-8"
+      className="w-full rounded-lg border border-[#eadbc4] bg-white p-6 shadow-sm small:p-8"
       data-testid="product-specifications"
     >
       <Heading level="h2" className="mb-6 text-2xl font-semibold text-sage-900">
@@ -37,16 +37,16 @@ export default function ProductSpecifications({
             {column.map((row) => (
               <div
                 key={row.label}
-                className="rounded-2xl bg-sage-50/70 px-4 py-3"
+                className="rounded-lg bg-[#fffaf2] px-4 py-3"
               >
-                <span className="text-xs font-semibold uppercase tracking-wide text-sage-500">
+                <span className="section-eyebrow">
                   {row.label}
                 </span>
                 {row.href ? (
                   <p className="mt-1 text-sage-800 capitalize">
                     <LocalizedClientLink
                       href={row.href}
-                      className="text-brand-600 hover:text-brand-700"
+                      className="text-[#a6602e] hover:text-[#82471f]"
                     >
                       {row.value}
                     </LocalizedClientLink>

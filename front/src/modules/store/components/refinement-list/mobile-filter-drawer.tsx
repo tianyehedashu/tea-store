@@ -79,7 +79,7 @@ export default function MobileFilterDrawer({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-sage-200 bg-white px-4 py-3 text-sm font-medium text-sage-900 shadow-sm hover:border-brand-300 transition-colors"
+          className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-[#eadbc4] bg-white px-4 py-3 text-sm font-medium text-sage-900 shadow-sm transition-colors hover:border-[#d5b58f]"
           aria-expanded={open}
           aria-controls="mobile-filter-drawer"
         >
@@ -99,7 +99,7 @@ export default function MobileFilterDrawer({
           </svg>
           Filters
           {activeCount > 0 ? (
-            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-500 px-1.5 text-xs font-semibold text-white">
+              <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#a6602e] px-1.5 text-xs font-semibold text-white">
               {activeCount}
             </span>
           ) : null}
@@ -108,7 +108,7 @@ export default function MobileFilterDrawer({
           <button
             type="button"
             onClick={clearFilters}
-            className="rounded-xl border border-sage-200 bg-sage-50 px-4 py-3 text-sm font-medium text-sage-700 hover:text-brand-600 transition-colors"
+            className="rounded-lg border border-[#eadbc4] bg-white px-4 py-3 text-sm font-medium text-sage-700 transition-colors hover:text-[#82471f]"
           >
             Clear
           </button>
@@ -127,10 +127,10 @@ export default function MobileFilterDrawer({
             id="mobile-filter-drawer"
             className={clx(
               "absolute bottom-0 left-0 right-0 max-h-[88vh] flex flex-col",
-              "bg-white rounded-t-2xl shadow-2xl border-t border-sage-200"
+              "rounded-t-lg border-t border-[#eadbc4] bg-[#fffaf2] shadow-2xl"
             )}
           >
-            <div className="flex items-center justify-between px-6 py-4 border-b border-sage-200 shrink-0">
+            <div className="flex shrink-0 items-center justify-between border-b border-[#eadbc4] px-6 py-4">
               <h2 className="text-lg font-semibold text-sage-900">
                 Filters & sort
               </h2>
@@ -166,7 +166,7 @@ export default function MobileFilterDrawer({
               />
             </div>
 
-            <div className="shrink-0 px-6 py-4 border-t border-sage-200 bg-cream-50 flex gap-3">
+            <div className="flex shrink-0 gap-3 border-t border-[#eadbc4] bg-[#f5eddf] px-6 py-4">
               {activeCount > 0 ? (
                 <button
                   type="button"

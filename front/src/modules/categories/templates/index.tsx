@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation"
 import { Suspense } from "react"
 
-import InteractiveLink from "@modules/common/components/interactive-link"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import RefinementList from "@modules/store/components/refinement-list"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
@@ -39,10 +38,10 @@ export default async function CategoryTemplate({
   getParents(category)
 
   return (
-    <div className="hero-gradient min-h-screen">
+    <div className="min-h-screen bg-[#fffaf2]">
       {/* Category Hero */}
-      <section className="content-container pt-12 pb-8">
-        <div className="max-w-4xl">
+      <section className="hero-gradient border-b border-[#eadbc4]">
+        <div className="content-container max-w-4xl py-12 small:py-16">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-sage-600 mb-6">
             <LocalizedClientLink
@@ -93,7 +92,7 @@ export default async function CategoryTemplate({
           </nav>
 
           <h1
-            className="font-display text-4xl small:text-5xl font-bold text-sage-900 mb-4"
+            className="mb-4 font-display text-4xl leading-tight text-sage-900 small:text-6xl"
             data-testid="category-page-title"
           >
             {category.name}
@@ -107,9 +106,9 @@ export default async function CategoryTemplate({
       </section>
 
       {/* Main Content */}
-      <section className="bg-white">
+      <section className="bg-[#fffaf2]">
         <div
-          className="flex flex-col small:flex-row small:items-start content-container py-12 gap-8"
+          className="content-container flex flex-col gap-8 py-10 small:flex-row small:items-start small:py-12"
           data-testid="category-container"
         >
           <RefinementList
@@ -132,7 +131,7 @@ export default async function CategoryTemplate({
                       className="tea-category-card group"
                     >
                       <div className="space-y-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-brand-400 to-brand-600 rounded-xl flex items-center justify-center mx-auto">
+                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-[#a6602e]">
                           <svg
                             className="w-6 h-6 text-white"
                             fill="none"
@@ -150,8 +149,8 @@ export default async function CategoryTemplate({
                         <h3 className="text-lg font-semibold text-sage-900 group-hover:text-brand-600 transition-colors">
                           {c.name}
                         </h3>
-                        <div className="text-sm text-sage-600">
-                          Explore Collection →
+                        <div className="text-sm font-semibold text-[#a6602e]">
+                          Explore Collection
                         </div>
                       </div>
                     </LocalizedClientLink>

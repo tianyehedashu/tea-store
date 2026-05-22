@@ -7,7 +7,7 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 export const metadata: Metadata = {
-  title: "Checkout | Zentee",
+  title: "Checkout",
   description: "Complete your tea order securely.",
 }
 
@@ -27,10 +27,10 @@ export default async function Checkout(props: Props) {
   const currentStep = searchParams.step ?? "address"
 
   return (
-    <div className="min-h-screen bg-cream-50/50 pb-16">
-      <section className="border-b border-sage-200 bg-white">
+    <div className="min-h-screen bg-[#fffaf2] pb-16">
+      <section className="hero-gradient border-b border-[#eadbc4]">
         <div className="content-container py-8">
-          <h1 className="font-display text-3xl font-bold text-sage-900">
+          <h1 className="font-display text-3xl text-sage-900 small:text-5xl">
             Checkout
           </h1>
           <p className="mt-2 text-sage-600">

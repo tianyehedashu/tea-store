@@ -21,13 +21,14 @@ export default function CollectionTemplate({
   const sort = sortBy || "created_at"
 
   return (
-    <div className="hero-gradient min-h-screen">
-      <section className="content-container pt-12 pb-8">
+    <div className="min-h-screen bg-[#fffaf2]">
+      <section className="hero-gradient border-b border-[#eadbc4]">
+        <div className="content-container py-12 small:py-16">
         <div className="max-w-4xl">
-          <p className="text-sm font-semibold uppercase tracking-wider text-brand-600 mb-3">
+          <p className="section-eyebrow mb-3">
             Collection
           </p>
-          <h1 className="font-display text-4xl small:text-5xl font-bold text-sage-900 mb-4">
+          <h1 className="font-display text-4xl leading-tight text-sage-900 small:text-6xl">
             {collection.title}
           </h1>
           <p className="text-lg text-sage-700 max-w-2xl leading-relaxed">
@@ -35,10 +36,11 @@ export default function CollectionTemplate({
             Filter and sort to find your next cup.
           </p>
         </div>
+        </div>
       </section>
 
-      <section className="bg-white">
-        <div className="flex flex-col small:flex-row small:items-start py-6 content-container gap-8">
+      <section className="bg-[#fffaf2]">
+        <div className="content-container flex flex-col gap-8 py-10 small:flex-row small:items-start small:py-12">
           <RefinementList sortBy={sort} />
           <main className="w-full flex-1">
             <Suspense

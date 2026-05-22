@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import StaticPage from "@modules/common/components/static-page"
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Zentee",
+  title: "Terms of Service",
   description: "Terms governing use of the Zentee online store.",
 }
 

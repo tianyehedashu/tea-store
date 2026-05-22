@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import Image from "next/image"
 
 import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
@@ -8,10 +9,55 @@ import { getRegion } from "@lib/data/regions"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 export const metadata: Metadata = {
-  title: "Zentee - Tea with a Zen State of Mind",
+  title: "Single-Origin Teas",
   description:
-    "Sip the Calm. Discover mindful tea experiences that bring eastern tranquility and wellness to your daily ritual. Premium organic teas for meditation and inner peace.",
+    "Shop premium loose-leaf teas with origin stories, tasting notes, and precise brewing guidance for a better daily cup.",
 }
+
+const teaCopy = [
+  {
+    profile: "Fresh and clear",
+    cue: "Green teas with spring brightness and a clean finish.",
+  },
+  {
+    profile: "Soft and luminous",
+    cue: "White teas for delicate aroma and gentle sweetness.",
+  },
+  {
+    profile: "Layered and floral",
+    cue: "Oolongs with texture, perfume, and long infusions.",
+  },
+  {
+    profile: "Deep and warming",
+    cue: "Black teas with malt, fruit, and a rounded body.",
+  },
+  {
+    profile: "Earthy and patient",
+    cue: "Pu-erh teas for grounded cups and slow sessions.",
+  },
+  {
+    profile: "Naturally caffeine-free",
+    cue: "Herbal infusions for evening rituals and easy comfort.",
+  },
+]
+
+const processSteps = [
+  {
+    label: "Source",
+    title: "Known gardens",
+    body: "Origin pages connect each tea to place, harvest, and growing conditions.",
+  },
+  {
+    label: "Taste",
+    title: "Cup-first notes",
+    body: "Flavor, aroma, texture, and finish are written for choosing, not guessing.",
+  },
+  {
+    label: "Brew",
+    title: "Repeatable results",
+    body: "Temperature, ratio, and steep timing make the first session feel guided.",
+  },
+]
 
 export default async function Home(props: {
   params: Promise<{ countryCode: string }>
@@ -35,115 +81,73 @@ export default async function Home(props: {
     categories?.filter((cat) => cat.name.includes("Tea")) || []
 
   return (
-    <main className="min-h-screen">
-      {/* Hero Section */}
+    <main className="min-h-screen bg-[#fffaf2]">
       <Hero />
 
-      {/* Tea Categories - Cultural Journey */}
-      <section className="py-20 bg-gradient-to-b from-white to-sage-25">
+      <section className="border-b border-[#eadbc4] bg-[#fffaf2] py-14 small:py-20">
         <div className="content-container">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-16 space-y-6">
-              <div className="inline-flex items-center gap-2 text-sage-500 text-sm tracking-wider uppercase">
-                <div className="w-8 h-px bg-sage-300"></div>
-                <span>Tea Varieties</span>
-                <div className="w-8 h-px bg-sage-300"></div>
-              </div>
-              <h2 className="font-display text-3xl small:text-4xl font-light text-sage-900 tracking-tight">
-                Six Paths to Inner Peace
+          <div className="mb-10 flex flex-col gap-4 small:flex-row small:items-end small:justify-between">
+            <div className="max-w-2xl space-y-3">
+              <p className="section-eyebrow">Tea varieties</p>
+              <h2 className="font-display text-3xl leading-tight text-sage-900 small:text-5xl">
+                Choose by the cup you want.
               </h2>
-              <p className="text-lg text-sage-600 font-light max-w-2xl mx-auto leading-relaxed">
-                Each tea tradition offers a unique pathway to mindfulness,
-                inviting you to discover tranquility through the ancient art of
-                tea ceremony.
+              <p className="text-base leading-7 text-sage-700">
+                The store is organized around taste and brewing intent, so
+                beginners and serious drinkers can move quickly.
               </p>
             </div>
+            <LocalizedClientLink href="/store" className="brand-outline">
+              View all teas
+            </LocalizedClientLink>
+          </div>
 
-            <div className="grid small:grid-cols-2 large:grid-cols-3 gap-8">
-              {teaCategories.slice(0, 6).map((category, index) => {
-                const teaSymbols = ["🌱", "☁️", "🌿", "🔥", "🍂", "🌸"]
-                const philosophies = [
-                  "Freshness & Vitality",
-                  "Purity & Simplicity",
-                  "Balance & Complexity",
-                  "Warmth & Comfort",
-                  "Depth & Wisdom",
-                  "Grace & Fragrance",
-                ]
+          <div className="grid gap-4 small:grid-cols-2 large:grid-cols-3">
+            {teaCategories.slice(0, 6).map((category, index) => {
+              const copy = teaCopy[index] || {
+                profile: "Curated character",
+                cue: "Selected for clarity, balance, and repeat cups.",
+              }
 
-                return (
-                  <LocalizedClientLink
-                    key={category.id}
-                    href={`/categories/${category.handle}`}
-                    className="group"
-                  >
-                    <div className="bg-white/60 backdrop-blur-sm rounded-xl border border-sage-200/50 p-8 hover:border-sage-300/70 transition-all duration-500 group-hover:shadow-lg">
-                      <div className="text-center space-y-6">
-                        <div className="relative mx-auto w-16 h-16">
-                          <div className="absolute inset-0 bg-gradient-to-br from-sage-100 to-brand-100 rounded-full opacity-60 group-hover:opacity-80 transition-opacity"></div>
-                          <div className="absolute inset-2 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                            <span className="text-sage-700 text-lg font-light">
-                              {teaSymbols[index] || "🍃"}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="space-y-3">
-                          <h3 className="text-lg font-medium text-sage-900 group-hover:text-brand-700 transition-colors">
-                            {category.name}
-                          </h3>
-                          <p className="text-sm text-sage-600 font-light leading-relaxed">
-                            {philosophies[index] || "Traditional essence"}
-                          </p>
-                          <div className="pt-2">
-                            <span className="inline-flex items-center gap-1 text-xs text-sage-500 group-hover:text-sage-700 transition-colors">
-                              Discover Path
-                              <svg
-                                className="w-3 h-3 group-hover:translate-x-0.5 transition-transform"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
+              return (
+                <LocalizedClientLink
+                  key={category.id}
+                  href={`/categories/${category.handle}`}
+                  className="brand-card group block p-6"
+                >
+                  <div className="flex h-full flex-col justify-between gap-8">
+                    <div className="space-y-4">
+                      <p className="section-eyebrow">{copy.profile}</p>
+                      <h3 className="font-display text-2xl text-sage-900 group-hover:text-[#82471f]">
+                        {category.name}
+                      </h3>
+                      <p className="text-sm leading-6 text-sage-700">
+                        {copy.cue}
+                      </p>
                     </div>
-                  </LocalizedClientLink>
-                )
-              })}
-            </div>
-
-            {/* Cultural note */}
-            <div className="text-center mt-16 pt-8 border-t border-sage-200/50">
-              <p className="text-sm text-sage-500 italic font-light max-w-xl mx-auto leading-relaxed">
-                Traditional tea wisdom recognizes six main categories, each
-                embodying unique craftsmanship and cultural heritage, reflecting
-                different philosophies of mindful living.
-              </p>
-            </div>
+                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#a6602e]">
+                      Explore category
+                      <span aria-hidden>→</span>
+                    </span>
+                  </div>
+                </LocalizedClientLink>
+              )
+            })}
           </div>
         </div>
       </section>
 
-      {/* Featured Products */}
       {collections && collections.length > 0 && (
-        <section className="py-16 bg-sage-50">
+        <section className="bg-[#f5eddf] py-16 small:py-20">
           <div className="content-container">
-            <div className="text-center mb-12">
-              <h2 className="font-display text-3xl small:text-4xl font-bold text-sage-900 mb-4">
-                Featured Collections
+            <div className="mb-12 max-w-3xl space-y-3">
+              <p className="section-eyebrow">Featured collections</p>
+              <h2 className="font-display text-3xl leading-tight text-sage-900 small:text-5xl">
+                Start with teas that already have a point of view.
               </h2>
-              <p className="text-lg text-sage-600 max-w-2xl mx-auto">
-                Handpicked selections of our finest teas, perfect for
-                discovering new favorites
+              <p className="text-base leading-7 text-sage-700">
+                Seasonal edits, daily-drinker staples, and origin-led sets are
+                grouped for fast discovery.
               </p>
             </div>
             <FeaturedProducts collections={collections} region={region} />
@@ -151,228 +155,110 @@ export default async function Home(props: {
         </section>
       )}
 
-      {/* Tea Philosophy Section */}
-      <section className="py-24 bg-gradient-to-b from-white to-sage-25">
-        <div className="content-container">
-          <div className="max-w-4xl mx-auto">
-            {/* Section header */}
-            <div className="text-center mb-16 space-y-6">
-              <div className="inline-flex items-center gap-2 text-sage-500 text-sm tracking-wider uppercase">
-                <div className="w-8 h-px bg-sage-300"></div>
-                <span>Tea Philosophy</span>
-                <div className="w-8 h-px bg-sage-300"></div>
-              </div>
-              <h2 className="font-display text-3xl small:text-4xl font-light text-sage-900 tracking-tight">
-                Zen and Tea as One
+      <section className="bg-[#fffaf2] py-16 small:py-24">
+        <div className="content-container grid gap-10 large:grid-cols-[0.92fr_1.08fr] large:items-center">
+          <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-[#eadbc4] bg-sage-100">
+            <Image
+              src="/images/origins/longjing-hero.jpg"
+              alt="Longjing tea garden and fresh leaves"
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 1024px) 100vw, 48vw"
+              quality={88}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#111d16]/55 via-transparent to-transparent" />
+            <div className="absolute bottom-5 left-5 right-5 rounded-lg border border-white/25 bg-[#111d16]/70 p-5 text-[#fffaf2] backdrop-blur">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#d79b62]">
+                Origin matters
+              </p>
+              <p className="mt-2 max-w-md text-sm leading-6 text-white/85">
+                Tea tastes better when the place, picking season, and brewing
+                rhythm are not hidden behind the product photo.
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <p className="section-eyebrow">From garden to cup</p>
+              <h2 className="font-display text-3xl leading-tight text-sage-900 small:text-5xl">
+                A tea site should help you imagine the cup before you buy.
               </h2>
-              <p className="text-lg text-sage-600 font-light max-w-2xl mx-auto leading-relaxed">
-                In the harmony of tea and meditation, find your center. Each
-                mindful sip becomes a gateway to inner stillness and profound
-                awareness.
+              <p className="text-base leading-7 text-sage-700">
+                Zentee connects sourcing, sensory detail, and brewing steps
+                across the store so product pages feel useful, not decorative.
               </p>
             </div>
 
-            {/* Three pillars of tea philosophy */}
-            <div className="grid small:grid-cols-3 gap-12 mb-20">
-              <div className="text-center space-y-6">
-                <div className="relative mx-auto w-20 h-20">
-                  <div className="absolute inset-0 bg-gradient-to-br from-sage-100 to-sage-200 rounded-full"></div>
-                  <div className="absolute inset-2 bg-white rounded-full flex items-center justify-center">
-                    <span className="text-sage-700 text-2xl font-light">
-                      🧘
-                    </span>
+            <div className="grid gap-3">
+              {processSteps.map((step) => (
+                <div
+                  key={step.label}
+                  className="grid gap-4 rounded-lg border border-[#eadbc4] bg-white p-5 small:grid-cols-[96px_1fr]"
+                >
+                  <p className="section-eyebrow">{step.label}</p>
+                  <div>
+                    <h3 className="text-base font-semibold text-sage-900">
+                      {step.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-sage-700">
+                      {step.body}
+                    </p>
                   </div>
                 </div>
-                <div className="space-y-3">
-                  <h3 className="text-lg font-medium text-sage-900">
-                    Serenity
-                  </h3>
-                  <p className="text-sm text-sage-600 font-light leading-relaxed">
-                    In stillness, we find clarity. Each tea ceremony begins with
-                    quieting the mind and opening the heart to the present
-                    moment.
-                  </p>
-                </div>
-              </div>
-
-              <div className="text-center space-y-6">
-                <div className="relative mx-auto w-20 h-20">
-                  <div className="absolute inset-0 bg-gradient-to-br from-brand-100 to-brand-200 rounded-full"></div>
-                  <div className="absolute inset-2 bg-white rounded-full flex items-center justify-center">
-                    <span className="text-brand-700 text-2xl font-light">
-                      ☯️
-                    </span>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <h3 className="text-lg font-medium text-sage-900">Harmony</h3>
-                  <p className="text-sm text-sage-600 font-light leading-relaxed">
-                    True tea exists in the balance between water and leaf, heat
-                    and time, tradition and innovation, solitude and community.
-                  </p>
-                </div>
-              </div>
-
-              <div className="text-center space-y-6">
-                <div className="relative mx-auto w-20 h-20">
-                  <div className="absolute inset-0 bg-gradient-to-br from-cream-100 to-cream-200 rounded-full"></div>
-                  <div className="absolute inset-2 bg-white rounded-full flex items-center justify-center">
-                    <span className="text-cream-700 text-2xl font-light">
-                      🙏
-                    </span>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <h3 className="text-lg font-medium text-sage-900">
-                    Reverence
-                  </h3>
-                  <p className="text-sm text-sage-600 font-light leading-relaxed">
-                    Respect for the leaf, the water, the vessel, and the hands
-                    that prepared them. Tea teaches us gratitude for simple
-                    gifts.
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
 
-            {/* Story narrative */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-sage-200/50 p-12 shadow-sm">
-              <div className="grid small:grid-cols-2 gap-12 items-center">
-                <div className="space-y-6">
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-light text-sage-900 tracking-wide">
-                      From Mountain to Cup
-                    </h3>
-                    <p className="text-sage-700 font-light leading-relaxed">
-                      In tranquil mountains, each tea leaf awaits its meeting
-                      with your soul. From ancient temples to modern living
-                      spaces, tea's wisdom transcends time, bringing presence
-                      and awareness to your daily ritual.
-                    </p>
-                    <p className="text-sage-600 font-light leading-relaxed text-sm">
-                      Our carefully curated selection honors traditional
-                      cultivation methods while embracing the mindful practices
-                      that make each cup a moment of meditation.
-                    </p>
-                  </div>
-
-                  <div className="flex gap-4">
-                    <LocalizedClientLink
-                      href="/origins"
-                      className="inline-flex items-center gap-2 text-sage-700 hover:text-sage-900 transition-colors font-medium text-sm"
-                    >
-                      Discover Origins
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={1.5}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
-                    </LocalizedClientLink>
-                  </div>
-                </div>
-
-                <div className="relative">
-                  <div className="aspect-square bg-gradient-to-br from-sage-50 to-brand-50 rounded-xl border border-sage-200/50 flex items-center justify-center">
-                    <div className="text-center space-y-4">
-                      <div className="mx-auto w-16 h-16 bg-gradient-to-br from-sage-200 to-brand-200 rounded-full flex items-center justify-center">
-                        <svg
-                          className="w-8 h-8 text-sage-600"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                          />
-                        </svg>
-                      </div>
-                      <div className="space-y-2">
-                        <p className="text-sage-600 text-sm font-light">
-                          Traditional Wisdom
-                        </p>
-                        <p className="text-xs text-sage-500">
-                          Ancient Tea Craftsmanship
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Subtle floating elements */}
-                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-brand-200 rounded-full opacity-60"></div>
-                  <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-sage-200 rounded-full opacity-40"></div>
-                </div>
-              </div>
+            <div className="flex flex-col gap-3 xsmall:flex-row">
+              <LocalizedClientLink href="/origins" className="brand-cta">
+                Browse origins
+              </LocalizedClientLink>
+              <LocalizedClientLink href="/guides" className="brand-outline">
+                Read brew guides
+              </LocalizedClientLink>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Tea Circle Invitation */}
-      <section className="py-20 bg-gradient-to-b from-sage-50 to-white">
-        <div className="content-container">
-          <div className="max-w-3xl mx-auto text-center space-y-12">
-            {/* Zen circle visual */}
-            <div className="relative mx-auto w-32 h-32">
-              <div className="absolute inset-0 border-2 border-sage-300 rounded-full opacity-30"></div>
-              <div className="absolute inset-4 border border-brand-300 rounded-full opacity-50"></div>
-              <div className="absolute inset-8 bg-gradient-to-br from-sage-100 to-brand-100 rounded-full flex items-center justify-center">
-                <span className="text-sage-700 text-xl font-light">🍃</span>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <h2 className="font-display text-2xl small:text-3xl font-light text-sage-900 tracking-wide">
-                Join Our Zen Tea Community
-              </h2>
-              <p className="text-sage-600 font-light leading-relaxed max-w-lg mx-auto">
-                Embrace mindful living with seasonal tea wisdom, meditation
-                practices, and gentle reminders to pause and breathe in life's
-                simple pleasures.
-              </p>
-            </div>
-
-            <div className="max-w-md mx-auto">
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-sage-200/50 p-8 shadow-sm space-y-4">
-                <p className="text-sm text-sage-600 font-light leading-relaxed">
-                  Explore brewing guides and origin stories while we prepare a
-                  quiet newsletter for tea lovers.
-                </p>
-                <div className="flex flex-col small:flex-row gap-3 justify-center">
-                  <LocalizedClientLink
-                    href="/guides"
-                    className="brand-cta text-sm justify-center"
-                  >
-                    Read brewing guides
-                  </LocalizedClientLink>
-                  <LocalizedClientLink
-                    href="/store"
-                    className="brand-outline text-sm justify-center"
-                  >
-                    Shop teas
-                  </LocalizedClientLink>
-                </div>
-              </div>
-            </div>
-
-            {/* Subtle closing thought */}
-            <div className="pt-8">
-              <div className="w-24 h-px bg-gradient-to-r from-transparent via-sage-300 to-transparent mx-auto mb-4"></div>
-              <p className="text-sm text-sage-500 italic font-light">
-                "When you drink tea, you taste liquid meditation"
-              </p>
-            </div>
+      <section className="border-y border-[#203428] bg-[#111d16] py-16 text-[#fffaf2] small:py-20">
+        <div className="content-container grid gap-10 large:grid-cols-[0.9fr_1.1fr] large:items-center">
+          <div className="space-y-4">
+            <p className="section-eyebrow text-[#d79b62]">The Zentee standard</p>
+            <h2 className="font-display text-3xl leading-tight small:text-5xl">
+              Less noise. More confidence in every product decision.
+            </h2>
           </div>
+          <div className="grid gap-4 small:grid-cols-3">
+            {[
+              "Origin context on every tea",
+              "Brew parameters near the buy box",
+              "Collections built for real shopping intent",
+            ].map((item) => (
+              <div
+                key={item}
+                className="rounded-lg border border-white/10 bg-white/[0.06] p-5"
+              >
+                <p className="text-sm font-semibold leading-6 text-[#f4eadc]">
+                  {item}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#fffaf2] py-14 small:py-20">
+        <div className="content-container flex flex-col gap-6 small:flex-row small:items-center small:justify-between">
+          <div className="max-w-2xl space-y-3">
+            <p className="section-eyebrow">Ready for the next cup</p>
+            <h2 className="font-display text-3xl leading-tight text-sage-900 small:text-4xl">
+              Build a tea shelf with better information from the start.
+            </h2>
+          </div>
+          <LocalizedClientLink href="/store" className="brand-cta">
+            Shop the store
+          </LocalizedClientLink>
         </div>
       </section>
     </main>

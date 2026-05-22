@@ -36,28 +36,28 @@ const TeaHealthBenefits = ({ product }: TeaHealthBenefitsProps) => {
   const metadata = (product.metadata as TeaHealthMetadata) || {}
 
   const compoundIcons: Record<string, string> = {
-    polyphenols: "🧪",
-    catechins: "🔬",
-    caffeine: "⚡",
-    theanine: "🧘",
-    tannins: "🍇",
-    flavonoids: "🌸",
-    antioxidants: "🛡️",
-    vitamins: "💊",
-    minerals: "⚗️",
+    polyphenols: "Poly",
+    catechins: "Cate",
+    caffeine: "Cafe",
+    theanine: "Calm",
+    tannins: "Tann",
+    flavonoids: "Oolong",
+    antioxidants: "Anti",
+    vitamins: "Vit",
+    minerals: "Min",
   }
 
   const benefitCategoryIcons: Record<string, string> = {
-    cardiovascular: "❤️",
-    digestive: "🫄",
-    mental: "🧠",
-    immune: "🛡️",
-    skin: "✨",
-    weight: "⚖️",
-    "anti-aging": "🕰️",
-    detox: "🧼",
-    energy: "⚡",
-    sleep: "😴",
+    cardiovascular: "Heart",
+    digestive: "Digest",
+    mental: "Mind",
+    immune: "Anti",
+    skin: "Skin",
+    weight: "Scale",
+    "anti-aging": "Age",
+    detox: "Detox",
+    energy: "Cafe",
+    sleep: "Sleep",
   }
 
   return (
@@ -69,7 +69,7 @@ const TeaHealthBenefits = ({ product }: TeaHealthBenefitsProps) => {
             level="h3"
             className="text-lg font-semibold text-green-700 mb-4 flex items-center gap-2"
           >
-            <span className="text-xl">📊</span>
+            <span className="text-xl">Stats</span>
             Nutritional Profile (per cup)
           </Heading>
 
@@ -112,7 +112,7 @@ const TeaHealthBenefits = ({ product }: TeaHealthBenefitsProps) => {
               {metadata.nutritional_info.vitamins && (
                 <div className="p-3 bg-white rounded-md border border-green-100">
                   <Text className="font-medium text-green-700 mb-2">
-                    💊 Vitamins
+                    Vitamins
                   </Text>
                   <div className="flex flex-wrap gap-1">
                     {metadata.nutritional_info.vitamins.map(
@@ -132,7 +132,7 @@ const TeaHealthBenefits = ({ product }: TeaHealthBenefitsProps) => {
               {metadata.nutritional_info.minerals && (
                 <div className="p-3 bg-white rounded-md border border-green-100">
                   <Text className="font-medium text-green-700 mb-2">
-                    ⚗️ Minerals
+                    Minerals
                   </Text>
                   <div className="flex flex-wrap gap-1">
                     {metadata.nutritional_info.minerals.map(
@@ -160,7 +160,7 @@ const TeaHealthBenefits = ({ product }: TeaHealthBenefitsProps) => {
             level="h3"
             className="text-lg font-semibold text-blue-700 mb-4 flex items-center gap-2"
           >
-            <span className="text-xl">🧪</span>
+            <span className="text-xl">Poly</span>
             Active Compounds
           </Heading>
 
@@ -172,7 +172,7 @@ const TeaHealthBenefits = ({ product }: TeaHealthBenefitsProps) => {
               >
                 <div className="flex items-start gap-3">
                   <span className="text-2xl">
-                    {compoundIcons[compound.name.toLowerCase()] || "🔬"}
+                    {compoundIcons[compound.name.toLowerCase()] || "Cate"}
                   </span>
                   <div className="flex-1">
                     <div className="flex justify-between items-start mb-2">
@@ -207,7 +207,7 @@ const TeaHealthBenefits = ({ product }: TeaHealthBenefitsProps) => {
             level="h3"
             className="text-lg font-semibold text-purple-700 mb-4 flex items-center gap-2"
           >
-            <span className="text-xl">🌟</span>
+            <span className="text-xl">Story</span>
             Health Benefits
           </Heading>
 
@@ -220,7 +220,7 @@ const TeaHealthBenefits = ({ product }: TeaHealthBenefitsProps) => {
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-xl">
                     {benefitCategoryIcons[category.category.toLowerCase()] ||
-                      "✨"}
+                      "Skin"}
                   </span>
                   <Text className="font-semibold text-purple-800 capitalize">
                     {category.category} Health
@@ -257,13 +257,13 @@ const TeaHealthBenefits = ({ product }: TeaHealthBenefitsProps) => {
               level="h3"
               className="text-base font-semibold text-green-700 mb-3 flex items-center gap-2"
             >
-              <span className="text-lg">✅</span>
+              <span className="text-lg">Yes</span>
               Suitable For
             </Heading>
             <ul className="space-y-2">
               {metadata.suitable_for.map((group, index) => (
                 <li key={index} className="flex items-center gap-2">
-                  <span className="text-green-600">✓</span>
+                  <span className="text-green-600">+</span>
                   <Text className="text-sm text-green-700">{group}</Text>
                 </li>
               ))}
@@ -278,13 +278,13 @@ const TeaHealthBenefits = ({ product }: TeaHealthBenefitsProps) => {
               level="h3"
               className="text-base font-semibold text-red-700 mb-3 flex items-center gap-2"
             >
-              <span className="text-lg">⚠️</span>
+              <span className="text-lg">Note️</span>
               Not Suitable For
             </Heading>
             <ul className="space-y-2">
               {metadata.not_suitable_for.map((group, index) => (
                 <li key={index} className="flex items-center gap-2">
-                  <span className="text-red-600">⚠</span>
+                  <span className="text-red-600">Note</span>
                   <Text className="text-sm text-red-700">{group}</Text>
                 </li>
               ))}
@@ -297,7 +297,7 @@ const TeaHealthBenefits = ({ product }: TeaHealthBenefitsProps) => {
       <div className="border border-grey-20 rounded-lg p-4 space-y-4">
         {metadata.daily_consumption_limit && (
           <div className="flex items-start gap-3 p-3 bg-amber-50 rounded-md border border-amber-200">
-            <span className="text-xl">📏</span>
+            <span className="text-xl">Limit</span>
             <div>
               <Text className="font-medium text-amber-800">
                 Daily Consumption Limit
@@ -316,7 +316,7 @@ const TeaHealthBenefits = ({ product }: TeaHealthBenefitsProps) => {
                 level="h3"
                 className="text-base font-semibold text-grey-80 mb-2 flex items-center gap-2"
               >
-                <span className="text-lg">⚕️</span>
+                <span className="text-lg">Health</span>
                 Important Contraindications
               </Heading>
               <div className="bg-red-50 border border-red-200 rounded-md p-3">

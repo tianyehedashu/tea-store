@@ -15,15 +15,15 @@ export default function PageHero({
 }: PageHeroProps) {
   return (
     <section
-      className={`hero-gradient border-b border-sage-200/60 ${className}`}
+      className={`hero-gradient border-b border-[#eadbc4] ${className}`}
     >
-      <div className="content-container py-14 small:py-16 max-w-4xl">
+      <div className="content-container max-w-4xl py-14 small:py-20">
         {eyebrow ? (
-          <p className="text-sm font-semibold uppercase tracking-wider text-brand-600 mb-3">
+          <p className="section-eyebrow mb-3">
             {eyebrow}
           </p>
         ) : null}
-        <h1 className="font-display text-4xl small:text-5xl font-bold text-sage-900 leading-tight">
+        <h1 className="font-display text-4xl leading-tight text-sage-900 small:text-6xl">
           {title}
         </h1>
         {description ? (

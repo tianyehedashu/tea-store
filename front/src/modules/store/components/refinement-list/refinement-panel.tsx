@@ -21,21 +21,21 @@ export default function RefinementPanel({
   showHeading = true,
 }: RefinementPanelProps) {
   return (
-    <div className="space-y-6">
+    <div className="rounded-lg border border-[#eadbc4] bg-white p-5 shadow-sm">
       {showHeading ? (
-        <h2 className="text-xl font-semibold text-sage-900">
+        <h2 className="mb-6 font-display text-2xl text-sage-900">
           Filter & Explore
         </h2>
       ) : null}
 
       <div className="space-y-4">
-        <h3 className="text-sm font-semibold text-sage-900 uppercase tracking-wider">
+        <h3 className="section-eyebrow">
           Tea Categories
         </h3>
         <div className="space-y-3">
           <LocalizedClientLink
             href="/store"
-            className="flex items-center gap-3 text-sm text-sage-700 hover:text-brand-600 transition-colors py-2 px-3 rounded-lg hover:bg-sage-50"
+            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sage-700 transition-colors hover:bg-[#fffaf2] hover:text-[#82471f]"
           >
             <span className="w-2 h-2 rounded-full bg-sage-400" />
             All Teas
@@ -46,9 +46,9 @@ export default function RefinementPanel({
               <LocalizedClientLink
                 key={category.id}
                 href={`/categories/${category.handle}`}
-                className="flex items-center gap-3 text-sm text-sage-700 hover:text-brand-600 transition-colors py-2 px-3 rounded-lg hover:bg-sage-50 group"
+                className="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sage-700 transition-colors hover:bg-[#fffaf2] hover:text-[#82471f]"
               >
-                <span className="w-2 h-2 rounded-full bg-brand-400 group-hover:bg-brand-500 transition-colors" />
+                <span className="h-2 w-2 rounded-full bg-[#a6602e] transition-colors group-hover:bg-[#82471f]" />
                 {category.name}
               </LocalizedClientLink>
             ))}
@@ -59,7 +59,7 @@ export default function RefinementPanel({
         <TeaFilters />
       </Suspense>
 
-      <div className="pt-6 border-t border-sage-200">
+      <div className="mt-6 border-t border-[#eadbc4] pt-6">
         <SortProducts
           sortBy={sortBy}
           setQueryParams={setQueryParams}

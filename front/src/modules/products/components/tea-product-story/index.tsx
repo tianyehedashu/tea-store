@@ -63,13 +63,11 @@ export default function TeaProductStory({ product }: TeaProductStoryProps) {
   }
 
   return (
-    <section className="relative overflow-hidden rounded-[2rem] border border-sage-100 bg-gradient-to-br from-cream-50 via-white to-sage-50 p-6 shadow-sm small:p-8">
-      <div className="pointer-events-none absolute right-8 top-8 hidden h-28 w-28 rounded-full border border-brand-200/60 small:block" />
-      <div className="pointer-events-none absolute right-16 top-16 hidden h-12 w-12 rounded-full bg-brand-100/60 small:block" />
+    <section className="relative overflow-hidden rounded-lg border border-[#eadbc4] bg-white p-6 shadow-sm small:p-8">
 
       <div className="relative grid gap-8 large:grid-cols-[minmax(0,0.85fr)_minmax(320px,1fr)] large:items-start">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">
+          <p className="section-eyebrow">
             From leaf to cup
           </p>
           <Heading
@@ -93,9 +91,9 @@ export default function TeaProductStory({ product }: TeaProductStoryProps) {
           {highlights.map((item) => (
             <div
               key={item.label}
-              className="rounded-2xl border border-white/80 bg-white/75 p-4 shadow-sm"
+              className="rounded-lg border border-[#eadbc4] bg-[#fffaf2] p-4"
             >
-              <p className="text-xs font-semibold uppercase tracking-wide text-sage-500">
+              <p className="section-eyebrow">
                 {item.label}
               </p>
               <p className="mt-2 text-sm font-medium capitalize text-sage-900">
@@ -106,7 +104,7 @@ export default function TeaProductStory({ product }: TeaProductStoryProps) {
           {tasting.map((item) => (
             <div
               key={item}
-              className="rounded-2xl border border-sage-100 bg-sage-50/70 p-4"
+              className="rounded-lg border border-[#eadbc4] bg-[#fffaf2] p-4"
             >
               <p className="text-sm leading-6 text-sage-800">{item}</p>
             </div>

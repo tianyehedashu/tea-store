@@ -3,7 +3,7 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 
 export default function OriginsIndexHero() {
   return (
-    <section className="relative isolate overflow-hidden bg-sage-900">
+    <section className="relative isolate overflow-hidden bg-[#111d16]">
       <div className="absolute inset-0">
         <Image
           src="/images/origins/origins-index-hero.jpg"
@@ -15,15 +15,15 @@ export default function OriginsIndexHero() {
           quality={85}
         />
         <div
-          className="absolute inset-0 bg-gradient-to-r from-sage-950/85 via-sage-900/70 to-sage-900/40"
+          className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,29,22,0.9)_0%,rgba(17,29,22,0.72)_52%,rgba(17,29,22,0.35)_100%)]"
           aria-hidden
         />
       </div>
       <div className="content-container relative z-10 py-16 small:py-20 max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-wider text-brand-200 mb-3">
+        <p className="section-eyebrow mb-3 text-[#d79b62]">
           Tea Origins
         </p>
-        <h1 className="font-display text-4xl small:text-5xl font-bold text-white leading-tight">
+        <h1 className="font-display text-4xl leading-tight text-[#fff7ec] small:text-6xl">
           Where every leaf begins
         </h1>
         <p className="mt-4 text-lg text-white/85 leading-relaxed max-w-2xl">
@@ -32,10 +32,10 @@ export default function OriginsIndexHero() {
           trust.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
-          <LocalizedClientLink href="/store" className="brand-cta text-sm">
+          <LocalizedClientLink href="/store" className="brand-cta">
             Shop by origin
           </LocalizedClientLink>
-          <LocalizedClientLink href="/guides" className="brand-outline text-sm border-white/40 text-white hover:bg-white/10">
+          <LocalizedClientLink href="/guides" className="brand-outline border-white/25 bg-white/10 text-white hover:bg-white hover:text-sage-900">
             Brewing guides
           </LocalizedClientLink>
         </div>

@@ -58,7 +58,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
             level="h3"
             className="text-lg font-semibold text-brand-700 mb-4 flex items-center gap-2"
           >
-            <span className="text-xl">🌟</span>
+            <span className="text-xl">Story</span>
             Our Story
           </Heading>
           <Text className="text-brand-800 leading-relaxed whitespace-pre-line">
@@ -75,7 +75,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
               level="h3"
               className="text-lg font-semibold text-sage-700 mb-4 flex items-center gap-2"
             >
-              <span className="text-xl">👨‍🌾</span>
+              <span className="text-xl">Master</span>
               Tea Master
             </Heading>
 
@@ -132,7 +132,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
                               key={index}
                               className="px-2 py-1 bg-sage-200 text-sage-800 text-xs rounded-full"
                             >
-                              🏆 {award}
+                              Award {award}
                             </span>
                           )
                         )}
@@ -151,7 +151,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
             level="h3"
             className="text-lg font-semibold text-green-700 mb-4 flex items-center gap-2"
           >
-            <span className="text-xl">🌱</span>
+            <span className="text-xl">Farm</span>
             {metadata.farm_story.farm_name
               ? `${metadata.farm_story.farm_name} Farm`
               : "Farm Story"}
@@ -184,7 +184,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
               metadata.farm_story.sustainable_practices.length > 0 && (
                 <div>
                   <Text className="text-sm font-medium text-green-600 mb-2">
-                    🌍 Sustainable Practices
+                    Origin Sustainable Practices
                   </Text>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {metadata.farm_story.sustainable_practices.map(
@@ -193,7 +193,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
                           key={index}
                           className="flex items-center gap-2 p-2 bg-white rounded border border-green-100"
                         >
-                          <span className="text-green-600">✓</span>
+                          <span className="text-green-600">+</span>
                           <Text className="text-sm text-green-700">
                             {practice}
                           </Text>
@@ -215,7 +215,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
               level="h3"
               className="text-lg font-semibold text-amber-700 mb-4 flex items-center gap-2"
             >
-              <span className="text-xl">🏛️</span>
+              <span className="text-xl">Tradition</span>
               Tea Tradition & Culture
             </Heading>
 
@@ -247,7 +247,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
                   metadata.tea_tradition.legends.length > 0 && (
                     <div>
                       <Text className="text-sm font-medium text-amber-600 mb-2">
-                        📜 Legends & Stories
+                        Legends & Stories
                       </Text>
                       <ul className="space-y-2">
                         {metadata.tea_tradition.legends.map((legend, index) => (
@@ -266,7 +266,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
                   metadata.tea_tradition.ceremonies.length > 0 && (
                     <div>
                       <Text className="text-sm font-medium text-amber-600 mb-2">
-                        🍵 Traditional Ceremonies
+                        Traditional Ceremonies
                       </Text>
                       <ul className="space-y-1">
                         {metadata.tea_tradition.ceremonies.map(
@@ -331,7 +331,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
               level="h3"
               className="text-lg font-semibold text-pink-700 mb-4 flex items-center gap-2"
             >
-              <span className="text-xl">⭐</span>
+              <span className="text-xl">Key</span>
               Celebrity Endorsements
             </Heading>
 
@@ -373,7 +373,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
               level="h3"
               className="text-lg font-semibold text-blue-700 mb-4 flex items-center gap-2"
             >
-              <span className="text-xl">📚</span>
+              <span className="text-xl">Guide</span>
               Tea Knowledge
             </Heading>
 
@@ -382,7 +382,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
                 metadata.tea_education.origin_facts.length > 0 && (
                   <div>
                     <Text className="text-sm font-medium text-blue-600 mb-2">
-                      🌍 Origin Facts
+                      Origin Facts
                     </Text>
                     <ul className="space-y-1">
                       {metadata.tea_education.origin_facts.map(
@@ -403,7 +403,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
                 metadata.tea_education.cultural_etiquette.length > 0 && (
                   <div>
                     <Text className="text-sm font-medium text-blue-600 mb-2">
-                      🤝 Cultural Etiquette
+                      Cultural Etiquette
                     </Text>
                     <ul className="space-y-1">
                       {metadata.tea_education.cultural_etiquette.map(
@@ -423,7 +423,7 @@ const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
               {metadata.tea_education.seasonal_significance && (
                 <div>
                   <Text className="text-sm font-medium text-blue-600 mb-2">
-                    🗓️ Seasonal Significance
+                    Seasonal Significance
                   </Text>
                   <Text className="text-sm text-blue-800 leading-relaxed">
                     {metadata.tea_education.seasonal_significance}

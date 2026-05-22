@@ -119,9 +119,9 @@ const TeaProductTabs = ({ product }: TeaProductTabsProps) => {
   }
 
   return (
-    <section className="w-full rounded-[2rem] border border-sage-100 bg-white p-6 shadow-sm small:p-8">
+    <section className="w-full rounded-lg border border-[#eadbc4] bg-white p-6 shadow-sm small:p-8">
       <div className="mb-8 max-w-2xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">
+        <p className="section-eyebrow">
           Deeper knowledge
         </p>
         <Heading
@@ -143,16 +143,16 @@ const TeaProductTabs = ({ product }: TeaProductTabsProps) => {
             title={tab.label}
             headingSize="medium"
             value={tab.id}
-            className="overflow-hidden rounded-2xl border border-sage-100 bg-sage-50/40"
+            className="overflow-hidden rounded-lg border border-[#eadbc4] bg-[#fffaf2]"
           >
-            <div className="border-t border-sage-100 bg-white px-5 py-5 small:px-6">
+            <div className="border-t border-[#eadbc4] bg-white px-5 py-5 small:px-6">
               {tab.component}
             </div>
           </Accordion.Item>
         ))}
       </Accordion>
 
-      <div className="mt-8 rounded-2xl border border-cream-200 bg-cream-50 p-6">
+      <div className="mt-8 rounded-lg border border-[#eadbc4] bg-[#fffaf2] p-6">
         <Heading
           level="h3"
           className="mb-2 font-display text-xl font-semibold text-cream-900"

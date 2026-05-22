@@ -18,6 +18,14 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "@internationalized/date": require.resolve("@internationalized/date"),
+    }
+
+    return config
+  },
   // 缓存配置优化
   experimental: {
     staleTimes:

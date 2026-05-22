@@ -26,10 +26,10 @@ export async function generateMetadata(props: {
   const { slug } = await props.params
   const guide = await getGuideBySlugCMS(slug).catch(() => null)
   if (!guide) {
-    return { title: "Brewing Guide | Zentee" }
+    return { title: "Brewing Guide" }
   }
   return {
-    title: `Brew ${guide.teaType} | Zentee Guides`,
+    title: `Brew ${guide.teaType}`,
     description: `How to brew ${guide.teaType} tea — temperature, ratio, and steeping steps.`,
   }
 }

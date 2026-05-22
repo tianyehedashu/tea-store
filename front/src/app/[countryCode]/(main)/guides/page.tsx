@@ -6,7 +6,7 @@ import GuidesIndexTemplate from "@modules/guides/templates/guides-index"
 export const revalidate = 600
 
 export const metadata: Metadata = {
-  title: "Brewing Guides | Zentee",
+  title: "Brewing Guides",
   description:
     "Water temperature, leaf ratio, and steeping steps for green, oolong, black, and more.",
 }

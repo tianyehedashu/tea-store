@@ -29,10 +29,10 @@ export async function generateMetadata(props: {
   const { slug } = await props.params
   const origin = await getOriginBySlug(slug)
   if (!origin) {
-    return { title: "Origin | Zentee" }
+    return { title: "Origin" }
   }
   return {
-    title: `${origin.title} | Zentee Origins`,
+    title: origin.title,
     description: `Explore ${origin.title} — terroir, flavor, and teas from this origin.`,
   }
 }

@@ -19,11 +19,11 @@ const brandSans = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
   title: {
-    default: "Zentee - Sip the Calm",
+    default: "Zentee - Single-Origin Teas",
     template: "%s | Zentee",
   },
   description:
-    "Tea with a Zen State of Mind. Experience mindful tea ceremonies that nurture tranquility, balance, and inner peace through premium organic teas.",
+    "Single-origin loose-leaf teas with origin stories, precise brewing guidance, and a calmer way to shop for a better daily cup.",
   keywords: [
     "zen tea",
     "mindful tea",
@@ -67,10 +67,10 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    siteName: "Zentee",
-    title: "Zentee - Sip the Calm",
+      siteName: "Zentee",
+    title: "Zentee - Single-Origin Teas",
     description:
-      "Tea with a Zen State of Mind. Experience mindful tea ceremonies that nurture tranquility, balance, and inner peace.",
+      "Single-origin loose-leaf teas with origin stories and precise brewing guidance.",
     images: [
       {
         url: "https://images.unsplash.com/photo-1556760146-a3e5e6e2abd9?w=1200&h=630&fit=crop&crop=center",
@@ -82,9 +82,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zentee - Sip the Calm",
+    title: "Zentee - Single-Origin Teas",
     description:
-      "Tea with a Zen State of Mind. Experience mindful tea ceremonies that nurture tranquility, balance, and inner peace.",
+      "Single-origin loose-leaf teas with origin stories and precise brewing guidance.",
     images: [
       "https://images.unsplash.com/photo-1556760146-a3e5e6e2abd9?w=1200&h=675&fit=crop&crop=center",
     ],
@@ -117,7 +117,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         <meta name="msapplication-TileColor" content="#5BA05B" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
       </head>
-      <body className="bg-brand-50 text-grey-90">
+      <body className="bg-[#fffaf2] text-sage-900 antialiased">
         <main className="relative">{props.children}</main>
       </body>
     </html>

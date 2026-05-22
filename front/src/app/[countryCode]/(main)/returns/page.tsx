@@ -3,7 +3,7 @@ import StaticPage from "@modules/common/components/static-page"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 export const metadata: Metadata = {
-  title: "Returns & Refunds | Zentee",
+  title: "Returns & Refunds",
   description: "Return policy for unopened Zentee tea products.",
 }
 

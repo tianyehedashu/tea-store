@@ -12,6 +12,7 @@ type ThumbnailProps = {
   size?: "small" | "medium" | "large" | "full" | "square"
   isFeatured?: boolean
   className?: string
+  alt?: string
   "data-testid"?: string
 }
 
@@ -21,6 +22,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   size = "small",
   isFeatured,
   className,
+  alt,
   "data-testid": dataTestid,
 }) => {
   // 与详情页图库顺序一致：优先第一张 gallery 图，避免 thumbnail 与 images[0] 不一致时列表「货不对图」
@@ -30,7 +32,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   return (
     <Container
       className={clx(
-        "relative w-full overflow-hidden bg-sage-100 rounded-2xl",
+        "relative w-full overflow-hidden rounded-lg bg-sage-100",
         className,
         {
           "aspect-[4/5]": size !== "square",
@@ -43,7 +45,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
       )}
       data-testid={dataTestid}
     >
-      <ImageOrPlaceholder image={initialImage} size={size} />
+      <ImageOrPlaceholder image={initialImage} size={size} alt={alt} />
     </Container>
   )
 }
@@ -51,12 +53,13 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
 const ImageOrPlaceholder = ({
   image,
   size,
-}: Pick<ThumbnailProps, "size"> & { image?: string }) => {
+  alt,
+}: Pick<ThumbnailProps, "size" | "alt"> & { image?: string }) => {
   return image ? (
     <Image
       key={image}
       src={image}
-      alt="Thumbnail"
+      alt={alt ?? "Product image"}
       className="absolute inset-0 object-cover object-center"
       draggable={false}
       quality={50}

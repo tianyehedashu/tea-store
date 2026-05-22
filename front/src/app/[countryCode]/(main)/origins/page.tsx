@@ -6,7 +6,7 @@ import OriginsIndexTemplate from "@modules/origins/templates/origins-index"
 export const revalidate = 600
 
 export const metadata: Metadata = {
-  title: "Tea Origins | Zentee",
+  title: "Tea Origins",
   description:
     "Discover the mountains, regions, and flavor profiles behind Zentee teas.",
 }

@@ -13,12 +13,12 @@ export default async function Nav() {
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
-      <header className="relative mx-auto duration-200 bg-white/95 backdrop-blur-md border-b border-sage-200 shadow-sm">
+      <header className="relative mx-auto border-b border-[#eadbc4] bg-[#fffaf2]/95 shadow-sm backdrop-blur-md duration-200">
         <nav className="content-container flex items-center justify-between h-20">
           {/* Mobile Menu */}
           <div className="flex-1 basis-0 h-full flex items-center small:hidden">
             <div className="h-full">
-              <SideMenu regions={regions} />
+              <SideMenu regions={regions} categories={categories} />
             </div>
           </div>
 
@@ -26,7 +26,7 @@ export default async function Nav() {
           <div className="flex items-center h-full">
             <LocalizedClientLink
               href="/"
-              className="font-display text-2xl font-bold text-sage-900 hover:text-brand-600 transition-colors duration-300"
+              className="font-display text-2xl font-semibold text-[#111d16] transition-colors duration-300 hover:text-[#82471f]"
               data-testid="nav-store-link"
             >
               Zentee
@@ -38,7 +38,7 @@ export default async function Nav() {
             {/* Desktop Menu */}
             <div className="hidden small:flex items-center gap-x-8 h-full">
               <LocalizedClientLink
-                className="text-sage-700 hover:text-brand-600 transition-colors duration-300 font-medium"
+                className="text-sm font-semibold text-sage-800 transition-colors duration-300 hover:text-[#82471f]"
                 href="/store"
                 data-testid="nav-store-link"
               >
@@ -47,7 +47,7 @@ export default async function Nav() {
 
               {/* Tea Categories Dropdown */}
               <div className="relative group">
-                <button className="text-sage-700 hover:text-brand-600 transition-colors duration-300 font-medium flex items-center gap-1">
+                <button className="flex items-center gap-1 text-sm font-semibold text-sage-800 transition-colors duration-300 hover:text-[#82471f]">
                   Categories
                   <svg
                     className="w-4 h-4 transition-transform group-hover:rotate-180"
@@ -64,7 +64,7 @@ export default async function Nav() {
                   </svg>
                 </button>
 
-                <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-sage-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                <div className="invisible absolute left-0 top-full mt-3 w-60 translate-y-2 rounded-lg border border-[#eadbc4] bg-[#fffaf2] opacity-0 shadow-xl transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
                   <div className="py-4 px-2">
                     {categories
                       ?.filter((cat) => cat.name.includes("Tea"))
@@ -73,9 +73,9 @@ export default async function Nav() {
                         <LocalizedClientLink
                           key={category.id}
                           href={`/categories/${category.handle}`}
-                          className="flex items-center gap-3 px-4 py-3 text-sage-700 hover:text-brand-600 hover:bg-sage-50 rounded-lg transition-colors duration-200"
+                          className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-sage-800 transition-colors duration-200 hover:bg-white hover:text-[#82471f]"
                         >
-                          <span className="w-2 h-2 rounded-full bg-brand-400"></span>
+                          <span className="h-2 w-2 rounded-full bg-[#a6602e]"></span>
                           {category.name}
                         </LocalizedClientLink>
                       ))}
@@ -84,35 +84,35 @@ export default async function Nav() {
               </div>
 
               <LocalizedClientLink
-                className="text-sage-700 hover:text-brand-600 transition-colors duration-300 font-medium"
+                className="text-sm font-semibold text-sage-800 transition-colors duration-300 hover:text-[#82471f]"
                 href="/guides"
               >
                 Brewing Guides
               </LocalizedClientLink>
 
               <LocalizedClientLink
-                className="text-sage-700 hover:text-brand-600 transition-colors duration-300 font-medium"
+                className="text-sm font-semibold text-sage-800 transition-colors duration-300 hover:text-[#82471f]"
                 href="/origins"
               >
                 Origins
               </LocalizedClientLink>
 
               <LocalizedClientLink
-                className="text-sage-700 hover:text-brand-600 transition-colors duration-300 font-medium"
+                className="text-sm font-semibold text-sage-800 transition-colors duration-300 hover:text-[#82471f]"
                 href="/about"
               >
                 About
               </LocalizedClientLink>
 
               <LocalizedClientLink
-                className="text-sage-700 hover:text-brand-600 transition-colors duration-300 font-medium"
+                className="text-sm font-semibold text-sage-800 transition-colors duration-300 hover:text-[#82471f]"
                 href="/help"
               >
                 Help
               </LocalizedClientLink>
 
               <LocalizedClientLink
-                className="text-sage-700 hover:text-brand-600 transition-colors duration-300 font-medium"
+                className="text-sm font-semibold text-sage-800 transition-colors duration-300 hover:text-[#82471f]"
                 href="/account"
                 data-testid="nav-account-link"
               >

@@ -25,8 +25,9 @@
     "cache-manager": "node scripts/cache-manager.js"
   },
   "dependencies": {
-    "@medusajs/icons": "latest",
     "@headlessui/react": "^2.2.0",
+    "@internationalized/date": "3.8.2",
+    "@medusajs/icons": "latest",
     "@medusajs/js-sdk": "latest",
     "@medusajs/ui": "latest",
     "@radix-ui/react-accordion": "^1.2.1",

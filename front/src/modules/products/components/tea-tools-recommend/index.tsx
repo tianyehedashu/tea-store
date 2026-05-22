@@ -36,58 +36,58 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
     teapot: {
       name: "Teapot",
       description: "Primary brewing vessel",
-      icon: "🫖",
+      icon: "Pot",
     },
     gaiwan: {
       name: "Gaiwan",
       description: "Traditional lidded bowl",
-      icon: "🍵",
+      icon: "Bowl",
     },
     "tea-cup": {
       name: "Tea Cup",
       description: "For serving and tasting",
-      icon: "☕",
+      icon: "Cup",
     },
     "tea-strainer": {
       name: "Tea Strainer",
       description: "Filter tea leaves",
-      icon: "🥄",
+      icon: "Tool",
     },
     "tea-tray": {
       name: "Tea Tray",
       description: "Catch overflow water",
-      icon: "🍽️",
+      icon: "Tray",
     },
     "tea-towel": {
       name: "Tea Towel",
       description: "Clean and dry vessels",
-      icon: "🧻",
+      icon: "Cloth",
     },
     kettle: {
       name: "Kettle",
       description: "Heat water to proper temperature",
-      icon: "🔥",
+      icon: "Heat",
     },
     thermometer: {
       name: "Thermometer",
       description: "Monitor water temperature",
-      icon: "🌡️",
+      icon: "Temp",
     },
-    timer: { name: "Timer", description: "Time steeping duration", icon: "⏱️" },
+    timer: { name: "Timer", description: "Time steeping duration", icon: "Time" },
     scale: {
       name: "Digital Scale",
       description: "Measure tea accurately",
-      icon: "⚖️",
+      icon: "Scale",
     },
     "storage-tin": {
       name: "Storage Tin",
       description: "Keep tea fresh",
-      icon: "🥫",
+      icon: "Tin",
     },
     "bamboo-scoop": {
       name: "Tea Scoop",
       description: "Measure and transfer tea",
-      icon: "🥄",
+      icon: "Tool",
     },
   }
 
@@ -134,7 +134,7 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
             level="h3"
             className="text-lg font-semibold text-red-700 mb-4 flex items-center gap-2"
           >
-            <span className="text-xl">⭐</span>
+            <span className="text-xl">Key</span>
             Essential Tea Tools
           </Heading>
 
@@ -143,7 +143,7 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
               const toolInfo = toolCategoryMap[tool] || {
                 name: tool,
                 description: "",
-                icon: "🔧",
+                icon: "Tool",
               }
               return (
                 <div
@@ -173,7 +173,7 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
             level="h3"
             className="text-lg font-semibold text-blue-700 mb-4 flex items-center gap-2"
           >
-            <span className="text-xl">🚀</span>
+            <span className="text-xl">Advanced</span>
             Advanced Tea Tools
           </Heading>
 
@@ -182,7 +182,7 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
               const toolInfo = toolCategoryMap[tool] || {
                 name: tool,
                 description: "",
-                icon: "🔧",
+                icon: "Tool",
               }
               return (
                 <div
@@ -213,7 +213,7 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
               level="h3"
               className="text-lg font-semibold text-purple-700 mb-4 flex items-center gap-2"
             >
-              <span className="text-xl">🎁</span>
+              <span className="text-xl">Set</span>
               Curated Tea Sets
             </Heading>
 
@@ -283,7 +283,7 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
               level="h3"
               className="text-lg font-semibold text-grey-80 flex items-center gap-2"
             >
-              <span className="text-xl">🛠️</span>
+              <span className="text-xl">Tools</span>
               Brewing Accessories
             </Heading>
 
@@ -351,7 +351,7 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
           level="h3"
           className="text-lg font-semibold text-cream-800 mb-4 flex items-center gap-2"
         >
-          <span className="text-xl">📚</span>
+          <span className="text-xl">Guide</span>
           Tea Tool Guide by Tea Type
         </Heading>
 
@@ -359,7 +359,7 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
           <div className="space-y-3">
             <div className="p-3 bg-white rounded-md border border-cream-100">
               <Text className="font-medium text-cream-800 mb-1">
-                🍃 Green Tea
+                Green Tea
               </Text>
               <Text className="text-sm text-cream-700">
                 Glass cup, lower temperature kettle, fine strainer
@@ -367,7 +367,7 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
             </div>
             <div className="p-3 bg-white rounded-md border border-cream-100">
               <Text className="font-medium text-cream-800 mb-1">
-                🥀 Black Tea
+                Black Tea
               </Text>
               <Text className="text-sm text-cream-700">
                 Ceramic/porcelain teapot, milk jug, sugar bowl
@@ -375,7 +375,7 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
             </div>
             <div className="p-3 bg-white rounded-md border border-cream-100">
               <Text className="font-medium text-cream-800 mb-1">
-                🌸 Oolong Tea
+                Oolong Tea
               </Text>
               <Text className="text-sm text-cream-700">
                 Yixing teapot or gaiwan, fairness cup, aroma cup
@@ -385,7 +385,7 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
           <div className="space-y-3">
             <div className="p-3 bg-white rounded-md border border-cream-100">
               <Text className="font-medium text-cream-800 mb-1">
-                ⚫ Pu-erh Tea
+                Pu-erh Tea
               </Text>
               <Text className="text-sm text-cream-700">
                 Clay teapot, tea pick, large tea tray
@@ -393,7 +393,7 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
             </div>
             <div className="p-3 bg-white rounded-md border border-cream-100">
               <Text className="font-medium text-cream-800 mb-1">
-                ⚪ White Tea
+                White Tea
               </Text>
               <Text className="text-sm text-cream-700">
                 Glass or porcelain vessel, gentle strainer
@@ -401,7 +401,7 @@ const TeaToolsRecommend = ({ product }: TeaToolsRecommendProps) => {
             </div>
             <div className="p-3 bg-white rounded-md border border-cream-100">
               <Text className="font-medium text-cream-800 mb-1">
-                🌺 Flower Tea
+                Flower Tea
               </Text>
               <Text className="text-sm text-cream-700">
                 Glass teapot, blooming tea vessel, honey dipper

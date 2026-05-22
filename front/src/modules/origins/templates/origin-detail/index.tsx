@@ -14,7 +14,7 @@ export default function OriginDetailTemplate({
   const handles = origin.products?.map((p) => p.handle) ?? []
 
   return (
-    <div className="min-h-screen bg-cream-50/40">
+    <div className="min-h-screen bg-[#fffaf2]">
       <OriginHero origin={origin} />
 
       <article className="content-container py-12 small:py-16">
@@ -40,9 +40,7 @@ export default function OriginDetailTemplate({
               <ul className="space-y-2 text-sage-700">
                 {origin.teaStyles.map((style) => (
                   <li key={style} className="flex gap-2">
-                    <span className="text-brand-500" aria-hidden>
-                      ?
-                    </span>
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#a6602e]" aria-hidden />
                     <span>{style}</span>
                   </li>
                 ))}
@@ -92,7 +90,7 @@ export default function OriginDetailTemplate({
           ) : null}
 
           {origin.history ? (
-            <section className="space-y-4 rounded-2xl border border-sage-200 bg-white p-6 shadow-sm">
+            <section className="space-y-4 rounded-lg border border-[#eadbc4] bg-white p-6 shadow-sm">
               <h2 className="text-xl font-semibold text-sage-900">
                 History & culture
               </h2>
@@ -102,7 +100,7 @@ export default function OriginDetailTemplate({
         </div>
 
         {handles.length > 0 ? (
-          <div className="mt-16 border-t border-sage-200 pt-12">
+          <div className="mt-16 border-t border-[#eadbc4] pt-12">
             <ProductsByHandles
               handles={handles}
               countryCode={countryCode}
@@ -112,7 +110,7 @@ export default function OriginDetailTemplate({
           </div>
         ) : null}
 
-        <div className="mx-auto max-w-3xl flex flex-wrap gap-4 pt-12 mt-12 border-t border-sage-200">
+        <div className="mx-auto mt-12 flex max-w-3xl flex-wrap gap-4 border-t border-[#eadbc4] pt-12">
           <LocalizedClientLink href="/store" className="brand-cta text-sm">
             Shop all teas
           </LocalizedClientLink>

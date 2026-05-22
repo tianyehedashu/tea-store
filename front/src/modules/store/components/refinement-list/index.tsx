@@ -45,7 +45,7 @@ const RefinementList = ({
         categories={categories}
         data-testid={dataTestId}
       />
-      <aside className="hidden small:block small:min-w-[320px] small:mr-8 py-6 mb-8">
+      <aside className="hidden small:sticky small:top-24 small:block small:min-w-[300px] small:max-w-[320px]">
         <RefinementPanel
           sortBy={sortBy}
           setQueryParams={setQueryParams}

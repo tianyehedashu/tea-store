@@ -45,12 +45,12 @@ export default function MobileNavOverlay({
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-y-0 left-0 w-full max-w-sm bg-white z-50 shadow-xl transform transition-transform duration-300 ease-out ${
+        className={`fixed inset-y-0 left-0 w-full max-w-sm bg-[#fffaf2] z-50 shadow-xl transform transition-transform duration-300 ease-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-sage-200">
+        <div className="flex items-center justify-between border-b border-[#eadbc4] p-6">
           <LocalizedClientLink
             href="/"
             onClick={onClose}
@@ -60,7 +60,7 @@ export default function MobileNavOverlay({
           </LocalizedClientLink>
           <button
             onClick={onClose}
-            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-sage-100 transition-colors"
+            className="flex h-10 w-10 items-center justify-center rounded-lg transition-colors hover:bg-white"
             aria-label="Close menu"
           >
             <svg
@@ -87,9 +87,9 @@ export default function MobileNavOverlay({
               <LocalizedClientLink
                 href="/store"
                 onClick={onClose}
-                className="flex items-center gap-3 py-3 text-lg font-medium text-sage-900 hover:text-brand-600 transition-colors"
+                className="flex items-center gap-3 py-3 text-lg font-medium text-sage-900 transition-colors hover:text-[#82471f]"
               >
-                <div className="w-2 h-2 bg-brand-500 rounded-full"></div>
+                <div className="h-2 w-2 rounded-full bg-[#a6602e]"></div>
                 Shop All Teas
               </LocalizedClientLink>
 
@@ -101,10 +101,10 @@ export default function MobileNavOverlay({
                       activeSubmenu === "categories" ? null : "categories"
                     )
                   }
-                  className="flex items-center justify-between w-full py-3 text-lg font-medium text-sage-900 hover:text-brand-600 transition-colors"
+                  className="flex w-full items-center justify-between py-3 text-lg font-medium text-sage-900 transition-colors hover:text-[#82471f]"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-brand-500 rounded-full"></div>
+                    <div className="h-2 w-2 rounded-full bg-[#a6602e]"></div>
                     Tea Categories
                   </div>
                   <svg
@@ -136,7 +136,7 @@ export default function MobileNavOverlay({
                       key={category.id}
                       href={`/categories/${category.handle}`}
                       onClick={onClose}
-                      className="block py-2 text-sage-700 hover:text-brand-600 transition-colors"
+                      className="block py-2 text-sage-700 transition-colors hover:text-[#82471f]"
                     >
                       {category.name}
                     </LocalizedClientLink>
@@ -147,33 +147,33 @@ export default function MobileNavOverlay({
               <LocalizedClientLink
                 href="/guides"
                 onClick={onClose}
-                className="flex items-center gap-3 py-3 text-lg font-medium text-sage-900 hover:text-brand-600 transition-colors"
+                className="flex items-center gap-3 py-3 text-lg font-medium text-sage-900 transition-colors hover:text-[#82471f]"
               >
-                <div className="w-2 h-2 bg-brand-500 rounded-full"></div>
+                <div className="h-2 w-2 rounded-full bg-[#a6602e]"></div>
                 Brewing Guides
               </LocalizedClientLink>
 
               <LocalizedClientLink
                 href="/origins"
                 onClick={onClose}
-                className="flex items-center gap-3 py-3 text-lg font-medium text-sage-900 hover:text-brand-600 transition-colors"
+                className="flex items-center gap-3 py-3 text-lg font-medium text-sage-900 transition-colors hover:text-[#82471f]"
               >
-                <div className="w-2 h-2 bg-brand-500 rounded-full"></div>
+                <div className="h-2 w-2 rounded-full bg-[#a6602e]"></div>
                 Tea Origins
               </LocalizedClientLink>
 
               <LocalizedClientLink
                 href="/account"
                 onClick={onClose}
-                className="flex items-center gap-3 py-3 text-lg font-medium text-sage-900 hover:text-brand-600 transition-colors"
+                className="flex items-center gap-3 py-3 text-lg font-medium text-sage-900 transition-colors hover:text-[#82471f]"
               >
-                <div className="w-2 h-2 bg-brand-500 rounded-full"></div>
+                <div className="h-2 w-2 rounded-full bg-[#a6602e]"></div>
                 My Account
               </LocalizedClientLink>
             </nav>
 
             {/* Divider */}
-            <div className="border-t border-sage-200"></div>
+            <div className="border-t border-[#eadbc4]"></div>
 
             {/* Quick Actions */}
             <div className="space-y-4">
@@ -188,7 +188,7 @@ export default function MobileNavOverlay({
                   className="tea-category-card group py-4"
                 >
                   <div className="text-center space-y-2">
-                    <div className="w-8 h-8 mx-auto bg-gradient-to-br from-brand-400 to-brand-600 rounded-lg flex items-center justify-center">
+                    <div className="mx-auto flex h-8 w-8 items-center justify-center rounded-lg bg-[#a6602e]">
                       <svg
                         className="w-4 h-4 text-white"
                         fill="none"
@@ -215,7 +215,7 @@ export default function MobileNavOverlay({
                   className="tea-category-card group py-4"
                 >
                   <div className="text-center space-y-2">
-                    <div className="w-8 h-8 mx-auto bg-gradient-to-br from-brand-400 to-brand-600 rounded-lg flex items-center justify-center">
+                    <div className="mx-auto flex h-8 w-8 items-center justify-center rounded-lg bg-[#a6602e]">
                       <svg
                         className="w-4 h-4 text-white"
                         fill="none"
@@ -240,7 +240,7 @@ export default function MobileNavOverlay({
           </div>
 
           {/* Bottom CTA */}
-          <div className="mt-auto p-6 bg-gradient-to-r from-brand-50 to-sage-50">
+          <div className="mt-auto bg-[#f5eddf] p-6">
             <div className="text-center space-y-3">
               <h3 className="font-semibold text-sage-900">New to Tea?</h3>
               <p className="text-sm text-sage-600">

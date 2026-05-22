@@ -27,17 +27,17 @@ export default function CheckoutStepShell({
   return (
     <section
       className={clx(
-        "rounded-2xl border bg-white p-6 small:p-8 transition-colors",
+        "rounded-lg border bg-white p-6 transition-colors small:p-8",
         isOpen
-          ? "border-brand-200 shadow-sm ring-1 ring-brand-100"
-          : "border-sage-200",
+          ? "border-[#d5b58f] shadow-sm ring-1 ring-[#eadbc4]"
+          : "border-[#eadbc4]",
         isDisabled && !isOpen && "opacity-60"
       )}
     >
       <div className="flex items-center justify-between gap-4 mb-6">
         <h2
           className={clx(
-            "font-display text-xl font-semibold text-sage-900 flex items-center gap-2",
+            "flex items-center gap-2 font-display text-xl font-semibold text-sage-900",
             isDisabled && !isOpen && "pointer-events-none select-none"
           )}
         >
@@ -50,7 +50,7 @@ export default function CheckoutStepShell({
           <button
             type="button"
             onClick={onEdit}
-            className="text-sm font-medium text-brand-600 hover:text-brand-700 shrink-0"
+            className="shrink-0 text-sm font-medium text-[#a6602e] hover:text-[#82471f]"
             data-testid={editTestId}
           >
             Edit

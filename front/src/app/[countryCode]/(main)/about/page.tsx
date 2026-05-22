@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#fffaf2]">
       <PageHero
         eyebrow="Our Story"
         title="Tea as ritual, origin as truth"
@@ -24,7 +24,7 @@ export default function AboutPage() {
         </LocalizedClientLink>
       </PageHero>
 
-      <article className="content-container py-12 max-w-3xl space-y-8 text-sage-700 leading-relaxed">
+      <article className="content-container max-w-3xl space-y-8 py-12 leading-relaxed text-sage-700">
         <p>
           We partner directly with growers who honor craft, purity, and the land
           that shapes each harvest. Every product carries origin context,

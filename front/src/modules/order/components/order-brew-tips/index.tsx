@@ -27,14 +27,14 @@ export default async function OrderBrewTips({
   }
 
   return (
-    <div className="mt-8 p-6 bg-sage-50 rounded-2xl border border-sage-200">
+    <div className="mt-8 rounded-lg border border-[#eadbc4] bg-[#fffaf2] p-6">
       <h2 className="text-lg font-semibold text-sage-900 mb-4">
         Brew your {teaItem.product.title}
       </h2>
       <BrewTipsDisplay
         brew={brew}
         title="Brewing tips for your order"
-        className="rounded-lg border border-sage-200 bg-white p-4"
+        className="rounded-lg border border-[#eadbc4] bg-white p-4"
       />
     </div>
   )

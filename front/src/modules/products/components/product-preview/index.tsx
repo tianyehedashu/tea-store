@@ -1,5 +1,3 @@
-import { Text } from "@medusajs/ui"
-import { listProducts } from "@lib/data/products"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
@@ -15,15 +13,6 @@ export default async function ProductPreview({
   isFeatured?: boolean
   region: HttpTypes.StoreRegion
 }) {
-  // const pricedProduct = await listProducts({
-  //   regionId: region.id,
-  //   queryParams: { id: [product.id!] },
-  // }).then(({ response }) => response.products[0])
-
-  // if (!pricedProduct) {
-  //   return null
-  // }
-
   const { cheapestPrice } = getProductPrice({
     product,
   })
@@ -32,20 +21,21 @@ export default async function ProductPreview({
     <LocalizedClientLink href={`/products/${product.handle}`} className="block">
       <article className="tea-card group" data-testid="product-wrapper">
         {/* Image Container */}
-        <div className="relative overflow-hidden aspect-[4/5]">
+        <div className="relative aspect-[4/5] overflow-hidden">
           <Thumbnail
             thumbnail={product.thumbnail}
             images={product.images}
             size="full"
             isFeatured={isFeatured}
+            alt={product.title}
             className="transition-all duration-700 ease-out group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-sage-900/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#111d16]/35 via-transparent to-transparent opacity-0 transition-all duration-500 group-hover:opacity-100" />
 
           {/* Tea Type Badge */}
           {typeof product.metadata?.tea_type === "string" && (
             <div className="absolute top-4 left-4">
-              <span className="brand-badge backdrop-blur-sm bg-white/90">
+              <span className="brand-badge bg-[#fffaf2]/90 backdrop-blur-sm">
                 {String(product.metadata.tea_type)}
               </span>
             </div>
@@ -54,7 +44,7 @@ export default async function ProductPreview({
           {/* Grade Badge */}
           {typeof product.metadata?.grade === "string" && (
             <div className="absolute top-4 right-4">
-              <span className="px-2 py-1 text-xs font-medium bg-cream-100 text-cream-800 rounded-full border border-cream-200">
+              <span className="rounded-full border border-[#eadbc4] bg-white/90 px-2 py-1 text-xs font-semibold text-[#82471f] backdrop-blur-sm">
                 {String(product.metadata.grade)}
               </span>
             </div>
@@ -62,11 +52,11 @@ export default async function ProductPreview({
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-4">
+        <div className="space-y-4 p-5">
           {/* Title and Origin */}
           <div className="space-y-2">
             <h3
-              className="text-lg font-semibold text-sage-900 group-hover:text-brand-600 transition-colors duration-300 line-clamp-2"
+              className="line-clamp-2 text-lg font-semibold text-sage-900 transition-colors duration-300 group-hover:text-[#82471f]"
               data-testid="product-title"
             >
               {product.title}
@@ -91,7 +81,7 @@ export default async function ProductPreview({
           {Array.isArray(product.metadata?.flavor_notes) &&
             product.metadata.flavor_notes.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs font-medium text-sage-700 uppercase tracking-wide">
+                <p className="section-eyebrow">
                   Flavor Notes
                 </p>
                 <div className="flex flex-wrap gap-1.5">
@@ -100,7 +90,7 @@ export default async function ProductPreview({
                     .map((note: string) => (
                       <span
                         key={note}
-                        className="inline-block px-3 py-1 text-xs bg-sage-50 text-sage-700 rounded-full border border-sage-200 capitalize"
+                        className="inline-block rounded-full border border-[#eadbc4] bg-[#fffaf2] px-3 py-1 text-xs capitalize text-sage-700"
                       >
                         {note}
                       </span>
@@ -111,7 +101,7 @@ export default async function ProductPreview({
 
           {/* Brewing Info Hint */}
           {typeof product.metadata?.brew_override === "string" && (
-            <div className="flex items-center gap-2 text-xs text-sage-600">
+            <div className="flex items-center gap-2 border-t border-[#eadbc4] pt-3 text-xs font-medium text-sage-600">
               <svg
                 className="w-4 h-4"
                 fill="none"

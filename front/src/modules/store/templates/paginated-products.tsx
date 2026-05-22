@@ -75,7 +75,7 @@ export default async function PaginatedProducts({
     <div className="space-y-8">
       {products.length === 0 ? (
         <div className="text-center py-16 space-y-4">
-          <div className="w-24 h-24 bg-sage-100 rounded-full flex items-center justify-center mx-auto">
+          <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-[#f5eddf]">
             <svg
               className="w-12 h-12 text-sage-400"
               fill="none"
@@ -100,7 +100,7 @@ export default async function PaginatedProducts({
       ) : (
         <>
           {/* Products count and sorting info */}
-          <div className="flex items-center justify-between border-b border-sage-200 pb-4">
+          <div className="flex items-center justify-between border-b border-[#eadbc4] pb-4">
             <p className="text-sage-600">
               Showing{" "}
               <span className="font-medium text-sage-900">
@@ -128,7 +128,7 @@ export default async function PaginatedProducts({
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="mt-16 flex justify-center">
-              <div className="bg-white rounded-2xl shadow-lg border border-sage-200 p-2">
+              <div className="rounded-lg border border-[#eadbc4] bg-white p-2 shadow-sm">
                 <Pagination
                   data-testid="product-pagination"
                   page={page}

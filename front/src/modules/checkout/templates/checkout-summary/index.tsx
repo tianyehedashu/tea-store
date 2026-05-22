@@ -6,7 +6,7 @@ import Divider from "@modules/common/components/divider"
 const CheckoutSummary = ({ cart }: { cart: any }) => {
   return (
     <aside className="sticky top-24">
-      <div className="rounded-2xl border border-sage-200 bg-white p-6 shadow-sm space-y-6">
+      <div className="space-y-6 rounded-lg border border-[#eadbc4] bg-white p-6 shadow-sm">
         <Divider className="small:hidden" />
         <h2 className="text-xl font-semibold text-sage-900">In your cart</h2>
         <Divider />

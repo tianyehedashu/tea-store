@@ -24,11 +24,11 @@ export default function ProductPrice({
   return (
     <div className="flex flex-col text-sage-900">
       <span className="mb-1 text-xs font-semibold uppercase tracking-wide text-sage-500">
-        Price
+        Your price
       </span>
       <span
         className={clx("text-2xl font-semibold tracking-tight", {
-          "text-brand-600": selectedPrice.price_type === "sale",
+          "text-[#a6602e]": selectedPrice.price_type === "sale",
         })}
       >
         {!variant && "From "}

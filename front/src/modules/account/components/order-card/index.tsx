@@ -50,7 +50,12 @@ const OrderCard = ({ order }: OrderCardProps) => {
               className="flex flex-col gap-y-2"
               data-testid="order-item"
             >
-              <Thumbnail thumbnail={i.thumbnail} images={[]} size="full" />
+              <Thumbnail
+                thumbnail={i.thumbnail}
+                images={[]}
+                size="full"
+                alt={i.title}
+              />
               <div className="flex items-center text-sm text-sage-800">
                 <span
                   className="text-sage-900 font-semibold"

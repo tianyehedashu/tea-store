@@ -50,6 +50,18 @@
 }
 
 @layer components {
+  :root {
+    --zentee-ink: #111d16;
+    --zentee-forest: #183122;
+    --zentee-forest-soft: #243d2c;
+    --zentee-paper: #fffaf2;
+    --zentee-warm: #f5eddf;
+    --zentee-line: #eadbc4;
+    --zentee-copper: #a6602e;
+    --zentee-copper-dark: #82471f;
+    --zentee-muted: #647567;
+  }
+
   .content-container {
     @apply max-w-[1440px] w-full mx-auto px-6 small:px-8 medium:px-12;
   }
@@ -67,31 +79,90 @@
   }
 
   .brand-cta {
-    @apply inline-flex items-center gap-3 rounded-lg px-8 py-4 bg-brand-500 text-white hover:bg-brand-600 transition-all duration-300 ease-out shadow-lg hover:shadow-xl font-semibold;
+    @apply inline-flex items-center justify-center gap-3 rounded-lg px-7 py-3.5 text-sm font-semibold transition-all duration-300 ease-out;
+    background: var(--zentee-copper);
+    color: #fffaf2;
+    box-shadow: 0 18px 38px rgba(70, 38, 18, 0.2);
+  }
+
+  .brand-cta:hover {
+    background: var(--zentee-copper-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 22px 46px rgba(70, 38, 18, 0.24);
   }
 
   .brand-outline {
-    @apply inline-flex items-center gap-3 rounded-lg px-8 py-4 border-2 border-brand-500 text-brand-600 hover:bg-brand-50 transition-all duration-300 ease-out font-semibold;
+    @apply inline-flex items-center justify-center gap-3 rounded-lg px-7 py-3.5 text-sm font-semibold transition-all duration-300 ease-out;
+    background: rgba(255, 250, 242, 0.72);
+    border: 1px solid var(--zentee-line);
+    color: var(--zentee-ink);
+  }
+
+  .brand-outline:hover {
+    background: #fffaf2;
+    border-color: #c99a70;
+    color: var(--zentee-copper-dark);
   }
 
   .brand-card {
-    @apply rounded-2xl bg-white shadow-sm ring-1 ring-sage-200 hover:shadow-xl hover:ring-sage-300 transition-all duration-500 ease-out overflow-hidden;
+    @apply overflow-hidden rounded-lg bg-white shadow-sm transition-all duration-300 ease-out;
+    border: 1px solid var(--zentee-line);
+  }
+
+  .brand-card:hover {
+    border-color: #d5b58f;
+    box-shadow: 0 22px 50px rgba(17, 29, 22, 0.1);
+    transform: translateY(-2px);
   }
 
   .brand-badge {
-    @apply inline-flex items-center rounded-full bg-sage-100 text-sage-700 px-3 py-1.5 text-xs font-medium border border-sage-200;
+    @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold;
+    background: #f3ead9;
+    border: 1px solid var(--zentee-line);
+    color: var(--zentee-copper-dark);
   }
 
   .hero-gradient {
-    @apply bg-gradient-to-br from-brand-50 via-sage-50 to-cream-50;
+    background:
+      radial-gradient(circle at 84% 12%, rgba(166, 96, 46, 0.08), transparent 30%),
+      linear-gradient(135deg, #fffaf2 0%, #f5eddf 52%, #eef4e7 100%);
   }
 
   .tea-card {
-    @apply relative bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-700 ease-out overflow-hidden border border-sage-100 hover:border-sage-200;
+    @apply relative overflow-hidden rounded-lg bg-white shadow-sm transition-all duration-300 ease-out;
+    border: 1px solid var(--zentee-line);
+  }
+
+  .tea-card:hover {
+    border-color: #d5b58f;
+    box-shadow: 0 26px 58px rgba(17, 29, 22, 0.12);
+    transform: translateY(-3px);
   }
 
   .tea-category-card {
-    @apply relative bg-gradient-to-br from-white to-sage-50 rounded-xl shadow-sm hover:shadow-lg transition-all duration-500 ease-out border border-sage-200 hover:border-brand-300 p-6 text-center;
+    @apply relative rounded-lg bg-white p-6 text-center shadow-sm transition-all duration-300 ease-out;
+    border: 1px solid var(--zentee-line);
+  }
+
+  .tea-category-card:hover {
+    border-color: #d5b58f;
+    box-shadow: 0 18px 42px rgba(17, 29, 22, 0.1);
+  }
+
+  .section-eyebrow {
+    @apply text-xs font-semibold uppercase;
+    color: var(--zentee-copper);
+    letter-spacing: 0.16em;
+  }
+
+  .zentee-surface {
+    @apply rounded-lg bg-white shadow-sm;
+    border: 1px solid var(--zentee-line);
+  }
+
+  .zentee-dark {
+    background: var(--zentee-ink);
+    color: #fffaf2;
   }
 
   .checkout-option {

@@ -26,10 +26,10 @@ const TeaBasicInfo = ({ product }: TeaBasicInfoProps) => {
   }
 
   return (
-    <section className="space-y-5 rounded-[2rem] border border-sage-100 bg-white/80 p-5 shadow-sm backdrop-blur small:p-6">
+    <section className="space-y-5 rounded-lg border border-[#eadbc4] bg-white p-5 shadow-sm small:p-6">
       <div className="flex flex-col gap-2 small:flex-row small:items-end small:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600">
+          <p className="section-eyebrow">
             Origin notes
           </p>
           <Heading
@@ -44,13 +44,13 @@ const TeaBasicInfo = ({ product }: TeaBasicInfoProps) => {
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <div className="space-y-3">
           {metadata.origin_province && (
-            <div className="rounded-2xl bg-sage-50/70 p-4">
+            <div className="rounded-lg bg-[#fffaf2] p-4">
               <Text className="text-sm font-medium text-sage-600">Province</Text>
               <Text className="text-sage-900">{metadata.origin_province}</Text>
             </div>
           )}
           {metadata.origin_region && (
-            <div className="rounded-2xl bg-sage-50/70 p-4">
+            <div className="rounded-lg bg-[#fffaf2] p-4">
               <Text className="text-sm font-medium text-sage-600">
                 Specific Region
               </Text>
@@ -61,19 +61,19 @@ const TeaBasicInfo = ({ product }: TeaBasicInfoProps) => {
 
         <div className="space-y-3">
           {metadata.origin_altitude && (
-            <div className="rounded-2xl bg-sage-50/70 p-4">
+            <div className="rounded-lg bg-[#fffaf2] p-4">
               <Text className="text-sm font-medium text-sage-600">Altitude</Text>
               <Text className="text-sage-900">{metadata.origin_altitude}</Text>
             </div>
           )}
           {metadata.origin_climate && (
-            <div className="rounded-2xl bg-sage-50/70 p-4">
+            <div className="rounded-lg bg-[#fffaf2] p-4">
               <Text className="text-sm font-medium text-sage-600">Climate</Text>
               <Text className="text-sage-900">{metadata.origin_climate}</Text>
             </div>
           )}
           {metadata.origin_soil && (
-            <div className="rounded-2xl bg-sage-50/70 p-4">
+            <div className="rounded-lg bg-[#fffaf2] p-4">
               <Text className="text-sm font-medium text-sage-600">Soil Type</Text>
               <Text className="text-sage-900">{metadata.origin_soil}</Text>
             </div>

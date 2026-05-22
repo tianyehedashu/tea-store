@@ -28,9 +28,10 @@ export default async function ProductRail({
   return (
     <div className="space-y-8">
       {/* Collection Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 small:flex-row small:items-end small:justify-between">
         <div className="space-y-2">
-          <h3 className="font-display text-2xl small:text-3xl font-bold text-sage-900">
+          <p className="section-eyebrow">Collection</p>
+          <h3 className="font-display text-2xl leading-tight text-sage-900 small:text-4xl">
             {collection.title}
           </h3>
           {typeof collection.metadata?.description === "string" &&
@@ -42,22 +43,10 @@ export default async function ProductRail({
         </div>
         <LocalizedClientLink
           href={`/collections/${collection.handle}`}
-          className="group flex items-center gap-2 text-brand-600 hover:text-brand-700 font-semibold transition-colors duration-300"
+          className="brand-outline hidden small:inline-flex"
         >
           <span>View All</span>
-          <svg
-            className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            />
-          </svg>
+          <span aria-hidden>→</span>
         </LocalizedClientLink>
       </div>
 
@@ -74,7 +63,7 @@ export default async function ProductRail({
       <div className="flex justify-center small:hidden">
         <LocalizedClientLink
           href={`/collections/${collection.handle}`}
-          className="brand-outline w-full text-center"
+          className="brand-outline w-full"
         >
           View All {collection.title}
         </LocalizedClientLink>

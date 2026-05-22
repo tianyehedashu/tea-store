@@ -40,14 +40,14 @@ function FilterToggle({
       className={clx(
         "flex items-center gap-3 w-full text-sm transition-colors py-2 px-3 rounded-lg text-left",
         active
-          ? "text-brand-700 bg-brand-50 font-medium"
-          : "text-sage-700 hover:text-brand-600 hover:bg-sage-50"
+          ? "bg-[#fffaf2] font-medium text-[#82471f]"
+          : "text-sage-700 hover:bg-[#fffaf2] hover:text-[#82471f]"
       )}
     >
       <span
         className={clx(
           "w-4 h-4 border rounded flex items-center justify-center shrink-0",
-          active ? "border-brand-600 bg-brand-600" : "border-sage-300 bg-white"
+          active ? "border-[#a6602e] bg-[#a6602e]" : "border-sage-300 bg-white"
         )}
       >
         {active ? (
@@ -100,8 +100,8 @@ export default function TeaFilters() {
 
   return (
     <>
-      <div className="space-y-4 pt-6 border-t border-sage-200">
-        <h3 className="text-sm font-semibold text-sage-900 uppercase tracking-wider">
+      <div className="space-y-4 border-t border-[#eadbc4] pt-6">
+        <h3 className="section-eyebrow">
           Tea Type
         </h3>
         <div className="space-y-2">
@@ -123,8 +123,8 @@ export default function TeaFilters() {
         </div>
       </div>
 
-      <div className="space-y-4 pt-6 border-t border-sage-200">
-        <h3 className="text-sm font-semibold text-sage-900 uppercase tracking-wider">
+      <div className="space-y-4 border-t border-[#eadbc4] pt-6">
+        <h3 className="section-eyebrow">
           Quality & Origin
         </h3>
         <div className="space-y-2">
@@ -151,8 +151,8 @@ export default function TeaFilters() {
         </div>
       </div>
 
-      <div className="space-y-4 pt-6 border-t border-sage-200">
-        <h3 className="text-sm font-semibold text-sage-900 uppercase tracking-wider">
+      <div className="space-y-4 border-t border-[#eadbc4] pt-6">
+        <h3 className="section-eyebrow">
           Price Range
         </h3>
         <div className="space-y-2">

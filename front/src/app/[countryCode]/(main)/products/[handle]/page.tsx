@@ -86,9 +86,11 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const metadata = getTeaMetadata(product)
   const brand = getBrandName(metadata)
   const description = truncateDescription(product.description)
+  const pageTitle =
+    brand && brand !== SITE_NAME ? `${product.title} by ${brand}` : product.title
 
   return {
-    title: `${product.title} | ${brand} | ${SITE_NAME}`,
+    title: pageTitle,
     description: description || `${product.title} — ${brand}`,
     openGraph: {
       title: `${product.title} | ${SITE_NAME}`,

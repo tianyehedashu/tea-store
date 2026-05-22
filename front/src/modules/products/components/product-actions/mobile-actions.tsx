@@ -21,6 +21,8 @@ type MobileActionsProps = {
   isAdding?: boolean
   show: boolean
   optionsDisabled: boolean
+  addFeedback?: "idle" | "success" | "error"
+  addFeedbackMessage?: string
 }
 
 const MobileActions: React.FC<MobileActionsProps> = ({
@@ -33,6 +35,8 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   isAdding,
   show,
   optionsDisabled,
+  addFeedback,
+  addFeedbackMessage,
 }) => {
   const { state, open, close } = useToggleState()
 
@@ -55,7 +59,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   return (
     <>
       <div
-        className={clx("lg:hidden inset-x-0 bottom-0 fixed", {
+        className={clx("lg:hidden inset-x-0 bottom-0 fixed z-50", {
           "pointer-events-none": !show,
         })}
       >
@@ -70,12 +74,14 @@ const MobileActions: React.FC<MobileActionsProps> = ({
           leaveTo="opacity-0"
         >
           <div
-            className="bg-white flex flex-col gap-y-3 justify-center items-center text-sm p-4 h-full w-full border-t border-sage-200 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]"
+            className="flex h-full w-full flex-col items-center justify-center gap-y-3 border-t border-[#eadbc4] bg-[#fffaf2] p-4 text-sm shadow-[0_-10px_30px_rgba(20,34,25,0.14)]"
             data-testid="mobile-actions"
           >
-            <div className="flex items-center gap-x-2">
-              <span data-testid="mobile-title">{product.title}</span>
-              <span>—</span>
+            <div className="flex max-w-full items-center gap-x-2 text-sage-900">
+              <span className="truncate font-semibold" data-testid="mobile-title">
+                {product.title}
+              </span>
+              <span>-</span>
               {selectedPrice ? (
                 <div className="flex items-end gap-x-2 text-sage-900 font-medium">
                   {selectedPrice.price_type === "sale" && (
@@ -87,7 +93,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                   )}
                   <span
                     className={clx({
-                      "text-brand-600": selectedPrice.price_type === "sale",
+                      "text-[#a6602e]": selectedPrice.price_type === "sale",
                     })}
                   >
                     {selectedPrice.calculated_price}
@@ -97,6 +103,23 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                 <div></div>
               )}
             </div>
+            {addFeedbackMessage && (
+              <p
+                className={clx(
+                  "w-full rounded-lg px-3 py-2 text-center text-xs font-semibold",
+                  {
+                    "border border-[#d8c4aa] bg-[#f5eddf] text-sage-900":
+                      addFeedback === "success",
+                    "border border-red-200 bg-red-50 text-red-700":
+                      addFeedback === "error",
+                  }
+                )}
+                role={addFeedback === "error" ? "alert" : "status"}
+                aria-live="polite"
+              >
+                {addFeedbackMessage}
+              </p>
+            )}
             <div
               className={clx("grid grid-cols-2 w-full gap-x-4", {
                 "!grid-cols-1": isSimple,
@@ -106,7 +129,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                 <Button
                   onClick={open}
                   variant="secondary"
-                  className="w-full"
+                  className="w-full rounded-lg border-[#d8c4aa] bg-white"
                   data-testid="mobile-actions-button"
                 >
                   <div className="flex items-center justify-between w-full">
@@ -121,8 +144,8 @@ const MobileActions: React.FC<MobileActionsProps> = ({
               )}
               <Button
                 onClick={handleAddToCart}
-                disabled={!inStock || !variant}
-                className="w-full"
+                disabled={!inStock || !variant || isAdding}
+                className="w-full rounded-lg bg-[#142219] text-white hover:bg-[#0d1811]"
                 isLoading={isAdding}
                 data-testid="mobile-cart-button"
               >
@@ -130,6 +153,8 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                   ? "Select variant"
                   : !inStock
                   ? "Out of stock"
+                  : addFeedback === "success"
+                  ? "Added"
                   : "Add to cart"}
               </Button>
             </div>
@@ -168,13 +193,13 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                   <div className="w-full flex justify-end pr-6">
                     <button
                       onClick={close}
-                      className="bg-white w-12 h-12 rounded-full text-sage-800 border border-sage-200 shadow-sm flex justify-center items-center hover:border-brand-400"
+                      className="flex h-12 w-12 items-center justify-center rounded-full border border-sage-200 bg-white text-sage-800 shadow-sm hover:border-[#c46f35]"
                       data-testid="close-modal-button"
                     >
                       <X />
                     </button>
                   </div>
-                  <div className="bg-white px-6 py-12">
+                  <div className="bg-[#fffaf2] px-6 py-12">
                     {(product.variants?.length ?? 0) > 1 && (
                       <div className="flex flex-col gap-y-6">
                         {(product.options || []).map((option) => {

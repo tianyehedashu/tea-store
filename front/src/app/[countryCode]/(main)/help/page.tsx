@@ -39,17 +39,17 @@ const faqs: FaqItem[] = [
 
 export default function HelpPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#fffaf2]">
       <PageHero
         eyebrow="Support"
         title="Help & FAQ"
         description="Quick answers about shipping, brewing, and orders. Need more help? Sign in to your account or email support@zentee.com."
       />
 
-      <section className="content-container py-12 max-w-3xl space-y-10">
+      <section className="content-container max-w-3xl space-y-10 py-12">
         <FaqAccordion items={faqs} />
 
-        <div className="rounded-2xl border border-sage-200 bg-sage-50/50 p-8 space-y-4">
+        <div className="rounded-lg border border-[#eadbc4] bg-white p-8 space-y-4">
           <h2 className="text-lg font-semibold text-sage-900">
             Still need help?
           </h2>

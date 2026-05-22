@@ -13,10 +13,10 @@ const CartTemplate = ({
   customer: HttpTypes.StoreCustomer | null
 }) => {
   return (
-    <div className="min-h-screen bg-cream-50/50">
-      <section className="hero-gradient border-b border-sage-200/60">
+    <div className="min-h-screen bg-[#fffaf2]">
+      <section className="hero-gradient border-b border-[#eadbc4]">
         <div className="content-container py-10">
-          <h1 className="font-display text-3xl small:text-4xl font-bold text-sage-900">
+          <h1 className="font-display text-3xl text-sage-900 small:text-5xl">
             Your cart
           </h1>
           <p className="mt-2 text-sage-600">
@@ -28,7 +28,7 @@ const CartTemplate = ({
       <div className="content-container py-10" data-testid="cart-container">
         {cart?.items?.length ? (
           <div className="grid grid-cols-1 small:grid-cols-[1fr_360px] gap-10">
-            <div className="flex flex-col bg-white rounded-2xl border border-sage-200 p-6 small:p-8 gap-y-6 shadow-sm">
+            <div className="flex flex-col gap-y-6 rounded-lg border border-[#eadbc4] bg-white p-6 shadow-sm small:p-8">
               {!customer && (
                 <>
                   <SignInPrompt />
@@ -40,7 +40,7 @@ const CartTemplate = ({
             <div className="relative">
               <div className="flex flex-col gap-y-8 sticky top-24">
                 {cart?.region && (
-                  <div className="bg-white rounded-2xl border border-sage-200 p-6 shadow-sm">
+                  <div className="rounded-lg border border-[#eadbc4] bg-white p-6 shadow-sm">
                     <Summary cart={cart as any} />
                   </div>
                 )}
@@ -48,7 +48,7 @@ const CartTemplate = ({
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl border border-sage-200 shadow-sm">
+          <div className="rounded-lg border border-[#eadbc4] bg-white shadow-sm">
             <EmptyCartMessage />
           </div>
         )}

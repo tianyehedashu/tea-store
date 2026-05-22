@@ -46,20 +46,20 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
           {product.collection && (
             <LocalizedClientLink
               href={`/collections/${product.collection.handle}`}
-              className="rounded-full border border-sage-200 bg-white px-3 py-1 text-xs font-medium text-sage-700 transition-colors hover:border-brand-300 hover:text-brand-700"
+              className="rounded-full border border-[#eadbc4] bg-white px-3 py-1 text-xs font-medium text-sage-700 transition-colors hover:border-[#d5b58f] hover:text-[#82471f]"
             >
               {product.collection.title}
             </LocalizedClientLink>
           )}
 
-          <Text className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">
+          <Text className="section-eyebrow">
             {brandName}
           </Text>
         </div>
 
         <Heading
           level="h1"
-          className="max-w-3xl font-display text-5xl leading-[0.98] tracking-[-0.03em] text-sage-900 small:text-6xl"
+          className="max-w-3xl font-display text-5xl leading-[0.98] text-sage-900 small:text-6xl"
           data-testid="product-title"
         >
           {product.title}
@@ -74,9 +74,9 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
             {summaryItems.map((item) => (
               <div
                 key={item.label}
-                className="rounded-2xl border border-sage-100 bg-white/75 p-4"
+                className="rounded-lg border border-[#eadbc4] bg-white p-4"
               >
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-sage-500">
+                <p className="section-eyebrow">
                   {item.label}
                 </p>
                 <p className="mt-1 text-sm font-medium capitalize text-sage-900">

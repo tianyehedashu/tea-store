@@ -58,7 +58,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
   return (
     <div className="space-y-5">
       {/* Quick Brewing Parameters */}
-      <div className="rounded-2xl border border-sage-100 bg-sage-50/70 p-5">
+      <div className="rounded-lg border border-[#eadbc4] bg-[#fffaf2] p-5">
         <Heading
           level="h3"
           className="mb-4 flex items-center gap-2 text-lg font-semibold text-sage-900"
@@ -68,7 +68,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
 
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {metadata.water_temperature && (
-            <div className="rounded-2xl border border-white/80 bg-white p-4 text-center shadow-sm">
+            <div className="rounded-lg border border-white/80 bg-white p-4 text-center shadow-sm">
               <div className="text-2xl font-bold text-brand-700">
                 {metadata.water_temperature}°C
               </div>
@@ -77,7 +77,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
           )}
 
           {metadata.tea_to_water_ratio && (
-            <div className="rounded-2xl border border-white/80 bg-white p-4 text-center shadow-sm">
+            <div className="rounded-lg border border-white/80 bg-white p-4 text-center shadow-sm">
               <div className="text-lg font-bold text-brand-700">
                 {metadata.tea_to_water_ratio}
               </div>
@@ -86,7 +86,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
           )}
 
           {metadata.water_volume && (
-            <div className="rounded-2xl border border-white/80 bg-white p-4 text-center shadow-sm">
+            <div className="rounded-lg border border-white/80 bg-white p-4 text-center shadow-sm">
               <div className="text-lg font-bold text-brand-700">
                 {metadata.water_volume}
               </div>
@@ -95,7 +95,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
           )}
 
           {metadata.optimal_servings && (
-            <div className="rounded-2xl border border-white/80 bg-white p-4 text-center shadow-sm">
+            <div className="rounded-lg border border-white/80 bg-white p-4 text-center shadow-sm">
               <div className="text-2xl font-bold text-brand-700">
                 {metadata.optimal_servings}
               </div>
@@ -105,7 +105,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
         </div>
 
         {metadata.water_quality && (
-          <div className="mt-4 rounded-2xl bg-white/75 p-4">
+          <div className="mt-4 rounded-lg bg-white/75 p-4">
             <Text className="text-sm font-medium text-sage-700">
               Water Quality
             </Text>
@@ -116,7 +116,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
 
       {/* Steeping Times */}
       {metadata.steeping_times && metadata.steeping_times.length > 0 && (
-        <div className="rounded-2xl border border-cream-200 bg-cream-50 p-5">
+        <div className="rounded-lg border border-[#eadbc4] bg-[#fffaf2] p-5">
           <Heading
             level="h3"
             className="mb-4 flex items-center gap-2 text-lg font-semibold text-cream-900"
@@ -128,7 +128,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
             {metadata.steeping_times.map((step, index) => (
               <div
                 key={index}
-                className="flex items-center gap-4 rounded-2xl border border-cream-100 bg-white p-3"
+                className="flex items-center gap-4 rounded-lg border border-[#eadbc4] bg-white p-3"
               >
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cream-200 font-bold text-cream-900">
                   {step.round}
@@ -153,7 +153,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
 
       {/* Brewing Steps */}
       {metadata.brewing_steps && metadata.brewing_steps.length > 0 && (
-        <div className="rounded-2xl border border-sage-100 bg-white p-5">
+        <div className="rounded-lg border border-[#eadbc4] bg-white p-5">
           <Heading
             level="h3"
             className="mb-4 flex items-center gap-2 text-lg font-semibold text-sage-900"
@@ -177,7 +177,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
       {/* Recommended Vessels */}
       {metadata.vessel_recommendations &&
         metadata.vessel_recommendations.length > 0 && (
-          <div className="rounded-2xl border border-sage-100 bg-sage-50/70 p-5">
+          <div className="rounded-lg border border-[#eadbc4] bg-[#fffaf2] p-5">
             <Heading
               level="h3"
               className="mb-4 flex items-center gap-2 text-lg font-semibold text-sage-900"
@@ -194,7 +194,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
                 return (
                   <div
                     key={index}
-                    className="flex items-start gap-3 rounded-2xl border border-white/80 bg-white p-3"
+                    className="flex items-start gap-3 rounded-lg border border-white/80 bg-white p-3"
                   >
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sage-100 text-sm font-bold text-sage-800">
                       {index + 1}
@@ -217,7 +217,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
         )}
 
       {/* Advanced Techniques & Tasting Notes */}
-      <div className="space-y-4 rounded-2xl border border-sage-100 bg-white p-5">
+      <div className="space-y-4 rounded-lg border border-[#eadbc4] bg-white p-5">
         {metadata.advanced_techniques && (
           <div>
             <Heading
@@ -244,7 +244,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
               {metadata.tasting_notes.map((note, index) => (
                 <span
                   key={index}
-                  className="rounded-full border border-sage-100 bg-sage-50 px-3 py-1 text-sm text-sage-700"
+                  className="rounded-full border border-[#eadbc4] bg-sage-50 px-3 py-1 text-sm text-sage-700"
                 >
                   {note}
                 </span>

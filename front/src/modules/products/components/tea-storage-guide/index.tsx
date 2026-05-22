@@ -79,10 +79,10 @@ const TeaStorageGuide = ({ product }: TeaStorageGuideProps) => {
   return (
     <div className="space-y-6">
       {/* Storage Requirements */}
-      <div className="border border-blue-200 rounded-lg p-4 bg-blue-50">
+      <div className="rounded-lg border border-[#eadbc4] bg-[#fffaf2] p-4">
         <Heading
           level="h3"
-          className="text-lg font-semibold text-blue-700 mb-4 flex items-center gap-2"
+          className="mb-4 flex items-center gap-2 text-lg font-semibold text-sage-900"
         >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
@@ -97,15 +97,15 @@ const TeaStorageGuide = ({ product }: TeaStorageGuideProps) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {metadata.storage_temperature && (
-            <div className="flex items-start gap-3 p-3 bg-white rounded-md border border-blue-100">
-              <div className="text-blue-600 mt-0.5">
+            <div className="flex items-start gap-3 rounded-lg border border-[#eadbc4] bg-white p-3">
+              <div className="mt-0.5 text-[#a6602e]">
                 {storageIcons.temperature}
               </div>
               <div>
-                <Text className="text-sm font-medium text-blue-700">
+                <Text className="text-sm font-medium text-sage-700">
                   Temperature
                 </Text>
-                <Text className="text-sm text-blue-600">
+                <Text className="text-sm text-sage-600">
                   {metadata.storage_temperature}
                 </Text>
               </div>
@@ -113,15 +113,15 @@ const TeaStorageGuide = ({ product }: TeaStorageGuideProps) => {
           )}
 
           {metadata.storage_humidity && (
-            <div className="flex items-start gap-3 p-3 bg-white rounded-md border border-blue-100">
-              <div className="text-blue-600 mt-0.5">
+            <div className="flex items-start gap-3 rounded-lg border border-[#eadbc4] bg-white p-3">
+              <div className="mt-0.5 text-[#a6602e]">
                 {storageIcons.humidity}
               </div>
               <div>
-                <Text className="text-sm font-medium text-blue-700">
+                <Text className="text-sm font-medium text-sage-700">
                   Humidity
                 </Text>
-                <Text className="text-sm text-blue-600">
+                <Text className="text-sm text-sage-600">
                   {metadata.storage_humidity}
                 </Text>
               </div>
@@ -129,11 +129,11 @@ const TeaStorageGuide = ({ product }: TeaStorageGuideProps) => {
           )}
 
           {metadata.storage_light && (
-            <div className="flex items-start gap-3 p-3 bg-white rounded-md border border-blue-100">
-              <div className="text-blue-600 mt-0.5">{storageIcons.light}</div>
+            <div className="flex items-start gap-3 rounded-lg border border-[#eadbc4] bg-white p-3">
+              <div className="mt-0.5 text-[#a6602e]">{storageIcons.light}</div>
               <div>
-                <Text className="text-sm font-medium text-blue-700">Light</Text>
-                <Text className="text-sm text-blue-600">
+                <Text className="text-sm font-medium text-sage-700">Light</Text>
+                <Text className="text-sm text-sage-600">
                   {metadata.storage_light}
                 </Text>
               </div>
@@ -141,13 +141,13 @@ const TeaStorageGuide = ({ product }: TeaStorageGuideProps) => {
           )}
 
           {metadata.storage_air && (
-            <div className="flex items-start gap-3 p-3 bg-white rounded-md border border-blue-100">
-              <div className="text-blue-600 mt-0.5">💨</div>
+            <div className="flex items-start gap-3 rounded-lg border border-[#eadbc4] bg-white p-3">
+              <div className="mt-0.5 text-[#a6602e]">Air</div>
               <div>
-                <Text className="text-sm font-medium text-blue-700">
+                <Text className="text-sm font-medium text-sage-700">
                   Air Circulation
                 </Text>
-                <Text className="text-sm text-blue-600">
+                <Text className="text-sm text-sage-600">
                   {metadata.storage_air}
                 </Text>
               </div>
@@ -156,11 +156,11 @@ const TeaStorageGuide = ({ product }: TeaStorageGuideProps) => {
         </div>
 
         {metadata.shelf_life && (
-          <div className="mt-4 p-3 bg-blue-100 rounded-md">
-            <Text className="text-sm font-medium text-blue-700">
+          <div className="mt-4 rounded-lg bg-white p-3">
+            <Text className="text-sm font-medium text-sage-700">
               Shelf Life
             </Text>
-            <Text className="text-blue-800">{metadata.shelf_life}</Text>
+            <Text className="text-sage-800">{metadata.shelf_life}</Text>
           </div>
         )}
       </div>
@@ -168,10 +168,10 @@ const TeaStorageGuide = ({ product }: TeaStorageGuideProps) => {
       {/* Recommended Containers */}
       {metadata.recommended_containers &&
         metadata.recommended_containers.length > 0 && (
-          <div className="border border-amber-200 rounded-lg p-4 bg-amber-50">
+          <div className="rounded-lg border border-[#eadbc4] bg-[#fffaf2] p-4">
             <Heading
               level="h3"
-              className="text-lg font-semibold text-amber-700 mb-4 flex items-center gap-2"
+              className="mb-4 flex items-center gap-2 text-lg font-semibold text-sage-900"
             >
               {storageIcons.container}
               Recommended Storage Containers
@@ -186,17 +186,17 @@ const TeaStorageGuide = ({ product }: TeaStorageGuideProps) => {
                 return (
                   <div
                     key={index}
-                    className="flex items-start gap-3 p-3 bg-white rounded-md border border-amber-100"
+                    className="flex items-start gap-3 rounded-lg border border-[#eadbc4] bg-white p-3"
                   >
-                    <div className="w-8 h-8 bg-amber-200 rounded-full flex items-center justify-center text-amber-700 font-bold text-sm">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f5eddf] text-sm font-bold text-[#82471f]">
                       {index + 1}
                     </div>
                     <div>
-                      <Text className="font-medium text-amber-800">
+                      <Text className="font-medium text-sage-900">
                         {containerInfo.name}
                       </Text>
                       {containerInfo.description && (
-                        <Text className="text-sm text-amber-600">
+                        <Text className="text-sm text-sage-600">
                           {containerInfo.description}
                         </Text>
                       )}
@@ -209,7 +209,7 @@ const TeaStorageGuide = ({ product }: TeaStorageGuideProps) => {
         )}
 
       {/* Storage Notes & Environment */}
-      <div className="border border-grey-20 rounded-lg p-4 space-y-4">
+      <div className="space-y-4 rounded-lg border border-[#eadbc4] bg-white p-4">
         <Heading level="h3" className="text-lg font-semibold text-grey-80">
           Storage Guidelines
         </Heading>
@@ -237,9 +237,9 @@ const TeaStorageGuide = ({ product }: TeaStorageGuideProps) => {
         )}
 
         {metadata.avoid_storage && metadata.avoid_storage.length > 0 && (
-          <div className="bg-red-50 border border-red-200 rounded-md p-3">
-            <Text className="text-sm font-medium text-red-700 mb-2">
-              ⚠️ Avoid These Conditions
+          <div className="rounded-lg border border-[#eadbc4] bg-[#fffaf2] p-3">
+            <Text className="mb-2 text-sm font-medium text-sage-900">
+              Avoid these conditions
             </Text>
             <ul className="list-disc list-inside space-y-1">
               {metadata.avoid_storage.map((condition, index) => (

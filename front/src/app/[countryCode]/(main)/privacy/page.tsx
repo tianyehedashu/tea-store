@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import StaticPage from "@modules/common/components/static-page"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Zentee",
+  title: "Privacy Policy",
   description:
     "How Zentee collects, uses, and protects your personal information.",
 }

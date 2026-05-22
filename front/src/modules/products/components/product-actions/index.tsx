@@ -4,7 +4,6 @@ import { addToCart } from "@lib/data/cart"
 import { useIntersection } from "@lib/hooks/use-in-view"
 import { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
-import Divider from "@modules/common/components/divider"
 import OptionSelect from "@modules/products/components/product-actions/option-select"
 import ProductPurchaseMeta from "@modules/products/components/product-purchase-meta"
 import { isEqual } from "lodash"
@@ -35,12 +34,25 @@ export default function ProductActions({
   const [options, setOptions] = useState<Record<string, string | undefined>>({})
   const [quantity, setQuantity] = useState(1)
   const [isAdding, setIsAdding] = useState(false)
+  const [addFeedback, setAddFeedback] = useState<
+    "idle" | "success" | "error"
+  >("idle")
+  const [addFeedbackMessage, setAddFeedbackMessage] = useState("")
   const countryCode = useParams().countryCode as string
 
-  // If there is only 1 variant, preselect the options
+  // Preselect the first purchasable variant so the primary CTA is ready.
   useEffect(() => {
-    if (product.variants?.length === 1) {
-      const variantOptions = optionsAsKeymap(product.variants[0].options)
+    if (product.variants?.length) {
+      const firstPurchasableVariant =
+        product.variants.find((variant) => {
+          if (!variant.manage_inventory || variant.allow_backorder) {
+            return true
+          }
+
+          return (variant.inventory_quantity || 0) > 0
+        }) ?? product.variants[0]
+
+      const variantOptions = optionsAsKeymap(firstPurchasableVariant.options)
       setOptions(variantOptions ?? {})
     }
   }, [product.variants])
@@ -58,6 +70,8 @@ export default function ProductActions({
 
   // update the options when a variant is selected
   const setOptionValue = (optionId: string, value: string) => {
+    setAddFeedback("idle")
+    setAddFeedbackMessage("")
     setOptions((prev) => ({
       ...prev,
       [optionId]: value,
@@ -97,10 +111,16 @@ export default function ProductActions({
   }, [selectedVariant])
 
   const purchaseStateLabel = !selectedVariant
-    ? "Select a size"
+    ? "Choose a pack size"
     : inStock
-    ? "Ready to ship"
+    ? "In stock and ready to pack"
     : "Currently unavailable"
+
+  const purchaseStateDescription = !selectedVariant
+    ? "Pick the size that matches your brewing rhythm."
+    : inStock
+    ? "We will pack it to protect aroma and leaf shape."
+    : "This variant cannot be added right now."
 
   const actionsRef = useRef<HTMLDivElement>(null)
 
@@ -111,31 +131,48 @@ export default function ProductActions({
     if (!selectedVariant?.id) return null
 
     setIsAdding(true)
+    setAddFeedback("idle")
+    setAddFeedbackMessage("")
 
-    await addToCart({
-      variantId: selectedVariant.id,
-      quantity,
-      countryCode,
-    })
+    try {
+      await addToCart({
+        variantId: selectedVariant.id,
+        quantity,
+        countryCode,
+      })
 
-    setIsAdding(false)
+      setAddFeedback("success")
+      setAddFeedbackMessage(
+        `${quantity} ${quantity > 1 ? "packs" : "pack"} added to cart.`
+      )
+    } catch {
+      setAddFeedback("error")
+      setAddFeedbackMessage("We could not add this tea. Please try again.")
+    } finally {
+      setIsAdding(false)
+    }
   }
 
   return (
     <>
       <div className="flex flex-col gap-y-5" ref={actionsRef}>
-        <div className="flex items-center justify-between gap-4 rounded-2xl border border-sage-100 bg-sage-50/70 px-4 py-3">
-          <span className="text-sm font-medium text-sage-800">
-            {purchaseStateLabel}
-          </span>
-          <span
-            className={
-              inStock && selectedVariant
-                ? "h-2.5 w-2.5 rounded-full bg-brand-500"
-                : "h-2.5 w-2.5 rounded-full bg-sage-300"
-            }
-            aria-hidden="true"
-          />
+        <div className="rounded-lg border border-[#eadbc4] bg-white px-4 py-3">
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-sm font-semibold text-sage-900">
+              {purchaseStateLabel}
+            </span>
+            <span
+              className={
+                inStock && selectedVariant
+                  ? "h-2.5 w-2.5 rounded-full bg-[#c46f35]"
+                  : "h-2.5 w-2.5 rounded-full bg-sage-300"
+              }
+              aria-hidden="true"
+            />
+          </div>
+          <p className="mt-1 text-xs leading-5 text-sage-600">
+            {purchaseStateDescription}
+          </p>
         </div>
 
         <div>
@@ -155,20 +192,19 @@ export default function ProductActions({
                   </div>
                 )
               })}
-              <Divider />
             </div>
           )}
         </div>
 
-        <div className="rounded-2xl border border-sage-100 bg-white p-4 shadow-sm">
+        <div className="border-y border-[#eadbc4] py-4">
           <ProductPrice product={product} variant={selectedVariant} />
 
           <ProductPurchaseMeta product={product} variant={selectedVariant} />
         </div>
 
-        <div className="flex flex-col gap-y-2">
+        <div className="flex items-center justify-between gap-4">
           <label
-            className="text-sm font-medium text-sage-800"
+            className="text-sm font-semibold text-sage-900"
             htmlFor="product-quantity"
           >
             Quantity
@@ -176,9 +212,13 @@ export default function ProductActions({
           <select
             id="product-quantity"
             value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
+            onChange={(e) => {
+              setAddFeedback("idle")
+              setAddFeedbackMessage("")
+              setQuantity(Number(e.target.value))
+            }}
             disabled={!!disabled || isAdding || !selectedVariant}
-            className="h-11 rounded-xl border border-sage-200 bg-white px-3 text-sm text-sage-900 focus:border-brand-400 focus:outline-none focus:ring-1 focus:ring-brand-200"
+            className="h-11 min-w-24 rounded-lg border border-[#d8c4aa] bg-white px-3 text-sm font-medium text-sage-900 focus:border-[#c46f35] focus:outline-none focus:ring-1 focus:ring-[#e8c6a5]"
             data-testid="product-quantity-select"
             aria-label="Quantity"
           >
@@ -200,7 +240,7 @@ export default function ProductActions({
             !isValidVariant
           }
           variant="primary"
-          className="h-12 w-full rounded-xl bg-brand-700 text-white shadow-sm transition hover:bg-brand-800 disabled:bg-sage-200 disabled:text-sage-500"
+          className="h-14 w-full rounded-lg bg-[#142219] text-base font-semibold text-white shadow-[0_14px_30px_rgba(20,34,25,0.22)] transition hover:bg-[#0d1811] disabled:bg-sage-200 disabled:text-sage-500"
           isLoading={isAdding}
           data-testid="add-product-button"
         >
@@ -208,14 +248,38 @@ export default function ProductActions({
             ? "Select variant"
             : !inStock || !isValidVariant
             ? "Out of stock"
+            : addFeedback === "success"
+            ? "Added to cart"
+            : quantity > 1
+            ? `Add ${quantity} packs to cart`
             : "Add to cart"}
         </Button>
-        <div className="grid gap-2 text-xs text-sage-600">
-          <p className="rounded-xl bg-cream-50 px-3 py-2">
+        {addFeedbackMessage && (
+          <p
+            className={
+              addFeedback === "success"
+                ? "rounded-lg border border-[#d8c4aa] bg-[#f5eddf] px-4 py-3 text-sm font-semibold text-sage-900"
+                : "rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700"
+            }
+            role={addFeedback === "error" ? "alert" : "status"}
+            aria-live="polite"
+            data-testid="add-to-cart-feedback"
+          >
+            {addFeedbackMessage}
+          </p>
+        )}
+        <div className="grid gap-2 text-xs leading-5 text-sage-700">
+          <p className="flex items-start gap-2">
+            <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-[#c46f35]" />
             Carefully packed to protect aroma and leaf shape.
           </p>
-          <p className="rounded-xl bg-sage-50 px-3 py-2">
+          <p className="flex items-start gap-2">
+            <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-[#c46f35]" />
             Brewing guidance included for a consistent first cup.
+          </p>
+          <p className="flex items-start gap-2">
+            <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-[#c46f35]" />
+            Live inventory prevents guessing at checkout.
           </p>
         </div>
         <MobileActions
@@ -228,6 +292,8 @@ export default function ProductActions({
           isAdding={isAdding}
           show={!inView}
           optionsDisabled={!!disabled || isAdding}
+          addFeedback={addFeedback}
+          addFeedbackMessage={addFeedbackMessage}
         />
       </div>
     </>

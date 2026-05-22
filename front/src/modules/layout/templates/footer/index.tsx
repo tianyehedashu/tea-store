@@ -1,6 +1,6 @@
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
-import { Text, clx } from "@medusajs/ui"
+import { Text } from "@medusajs/ui"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
@@ -10,7 +10,6 @@ export default async function Footer() {
   })
   const productCategories = await listCategories()
 
-  // Filter for tea-related categories
   const teaCategories =
     productCategories?.filter(
       (cat) =>
@@ -18,7 +17,6 @@ export default async function Footer() {
         cat.handle?.toLowerCase().includes("tea")
     ) || []
 
-  // Filter for tea collections
   const teaCollections =
     collections?.filter(
       (col) =>
@@ -28,193 +26,124 @@ export default async function Footer() {
         col.handle?.toLowerCase().includes("premium")
     ) || []
 
+  const linkClass =
+    "text-sm text-[#c9d6c5] transition-colors hover:text-[#fffaf2]"
+
   return (
-    <footer className="bg-gradient-to-b from-sage-50 to-sage-100 border-t border-sage-200">
+    <footer className="border-t border-[#203428] bg-[#111d16] text-[#fffaf2]">
       <div className="content-container">
-        {/* Main Footer Content */}
-        <div className="py-16 lg:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
-            {/* Brand Section */}
-            <div className="lg:col-span-1 space-y-6">
-              <div>
-                <LocalizedClientLink
-                  href="/"
-                  className="font-display text-3xl font-bold text-sage-900 hover:text-brand-600 transition-colors duration-300"
-                >
-                  Zentee
-                </LocalizedClientLink>
-                <p className="mt-3 text-sage-600 text-sm leading-relaxed">
-                  Discover the art of mindful tea drinking. Premium organic teas
-                  sourced from the finest gardens, bringing zen and tranquility
-                  to your daily ritual.
-                </p>
-              </div>
+        <div className="grid gap-10 py-14 small:grid-cols-[1.1fr_0.8fr_0.8fr_0.8fr] small:py-20">
+          <div className="max-w-sm space-y-5">
+            <LocalizedClientLink
+              href="/"
+              className="font-display text-3xl font-semibold text-[#fff7ec] transition-colors hover:text-[#d79b62]"
+            >
+              Zentee
+            </LocalizedClientLink>
+            <p className="text-sm leading-7 text-[#c9d6c5]">
+              Single-origin loose-leaf teas with origin stories, tasting notes,
+              and practical brewing guidance for a better daily cup.
+            </p>
+            <LocalizedClientLink href="/store" className="brand-cta">
+              Shop teas
+            </LocalizedClientLink>
+          </div>
 
-              {/* Tea Philosophy */}
-              <div className="p-4 bg-white/60 rounded-lg border border-sage-200">
-                <p className="text-xs text-sage-700 italic leading-relaxed">
-                  "Every cup of tea is a conversation with nature"
-                  <br />
-                  <span className="text-sage-500">— Ancient Tea Wisdom</span>
-                </p>
-              </div>
-            </div>
-
-            {/* Tea Categories */}
-            {teaCategories.length > 0 && (
-              <div className="space-y-4">
-                <h3 className="text-sage-800 font-semibold text-base">
-                  🍃 Tea Varieties
-                </h3>
-                <ul className="space-y-2">
-                  {teaCategories.slice(0, 6).map((category) => (
-                    <li key={category.id}>
-                      <LocalizedClientLink
-                        className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
-                        href={`/categories/${category.handle}`}
-                        data-testid="category-link"
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
-                        {category.name}
-                      </LocalizedClientLink>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Collections & Featured */}
+          {teaCategories.length > 0 && (
             <div className="space-y-4">
-              <h3 className="text-sage-800 font-semibold text-base">
-                🌸 Collections
-              </h3>
-              <ul className="space-y-2">
-                {teaCollections.slice(0, 5).map((collection) => (
-                  <li key={collection.id}>
+              <h3 className="section-eyebrow text-[#d79b62]">Tea varieties</h3>
+              <ul className="space-y-3">
+                {teaCategories.slice(0, 6).map((category) => (
+                  <li key={category.id}>
                     <LocalizedClientLink
-                      className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
-                      href={`/collections/${collection.handle}`}
+                      className={linkClass}
+                      href={`/categories/${category.handle}`}
+                      data-testid="category-link"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
-                      {collection.title}
+                      {category.name}
                     </LocalizedClientLink>
                   </li>
                 ))}
-                <li>
-                  <LocalizedClientLink
-                    className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
-                    href="/store"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
-                    View All Products
-                  </LocalizedClientLink>
-                </li>
               </ul>
             </div>
+          )}
 
-            {/* Tea Knowledge & Support */}
-            <div className="space-y-6">
-              <div className="space-y-4">
-                <h3 className="text-sage-800 font-semibold text-base">
-                  📚 Tea Knowledge
-                </h3>
-                <ul className="space-y-2">
-                  <li>
-                    <LocalizedClientLink
-                      href="/guides"
-                      className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
-                      Brewing Guides
-                    </LocalizedClientLink>
-                  </li>
-                  <li>
-                    <LocalizedClientLink
-                      href="/origins"
-                      className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
-                      Tea Origins
-                    </LocalizedClientLink>
-                  </li>
-                  <li>
-                    <LocalizedClientLink
-                      href="/about"
-                      className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
-                      Our Story
-                    </LocalizedClientLink>
-                  </li>
-                </ul>
-              </div>
+          <div className="space-y-4">
+            <h3 className="section-eyebrow text-[#d79b62]">Collections</h3>
+            <ul className="space-y-3">
+              {teaCollections.slice(0, 5).map((collection) => (
+                <li key={collection.id}>
+                  <LocalizedClientLink
+                    className={linkClass}
+                    href={`/collections/${collection.handle}`}
+                  >
+                    {collection.title}
+                  </LocalizedClientLink>
+                </li>
+              ))}
+              <li>
+                <LocalizedClientLink className={linkClass} href="/store">
+                  View all products
+                </LocalizedClientLink>
+              </li>
+            </ul>
+          </div>
 
-              <div className="space-y-4">
-                <h3 className="text-sage-800 font-semibold text-base">
-                  🫖 Support
-                </h3>
-                <ul className="space-y-2">
-                  <li>
-                    <LocalizedClientLink
-                      href="/account"
-                      className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
-                      My Account
-                    </LocalizedClientLink>
-                  </li>
-                  <li>
-                    <LocalizedClientLink
-                      href="/help"
-                      className="text-sage-600 hover:text-brand-600 transition-colors duration-200 text-sm flex items-center gap-2"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
-                      Help & FAQ
-                    </LocalizedClientLink>
-                  </li>
-                </ul>
-              </div>
-            </div>
+          <div className="space-y-4">
+            <h3 className="section-eyebrow text-[#d79b62]">Explore</h3>
+            <ul className="space-y-3">
+              <li>
+                <LocalizedClientLink href="/guides" className={linkClass}>
+                  Brewing guides
+                </LocalizedClientLink>
+              </li>
+              <li>
+                <LocalizedClientLink href="/origins" className={linkClass}>
+                  Tea origins
+                </LocalizedClientLink>
+              </li>
+              <li>
+                <LocalizedClientLink href="/about" className={linkClass}>
+                  Our story
+                </LocalizedClientLink>
+              </li>
+              <li>
+                <LocalizedClientLink href="/help" className={linkClass}>
+                  Help and FAQ
+                </LocalizedClientLink>
+              </li>
+              <li>
+                <LocalizedClientLink href="/account" className={linkClass}>
+                  My account
+                </LocalizedClientLink>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="border-t border-sage-200 py-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex flex-col md:flex-row items-center gap-4 text-sage-600">
-              <Text className="text-sm">
-                © {new Date().getFullYear()} Zentee. All rights reserved.
-              </Text>
-              <div className="flex items-center gap-4 text-xs">
-                <LocalizedClientLink
-                  href="/privacy"
-                  className="hover:text-brand-600 transition-colors"
-                >
-                  Privacy Policy
-                </LocalizedClientLink>
-                <span className="text-sage-400">•</span>
-                <LocalizedClientLink
-                  href="/terms"
-                  className="hover:text-brand-600 transition-colors"
-                >
-                  Terms of Service
-                </LocalizedClientLink>
-                <span className="text-sage-400">•</span>
-                <LocalizedClientLink
-                  href="/returns"
-                  className="hover:text-brand-600 transition-colors"
-                >
-                  Returns
-                </LocalizedClientLink>
-              </div>
-            </div>
-
-            {/* Zen Quote */}
-            <div className="text-center md:text-right">
-              <p className="text-xs text-sage-500 italic">
-                "In every cup, find peace" ☯️
-              </p>
-            </div>
+        <div className="flex flex-col gap-4 border-t border-white/10 py-7 text-[#c9d6c5] small:flex-row small:items-center small:justify-between">
+          <Text className="text-sm">
+            © {new Date().getFullYear()} Zentee. All rights reserved.
+          </Text>
+          <div className="flex flex-wrap items-center gap-4 text-xs">
+            <LocalizedClientLink
+              href="/privacy"
+              className="transition-colors hover:text-[#fffaf2]"
+            >
+              Privacy Policy
+            </LocalizedClientLink>
+            <LocalizedClientLink
+              href="/terms"
+              className="transition-colors hover:text-[#fffaf2]"
+            >
+              Terms of Service
+            </LocalizedClientLink>
+            <LocalizedClientLink
+              href="/returns"
+              className="transition-colors hover:text-[#fffaf2]"
+            >
+              Returns
+            </LocalizedClientLink>
           </div>
         </div>
       </div>

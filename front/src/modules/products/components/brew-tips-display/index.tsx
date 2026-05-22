@@ -9,7 +9,7 @@ type BrewTipsDisplayProps = {
 export default function BrewTipsDisplay({
   brew,
   title = "Quick Brew",
-  className = "rounded-2xl border border-sage-100 bg-gradient-to-br from-sage-50 to-cream-50/70 p-5 shadow-sm",
+  className = "rounded-lg border border-[#eadbc4] bg-[#fffaf2] p-5 shadow-sm",
 }: BrewTipsDisplayProps) {
   return (
     <div className={className}>

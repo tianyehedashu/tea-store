@@ -25,55 +25,50 @@ const StoreTemplate = async ({
   const categories = await listCategories()
 
   return (
-    <div className="hero-gradient min-h-screen">
-      <section className="content-container pt-12 pb-8">
-        <div className="text-center max-w-4xl mx-auto">
-          <h1
-            className="font-display text-5xl small:text-6xl font-bold text-sage-900 mb-6 leading-tight"
-            data-testid="store-page-title"
-          >
-            Premium Tea Collection
-          </h1>
-          <p className="text-lg text-sage-700 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Discover our carefully curated selection of premium teas from the
-            finest tea gardens around the world. Each tea is sourced directly
-            from trusted growers who share our commitment to quality and
-            sustainability.
-          </p>
-          <div className="flex flex-col small:flex-row gap-4 justify-center items-center">
-            <LocalizedClientLink href="/guides" className="brand-outline">
+    <div className="min-h-screen bg-[#fffaf2]">
+      <section className="border-b border-[#203428] bg-[#111d16] text-white">
+        <div className="content-container grid gap-8 py-12 small:grid-cols-[1fr_0.72fr] small:items-end small:py-16">
+          <div className="max-w-4xl">
+            <p className="section-eyebrow mb-4 text-[#d79b62]">Tea store</p>
+            <h1
+              className="font-display text-5xl leading-tight text-[#fff7ec] small:text-6xl"
+              data-testid="store-page-title"
+            >
+              Premium teas, easier to choose.
+            </h1>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-[#dce5d7]">
+              Explore loose-leaf teas by type, origin, cup profile, and brewing
+              confidence. Every product keeps taste notes and preparation close
+              to the buying decision.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 small:items-end">
+            <LocalizedClientLink
+              href="/guides"
+              className="brand-outline border-white/25 bg-white/10 text-white hover:bg-white hover:text-sage-900"
+            >
               <span>Tea Guide</span>
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                />
-              </svg>
+              <span aria-hidden>→</span>
             </LocalizedClientLink>
-            <LocalizedClientLink href="/origins" className="brand-outline">
-              <span>Explore Origins</span>
+            <LocalizedClientLink
+              href="/origins"
+              className="text-sm font-semibold text-[#f4eadc] transition hover:text-white"
+            >
+              Explore Origins
             </LocalizedClientLink>
           </div>
         </div>
       </section>
 
-      <section className="bg-white">
+      <section className="bg-[#fffaf2]">
         <div
-          className="flex flex-col small:flex-row small:items-start content-container py-12 gap-8"
+          className="content-container flex flex-col gap-8 py-10 small:flex-row small:items-start small:py-12"
           data-testid="category-container"
         >
           <RefinementList sortBy={sort} categories={categories} />
           <main className="flex-1 space-y-8">
-            <div className="rounded-2xl border border-sage-200 bg-sage-50/80 px-8 py-6">
-              <p className="text-sage-700 leading-relaxed text-center small:text-left">
+            <div className="rounded-lg border border-[#eadbc4] bg-white px-6 py-5">
+              <p className="text-center text-sm leading-6 text-sage-700 small:text-left">
                 Use filters to explore by tea type, origin, and flavor. Every
                 product includes brewing guidance to help you choose with
                 confidence.

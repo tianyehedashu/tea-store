@@ -10,7 +10,7 @@ export default function OriginHero({ origin }: { origin: OriginDTO }) {
     .join(" · ")
 
   return (
-    <section className="relative isolate overflow-hidden bg-sage-900">
+    <section className="relative isolate overflow-hidden bg-[#111d16]">
       <div className="absolute inset-0">
         {imageUrl ? (
           <Image
@@ -23,10 +23,10 @@ export default function OriginHero({ origin }: { origin: OriginDTO }) {
             quality={90}
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-sage-700 via-brand-800 to-sage-900" />
+          <div className="absolute inset-0 bg-[#111d16]" />
         )}
         <div
-          className="absolute inset-0 bg-gradient-to-t from-sage-950/90 via-sage-900/50 to-sage-900/25"
+          className="absolute inset-0 bg-[linear-gradient(0deg,rgba(17,29,22,0.92)_0%,rgba(17,29,22,0.58)_54%,rgba(17,29,22,0.25)_100%)]"
           aria-hidden
         />
       </div>
@@ -44,7 +44,7 @@ export default function OriginHero({ origin }: { origin: OriginDTO }) {
           </span>
           <span className="font-medium text-white">{origin.title}</span>
         </nav>
-        <h1 className="font-display text-4xl small:text-5xl lg:text-6xl font-bold text-white max-w-4xl leading-[1.1]">
+        <h1 className="max-w-4xl font-display text-4xl leading-[1.1] text-[#fff7ec] small:text-5xl lg:text-6xl">
           {origin.title}
         </h1>
         {location ? (

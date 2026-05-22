@@ -19,9 +19,9 @@ export default function StaticPage({
   sections,
 }: StaticPageProps) {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#fffaf2]">
       <PageHero eyebrow={eyebrow} title={title} description={description} />
-      <article className="content-container py-12 max-w-3xl">
+      <article className="content-container max-w-3xl py-12">
         <div className="space-y-10">
           {sections.map((section) => (
             <section key={section.heading}>

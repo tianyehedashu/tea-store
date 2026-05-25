@@ -92,7 +92,7 @@ export default async function CategoryTemplate({
           </nav>
 
           <h1
-            className="mb-4 font-display text-4xl leading-tight text-sage-900 small:text-6xl"
+            className="mb-4 break-words font-display text-4xl leading-tight text-sage-900 xsmall:text-5xl small:text-6xl"
             data-testid="category-page-title"
           >
             {category.name}

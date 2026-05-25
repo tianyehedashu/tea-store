@@ -66,7 +66,7 @@ const TeaBrewingGuide = ({ product }: TeaBrewingGuideProps) => {
           Quick Brewing Guide
         </Heading>
 
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 xsmall:grid-cols-2 md:grid-cols-4">
           {metadata.water_temperature && (
             <div className="rounded-lg border border-white/80 bg-white p-4 text-center shadow-sm">
               <div className="text-2xl font-bold text-brand-700">

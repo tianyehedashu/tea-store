@@ -27,17 +27,17 @@ export default function CheckoutStepShell({
   return (
     <section
       className={clx(
-        "rounded-lg border bg-white p-6 transition-colors small:p-8",
+        "rounded-lg border bg-white p-4 transition-colors xsmall:p-5 small:p-8",
         isOpen
           ? "border-[#d5b58f] shadow-sm ring-1 ring-[#eadbc4]"
           : "border-[#eadbc4]",
         isDisabled && !isOpen && "opacity-60"
       )}
     >
-      <div className="flex items-center justify-between gap-4 mb-6">
+      <div className="mb-5 flex items-start justify-between gap-4 small:mb-6 small:items-center">
         <h2
           className={clx(
-            "flex items-center gap-2 font-display text-xl font-semibold text-sage-900",
+            "flex min-w-0 items-center gap-2 font-display text-xl font-semibold text-sage-900",
             isDisabled && !isOpen && "pointer-events-none select-none"
           )}
         >

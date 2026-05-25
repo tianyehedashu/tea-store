@@ -16,7 +16,7 @@ export default function CheckoutProgress({
   return (
     <nav
       aria-label="Checkout progress"
-      className="flex flex-wrap gap-2 small:gap-4"
+      className="no-scrollbar flex flex-nowrap gap-2 overflow-x-auto pb-1 small:gap-4"
     >
       {STEPS.map((step, stepIndex) => {
         const isActive = stepIndex === index
@@ -25,7 +25,7 @@ export default function CheckoutProgress({
         return (
           <div
             key={step.id}
-            className="flex items-center gap-2 text-sm"
+            className="flex shrink-0 items-center gap-2 text-sm"
             aria-current={isActive ? "step" : undefined}
           >
             <span

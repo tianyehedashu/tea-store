@@ -28,21 +28,21 @@ const OrderCard = ({ order }: OrderCardProps) => {
       <div className="uppercase text-sm font-semibold text-sage-900 mb-1">
         #<span data-testid="order-display-id">{order.display_id}</span>
       </div>
-      <div className="flex items-center divide-x divide-sage-200 text-sm text-sage-700">
-        <span className="pr-2" data-testid="order-created-at">
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-sage-700 xsmall:divide-x xsmall:divide-sage-200">
+        <span className="xsmall:pr-2" data-testid="order-created-at">
           {new Date(order.created_at).toDateString()}
         </span>
-        <span className="px-2" data-testid="order-amount">
+        <span className="xsmall:px-2" data-testid="order-amount">
           {convertToLocale({
             amount: order.total,
             currency_code: order.currency_code,
           })}
         </span>
-        <span className="pl-2">{`${numberOfLines} ${
+        <span className="xsmall:pl-2">{`${numberOfLines} ${
           numberOfLines > 1 ? "items" : "item"
         }`}</span>
       </div>
-      <div className="grid grid-cols-2 small:grid-cols-4 gap-4 my-4">
+      <div className="my-4 grid grid-cols-1 gap-4 xsmall:grid-cols-2 small:grid-cols-4">
         {order.items?.slice(0, 3).map((i) => {
           return (
             <div

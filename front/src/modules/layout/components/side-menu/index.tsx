@@ -41,7 +41,7 @@ const SideMenu = ({
             <>
               <Popover.Button
                 data-testid="nav-menu-button"
-                className="relative flex h-full items-center rounded text-sm font-semibold text-sage-800 transition-colors hover:text-[#82471f] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#a6602e]"
+                className="relative flex h-full min-w-11 items-center rounded text-sm font-semibold text-sage-800 transition-colors hover:text-[#82471f] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#a6602e]"
               >
                 Menu
               </Popover.Button>
@@ -65,7 +65,7 @@ const SideMenu = ({
                   />
                   <div
                     data-testid="nav-menu-popup"
-                    className="absolute bottom-0 right-0 top-0 flex h-full w-[min(100%,20rem)] flex-col border-l border-[#eadbc4] bg-[#fffaf2] shadow-2xl sm:relative sm:w-full sm:rounded-lg sm:border"
+                    className="absolute bottom-0 right-0 top-0 flex h-full w-[min(100%,22rem)] flex-col border-l border-[#eadbc4] bg-[#fffaf2] shadow-2xl sm:relative sm:w-full sm:rounded-lg sm:border"
                   >
                     <div className="flex items-center justify-between border-b border-[#eadbc4] px-6 py-5">
                       <span className="font-display text-xl font-semibold text-sage-900">
@@ -116,7 +116,7 @@ const SideMenu = ({
                       )}
                     </ul>
 
-                    <div className="space-y-4 border-t border-[#eadbc4] bg-[#f5eddf] px-6 py-5">
+                    <div className="safe-bottom space-y-4 border-t border-[#eadbc4] bg-[#f5eddf] px-6 py-5">
                       <div
                         className="flex justify-between items-center"
                         onMouseEnter={toggleState.open}

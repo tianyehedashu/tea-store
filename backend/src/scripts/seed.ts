@@ -29,6 +29,59 @@ const backendStatic = (fileName: string) => {
   return `${base}/static/${fileName}`
 }
 
+const coverrVideo = (
+  slug: string,
+  title: string,
+  description: string,
+  sourceUrl = "https://coverr.co/stock-video-footage/tea"
+) => ({
+  title,
+  description,
+  url: `https://cdn.coverr.co/videos/${slug}/1080p.mp4`,
+  poster: `https://cdn.coverr.co/videos/${slug}/thumbnail?width=1280`,
+  sourceLabel: "Coverr",
+  sourceUrl,
+})
+
+const teaVideos = {
+  teaPlantationField: coverrVideo(
+    "coverr-indian-tea-plantation-field-3668",
+    "Tea garden rows from above",
+    "Aerial garden footage for origin and sourcing context.",
+    "https://coverr.co/videos/indian-tea-plantation-field-b3xoxoobkk"
+  ),
+  teaPlantations: coverrVideo(
+    "coverr-indian-tea-plantations-4182",
+    "Tea terraces in motion",
+    "Green tea terraces with a calm garden-to-cup mood."
+  ),
+  hotWaterTeaCup: coverrVideo(
+    "coverr-hot-water-being-poured-into-a-cup-of-tea-8891",
+    "Hot water over tea leaves",
+    "Close-up brewing motion for product rituals."
+  ),
+  chaiPouring: coverrVideo(
+    "coverr-pouring-chai-tea-into-cups-4442",
+    "Warm tea service",
+    "Tea poured into cups for deeper and spiced cup profiles."
+  ),
+  makingChai: coverrVideo(
+    "coverr-making-chai-tea-in-india-8095",
+    "Stovetop tea preparation",
+    "A craft preparation scene for richer, patient cups."
+  ),
+  kettleToMug: coverrVideo(
+    "coverr-pouring-hot-water-from-a-kettle-into-a-mug-6801",
+    "Daily kettle pour",
+    "Simple hot-water brewing motion for herbal and comfort teas."
+  ),
+  teaAtHome: coverrVideo(
+    "coverr-woman-reading-a-book-and-drinking-tea-5917",
+    "Quiet tea ritual",
+    "A calm at-home tea moment for the culture and story section."
+  ),
+}
+
 export default async function seedDemoData({ container }: ExecArgs) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER)
   const link = container.resolve(ContainerRegistrationKeys.LINK)
@@ -541,6 +594,20 @@ export default async function seedDemoData({ container }: ExecArgs) {
         cultivar: "longjing #43",
         oxidation_level: 0,
         flavor_notes: ["chestnut", "fresh", "sweet"],
+        media_videos: [
+          {
+            ...teaVideos.teaPlantationField,
+            title: "Longjing garden view",
+            placement: "gallery",
+          },
+        ],
+        story_video: {
+          ...teaVideos.hotWaterTeaCup,
+          title: "Spring leaf to clear cup",
+          description:
+            "A short brewing reel pairs Longjing's garden story with gentle water temperature.",
+          placement: "story",
+        },
         brew_override: {
           water_temp_c: 80,
           leaf_gram_per_100ml: 3,
@@ -619,6 +686,20 @@ export default async function seedDemoData({ container }: ExecArgs) {
         cultivar: "tieguanyin",
         oxidation_level: 30,
         flavor_notes: ["floral", "orchid", "honey"],
+        media_videos: [
+          {
+            ...teaVideos.teaPlantations,
+            title: "Anxi terrace mood",
+            placement: "gallery",
+          },
+        ],
+        story_video: {
+          ...teaVideos.hotWaterTeaCup,
+          title: "Oolong leaves opening",
+          description:
+            "Hot water and short infusions show the rhythm behind fragrant Anxi oolong.",
+          placement: "story",
+        },
         brew_override: {
           water_temp_c: 95,
           leaf_gram_per_100ml: 4,
@@ -698,6 +779,20 @@ export default async function seedDemoData({ container }: ExecArgs) {
         cultivar: "local",
         oxidation_level: 100,
         flavor_notes: ["malt", "honey", "sweet"],
+        media_videos: [
+          {
+            ...teaVideos.hotWaterTeaCup,
+            title: "Dianhong brew close-up",
+            placement: "gallery",
+          },
+        ],
+        story_video: {
+          ...teaVideos.makingChai,
+          title: "Warm preparation for a malty cup",
+          description:
+            "A richer preparation scene matches Dianhong's honeyed body and morning-tea character.",
+          placement: "story",
+        },
         brew_override: {
           water_temp_c: 96,
           leaf_gram_per_100ml: 3,
@@ -770,6 +865,20 @@ export default async function seedDemoData({ container }: ExecArgs) {
         cultivar: "blend",
         oxidation_level: 100,
         flavor_notes: ["earthy", "dates", "smooth"],
+        media_videos: [
+          {
+            ...teaVideos.chaiPouring,
+            title: "Dark tea service",
+            placement: "gallery",
+          },
+        ],
+        story_video: {
+          ...teaVideos.teaPlantationField,
+          title: "Yunnan leaves with patient depth",
+          description:
+            "Garden footage anchors shu puer in Yunnan before the ripe fermentation story begins.",
+          placement: "story",
+        },
         brew_override: {
           water_temp_c: 98,
           leaf_gram_per_100ml: 4,
@@ -850,6 +959,20 @@ export default async function seedDemoData({ container }: ExecArgs) {
         cultivar: "da_bai",
         oxidation_level: 5,
         flavor_notes: ["sweet", "delicate", "floral"],
+        media_videos: [
+          {
+            ...teaVideos.kettleToMug,
+            title: "Gentle water for white tea",
+            placement: "gallery",
+          },
+        ],
+        story_video: {
+          ...teaVideos.teaPlantations,
+          title: "Fujian garden calm",
+          description:
+            "Tea terrace footage supports Silver Needle's delicate picking and minimal processing story.",
+          placement: "story",
+        },
         brew_override: {
           water_temp_c: 75,
           leaf_gram_per_100ml: 2,
@@ -934,6 +1057,20 @@ export default async function seedDemoData({ container }: ExecArgs) {
         oxidation_level: 0,
         flavor_notes: ["floral", "honey", "calming"],
         caffeine_level: "caffeine-free",
+        media_videos: [
+          {
+            ...teaVideos.kettleToMug,
+            title: "Evening herbal pour",
+            placement: "gallery",
+          },
+        ],
+        story_video: {
+          ...teaVideos.teaAtHome,
+          title: "A quiet caffeine-free ritual",
+          description:
+            "A calm at-home tea moment fits chamomile's evening positioning and softer cup promise.",
+          placement: "story",
+        },
         brew_override: {
           water_temp_c: 100,
           leaf_gram_per_100ml: 2,

@@ -1,3 +1,5 @@
+import { CdnVideo } from "@lib/types/cdn-video"
+
 export type OriginDTO = {
   id: string
   title: string
@@ -19,6 +21,8 @@ export type OriginDTO = {
   highlights?: string[]
   teaStyles?: string[]
   history?: string
+  heroVideo?: CdnVideo
+  storyVideo?: CdnVideo
 }
 
 export type BrewingGuideDTO = {

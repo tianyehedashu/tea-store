@@ -52,14 +52,14 @@ const CartItemSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
           <select
             ref={innerRef}
             {...props}
-            className="appearance-none bg-transparent border-none px-4 transition-colors duration-150 outline-none w-16 h-16 items-center justify-center text-sage-900"
+            className="h-full w-full appearance-none items-center justify-center border-none bg-transparent px-3 text-base text-sage-900 outline-none transition-colors duration-150 small:text-sm"
           >
             <option disabled value="">
               {placeholder}
             </option>
             {children}
           </select>
-          <span className="absolute flex pointer-events-none justify-end w-8 group-hover:animate-pulse">
+          <span className="pointer-events-none absolute right-2 flex w-5 justify-end group-hover:animate-pulse">
             <ChevronDown />
           </span>
         </IconBadge>

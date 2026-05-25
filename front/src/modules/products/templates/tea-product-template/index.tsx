@@ -21,6 +21,7 @@ import {
   formatTeaType,
   getBrandName,
   getBulletPoints,
+  getProductMediaVideos,
   getTeaMetadata,
 } from "@lib/types/tea-product-metadata"
 
@@ -87,9 +88,7 @@ const HeroProof = ({
           <p className="mt-2 text-sm font-semibold capitalize text-white">
             {item.value}
           </p>
-          <p className="mt-1 text-xs leading-5 text-[#b9c9b5]">
-            {item.detail}
-          </p>
+          <p className="mt-1 text-xs leading-5 text-[#b9c9b5]">{item.detail}</p>
         </div>
       ))}
     </div>
@@ -106,13 +105,16 @@ const TeaProductTemplate: React.FC<TeaProductTemplateProps> = ({
   }
 
   const metadata = getTeaMetadata(product)
+  const mediaVideos = getProductMediaVideos(product)
   const brandName = getBrandName(metadata)
   const teaType =
     formatTeaType(metadata.tea_type) ||
     titleCase(metadata.tea_category) ||
     "Curated Tea"
   const originLabel =
-    [metadata.origin_region, metadata.origin_province].filter(Boolean).join(", ") ||
+    [metadata.origin_region, metadata.origin_province]
+      .filter(Boolean)
+      .join(", ") ||
     metadata.origin_id?.replace(/-/g, " ") ||
     metadata.country_of_origin ||
     "Selected garden"
@@ -181,7 +183,7 @@ const TeaProductTemplate: React.FC<TeaProductTemplateProps> = ({
             <ProductInfo product={product} />
           </div>
           <div className="block w-full relative">
-            <ImageGallery images={product?.images || []} />
+            <ImageGallery images={product?.images || []} videos={mediaVideos} />
           </div>
           <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12">
             <ProductOnboardingCta />
@@ -221,7 +223,7 @@ const TeaProductTemplate: React.FC<TeaProductTemplateProps> = ({
       <section className="relative overflow-hidden border-t border-[#203428] bg-[#111d16] text-white">
         <div className="absolute inset-x-0 top-0 h-px bg-white/10" />
         <div
-          className="content-container relative grid gap-8 py-8 small:py-12 large:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(330px,390px)] large:items-start large:gap-8 xlarge:gap-10"
+          className="content-container relative grid gap-7 py-7 small:py-12 large:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(330px,390px)] large:items-start large:gap-8 xlarge:gap-10"
           data-testid="tea-product-container"
         >
           <div className="flex min-w-0 flex-col justify-between gap-8 large:min-h-[720px] large:py-3">
@@ -245,13 +247,13 @@ const TeaProductTemplate: React.FC<TeaProductTemplateProps> = ({
                   {teaType}
                 </p>
                 <h1
-                  className="max-w-3xl font-display text-4xl leading-[1.04] text-[#fff7ec] small:text-6xl large:text-7xl"
+                  className="max-w-3xl break-words font-display text-4xl leading-[1.06] text-[#fff7ec] xsmall:text-5xl small:text-6xl large:text-7xl"
                   data-testid="product-title"
                 >
                   {product.title}
                 </h1>
                 <p
-                  className="max-w-xl text-base leading-7 text-[#dce5d7] small:text-lg"
+                  className="max-w-xl text-base leading-7 text-[#dce5d7] xsmall:text-lg"
                   data-testid="product-description"
                 >
                   {heroDescription}
@@ -267,7 +269,7 @@ const TeaProductTemplate: React.FC<TeaProductTemplateProps> = ({
           </div>
 
           <div className="min-w-0 large:py-3">
-            <ImageGallery images={product?.images || []} />
+            <ImageGallery images={product?.images || []} videos={mediaVideos} />
           </div>
 
           <HeroProof
@@ -289,7 +291,7 @@ const TeaProductTemplate: React.FC<TeaProductTemplateProps> = ({
                 next step feels obvious.
               </p>
             </div>
-            <div className="mb-5 grid grid-cols-3 gap-2 text-center text-[11px] font-semibold uppercase tracking-wide text-sage-700">
+            <div className="mb-5 grid grid-cols-1 gap-2 text-center text-[11px] font-semibold uppercase tracking-wide text-sage-700 xsmall:grid-cols-3">
               <span className="rounded-lg border border-[#eadbc4] bg-white px-2 py-2">
                 Fresh pack
               </span>

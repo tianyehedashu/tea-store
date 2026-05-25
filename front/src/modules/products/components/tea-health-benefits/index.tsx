@@ -73,7 +73,7 @@ const TeaHealthBenefits = ({ product }: TeaHealthBenefitsProps) => {
             Nutritional Profile (per cup)
           </Heading>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4 xsmall:grid-cols-2 md:grid-cols-4">
             {typeof metadata.nutritional_info.caffeine_mg_per_cup ===
               "number" && (
               <div className="text-center p-3 bg-white rounded-md border border-green-100">

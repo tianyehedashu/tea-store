@@ -52,14 +52,12 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
             </LocalizedClientLink>
           )}
 
-          <Text className="section-eyebrow">
-            {brandName}
-          </Text>
+          <Text className="section-eyebrow">{brandName}</Text>
         </div>
 
         <Heading
           level="h1"
-          className="max-w-3xl font-display text-5xl leading-[0.98] text-sage-900 small:text-6xl"
+          className="max-w-3xl break-words font-display text-4xl leading-[1.06] text-sage-900 xsmall:text-5xl small:text-6xl"
           data-testid="product-title"
         >
           {product.title}
@@ -76,9 +74,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
                 key={item.label}
                 className="rounded-lg border border-[#eadbc4] bg-white p-4"
               >
-                <p className="section-eyebrow">
-                  {item.label}
-                </p>
+                <p className="section-eyebrow">{item.label}</p>
                 <p className="mt-1 text-sm font-medium capitalize text-sage-900">
                   {item.value}
                 </p>

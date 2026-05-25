@@ -101,7 +101,7 @@ export default async function PaginatedProducts({
         <>
           {/* Products count and sorting info */}
           <div className="flex items-center justify-between border-b border-[#eadbc4] pb-4">
-            <p className="text-sage-600">
+            <p className="text-sm leading-6 text-sage-600 small:text-base">
               Showing{" "}
               <span className="font-medium text-sage-900">
                 {products.length}
@@ -113,7 +113,7 @@ export default async function PaginatedProducts({
 
           {/* Products Grid */}
           <ul
-            className="grid grid-cols-1 small:grid-cols-2 medium:grid-cols-2 large:grid-cols-3 gap-8"
+            className="grid grid-cols-1 gap-5 xsmall:gap-6 small:grid-cols-2 small:gap-8 medium:grid-cols-2 large:grid-cols-3"
             data-testid="products-list"
           >
             {products.map((p) => {
@@ -127,7 +127,7 @@ export default async function PaginatedProducts({
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="mt-16 flex justify-center">
+            <div className="mt-10 flex justify-center small:mt-16">
               <div className="rounded-lg border border-[#eadbc4] bg-white p-2 shadow-sm">
                 <Pagination
                   data-testid="product-pagination"

@@ -50,7 +50,7 @@ export default function MobileNavOverlay({
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#eadbc4] p-6">
+        <div className="flex items-center justify-between border-b border-[#eadbc4] p-4 xsmall:p-6">
           <LocalizedClientLink
             href="/"
             onClick={onClose}
@@ -81,7 +81,7 @@ export default function MobileNavOverlay({
 
         {/* Navigation Content */}
         <div className="flex flex-col h-full pb-20 overflow-y-auto">
-          <div className="px-6 py-6 space-y-6">
+          <div className="space-y-6 px-4 py-5 xsmall:px-6 xsmall:py-6">
             {/* Main Navigation */}
             <nav className="space-y-4">
               <LocalizedClientLink
@@ -240,7 +240,7 @@ export default function MobileNavOverlay({
           </div>
 
           {/* Bottom CTA */}
-          <div className="mt-auto bg-[#f5eddf] p-6">
+          <div className="safe-bottom mt-auto bg-[#f5eddf] p-4 xsmall:p-6">
             <div className="text-center space-y-3">
               <h3 className="font-semibold text-sage-900">New to Tea?</h3>
               <p className="text-sm text-sage-600">

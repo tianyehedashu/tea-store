@@ -2,6 +2,9 @@
  * 与 backend seed 中 product.metadata.origin_id 对齐的产地目录。
  * Sanity 无数据时作为 Origins 页回落内容；上线 CMS 后以 Sanity 为准。
  */
+import { CDN_VIDEO_ASSETS } from "@lib/constants/video-assets"
+import { CdnVideo } from "@lib/types/cdn-video"
+
 export type OriginCatalogEntry = {
   slug: string
   title: string
@@ -20,6 +23,8 @@ export type OriginCatalogEntry = {
   history?: string
   /** Next public 路径，如 /images/origins/longjing-hero.jpg */
   heroImagePath?: string
+  heroVideo?: CdnVideo
+  storyVideo?: CdnVideo
   productHandles: string[]
 }
 
@@ -50,6 +55,13 @@ export const ORIGIN_CATALOG: OriginCatalogEntry[] = [
     history:
       "Longjing received imperial favor during the Qing dynasty and remains a benchmark for Chinese green tea. The name refers to an old well whose water was said to twist like a dragon—local lore still shapes how the tea is marketed and enjoyed today.",
     heroImagePath: "/images/origins/longjing-hero.jpg",
+    heroVideo: CDN_VIDEO_ASSETS.teaPlantationField,
+    storyVideo: {
+      ...CDN_VIDEO_ASSETS.hotWaterTeaCup,
+      title: "Spring leaf to clear cup",
+      description:
+        "A short brewing reel pairs Longjing's garden story with the gentle water temperature that keeps green tea sweet.",
+    },
     productHandles: ["longjing-green-tea"],
   },
   {
@@ -68,7 +80,10 @@ export const ORIGIN_CATALOG: OriginCatalogEntry[] = [
     soil: "Sandy loam over granite and shale; low pH suits tieguanyin cultivars.",
     altitude: "600–1,000 m",
     harvestSeason: "Spring and autumn (autumn often more aromatic)",
-    teaStyles: ["Light-roasted oolong (Tieguanyin)", "Semi-oxidized ball-rolled oolong"],
+    teaStyles: [
+      "Light-roasted oolong (Tieguanyin)",
+      "Semi-oxidized ball-rolled oolong",
+    ],
     highlights: [
       "Home of the Tieguanyin cultivar and ball-rolled oolong craft",
       "Rocky soils contribute minerality and long-lasting aftertaste",
@@ -78,6 +93,13 @@ export const ORIGIN_CATALOG: OriginCatalogEntry[] = [
     history:
       "Legends tie Tieguanyin to a devout farmer and a vision of Guanyin; whether myth or marketing, the cultivar has defined Anxi's economy for centuries. Modern gardens blend heritage processing with selective oxidation for export and specialty markets.",
     heroImagePath: "/images/origins/anxi-hero.jpg",
+    heroVideo: CDN_VIDEO_ASSETS.teaPlantations,
+    storyVideo: {
+      ...CDN_VIDEO_ASSETS.teaPlantations,
+      title: "Oolong country in motion",
+      description:
+        "Terraced green slopes help frame Anxi's layered oxidation and roasting traditions before the cup opens.",
+    },
     productHandles: ["tieguanyin-oolong"],
   },
   {
@@ -110,6 +132,13 @@ export const ORIGIN_CATALOG: OriginCatalogEntry[] = [
     history:
       "Yunnan is often cited as a cradle of tea culture, with trade routes carrying compressed tea north for centuries. Today's market blends village maocha with factory blending—transparency in harvest year and fermentation matters for serious drinkers.",
     heroImagePath: "/images/origins/yunnan-hero.jpg",
+    heroVideo: CDN_VIDEO_ASSETS.teaPlantationField,
+    storyVideo: {
+      ...CDN_VIDEO_ASSETS.makingChai,
+      title: "Highland leaves, patient brewing",
+      description:
+        "A warm preparation scene gives Yunnan's black teas and puer a slower, richer visual rhythm.",
+    },
     productHandles: ["yunnan-dianhong-black", "shu-puer-cake-2019"],
   },
   {
@@ -138,6 +167,13 @@ export const ORIGIN_CATALOG: OriginCatalogEntry[] = [
     history:
       "White tea's commercial rise is relatively recent compared to green or oolong, yet Fujian processors have codified grades around bud count and leaf ratio. Export demand has expanded gardens while rewarding hand-picked spring lots.",
     heroImagePath: "/images/origins/fujian-hero.jpg",
+    heroVideo: CDN_VIDEO_ASSETS.teaPlantations,
+    storyVideo: {
+      ...CDN_VIDEO_ASSETS.kettleToMug,
+      title: "Gentle water for delicate buds",
+      description:
+        "Soft pouring motion matches Fujian white tea's minimal processing and lower-temperature brewing style.",
+    },
     productHandles: ["silver-needle-white-tea"],
   },
 ]

@@ -60,7 +60,7 @@ export default async function RelatedProducts({
 
   return (
     <div className="product-page-constraint">
-      <div className="flex flex-col items-center text-center mb-16">
+      <div className="mb-10 flex flex-col items-center text-center small:mb-16">
         <span className="text-base-regular text-gray-600 mb-6">
           Related products
         </span>
@@ -71,7 +71,7 @@ export default async function RelatedProducts({
         </p>
       </div>
 
-      <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-6 gap-y-8">
+      <ul className="grid grid-cols-1 gap-5 xsmall:grid-cols-2 xsmall:gap-6 small:grid-cols-3 small:gap-y-8 medium:grid-cols-4">
         {products.map((related) => (
           <li key={related.id}>
             <Product region={region} product={related} />

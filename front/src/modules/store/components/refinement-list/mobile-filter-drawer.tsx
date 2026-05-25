@@ -74,7 +74,7 @@ export default function MobileFilterDrawer({
   }, [open])
 
   return (
-    <div className="small:hidden w-full mb-6">
+    <div className="small:hidden w-full">
       <div className="flex gap-3">
         <button
           type="button"
@@ -99,7 +99,7 @@ export default function MobileFilterDrawer({
           </svg>
           Filters
           {activeCount > 0 ? (
-              <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#a6602e] px-1.5 text-xs font-semibold text-white">
+            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#a6602e] px-1.5 text-xs font-semibold text-white">
               {activeCount}
             </span>
           ) : null}
@@ -126,11 +126,11 @@ export default function MobileFilterDrawer({
           <div
             id="mobile-filter-drawer"
             className={clx(
-              "absolute bottom-0 left-0 right-0 max-h-[88vh] flex flex-col",
+              "absolute bottom-0 left-0 right-0 max-h-[88svh] flex flex-col",
               "rounded-t-lg border-t border-[#eadbc4] bg-[#fffaf2] shadow-2xl"
             )}
           >
-            <div className="flex shrink-0 items-center justify-between border-b border-[#eadbc4] px-6 py-4">
+            <div className="flex shrink-0 items-center justify-between border-b border-[#eadbc4] px-4 py-4 xsmall:px-6">
               <h2 className="text-lg font-semibold text-sage-900">
                 Filters & sort
               </h2>
@@ -156,7 +156,7 @@ export default function MobileFilterDrawer({
               </button>
             </div>
 
-            <div className="overflow-y-auto px-6 py-6 flex-1">
+            <div className="overflow-y-auto px-4 py-5 flex-1 xsmall:px-6 xsmall:py-6">
               <RefinementPanel
                 sortBy={sortBy}
                 setQueryParams={setQueryParams}
@@ -166,7 +166,7 @@ export default function MobileFilterDrawer({
               />
             </div>
 
-            <div className="flex shrink-0 gap-3 border-t border-[#eadbc4] bg-[#f5eddf] px-6 py-4">
+            <div className="safe-bottom flex shrink-0 gap-3 border-t border-[#eadbc4] bg-[#f5eddf] px-4 py-4 xsmall:px-6">
               {activeCount > 0 ? (
                 <button
                   type="button"

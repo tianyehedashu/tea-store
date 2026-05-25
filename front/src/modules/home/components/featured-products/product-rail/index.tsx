@@ -51,7 +51,7 @@ export default async function ProductRail({
       </div>
 
       {/* Products Grid */}
-      <div className="grid grid-cols-1 small:grid-cols-2 medium:grid-cols-3 large:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 gap-5 xsmall:gap-6 small:grid-cols-2 small:gap-8 medium:grid-cols-3 large:grid-cols-4">
         {pricedProducts.slice(0, 4).map((product) => (
           <div key={product.id} className="h-full">
             <ProductPreview product={product} region={region} isFeatured />
@@ -63,7 +63,7 @@ export default async function ProductRail({
       <div className="flex justify-center small:hidden">
         <LocalizedClientLink
           href={`/collections/${collection.handle}`}
-          className="brand-outline w-full"
+          className="brand-outline w-full justify-center"
         >
           View All {collection.title}
         </LocalizedClientLink>

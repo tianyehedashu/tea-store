@@ -23,15 +23,20 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
 
   return (
     <div className="flex flex-col gap-y-3">
-      <span className="text-sm font-semibold text-sage-900">Select {title}</span>
-      <div className="grid grid-cols-3 gap-2" data-testid={dataTestId}>
+      <span className="text-sm font-semibold text-sage-900">
+        Select {title}
+      </span>
+      <div
+        className="grid grid-cols-2 gap-2 xsmall:grid-cols-3"
+        data-testid={dataTestId}
+      >
         {filteredOptions.map((v) => {
           return (
             <button
               onClick={() => updateOption(option.id, v)}
               key={v}
               className={clx(
-                "h-11 rounded-lg border border-[#d8c4aa] bg-white px-3 text-sm font-semibold text-sage-800 transition",
+                "min-h-11 rounded-lg border border-[#d8c4aa] bg-white px-3 py-2 text-sm font-semibold leading-5 text-sage-800 transition",
                 {
                   "border-[#c46f35] bg-[#fff4e8] text-[#7a3f1d] shadow-sm ring-1 ring-[#e8c6a5]":
                     v === current,

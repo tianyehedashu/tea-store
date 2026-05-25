@@ -40,6 +40,8 @@ function mergeWithCatalogFallback(origin: OriginDTO): OriginDTO {
       : fallback.highlights,
     teaStyles: origin.teaStyles?.length ? origin.teaStyles : fallback.teaStyles,
     history: origin.history || fallback.history,
+    heroVideo: origin.heroVideo ?? fallback.heroVideo,
+    storyVideo: origin.storyVideo ?? fallback.storyVideo,
   }
 }
 

@@ -23,6 +23,7 @@ type ItemProps = {
 const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
   const [updating, setUpdating] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const isPreview = type === "preview"
 
   const changeQuantity = async (quantity: number) => {
     setError(null)
@@ -45,13 +46,26 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
   const maxQuantity = item.variant?.manage_inventory ? 10 : maxQtyFromInventory
 
   return (
-    <Table.Row className="w-full" data-testid="product-row">
-      <Table.Cell className="!pl-0 p-4 w-24">
+    <Table.Row
+      className={clx(
+        "w-full",
+        !isPreview &&
+          "mb-4 block rounded-lg border border-[#eadbc4] bg-[#fffaf2] p-4 small:table-row small:rounded-none small:border-0 small:bg-transparent small:p-0"
+      )}
+      data-testid={isPreview ? "cart-item-preview" : "cart-item"}
+    >
+      <Table.Cell
+        className={clx("!pl-0", {
+          "p-4 w-24": isPreview,
+          "block w-full p-0 small:table-cell small:w-24 small:p-4 small:!pl-0":
+            !isPreview,
+        })}
+      >
         <LocalizedClientLink
           href={`/products/${item.product_handle}`}
           className={clx("flex", {
             "w-16": type === "preview",
-            "small:w-24 w-12": type === "full",
+            "w-20 small:w-24": type === "full",
           })}
         >
           <Thumbnail
@@ -63,9 +77,13 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
         </LocalizedClientLink>
       </Table.Cell>
 
-      <Table.Cell className="text-left">
+      <Table.Cell
+        className={clx("text-left", {
+          "block px-0 py-3 small:table-cell small:p-4": !isPreview,
+        })}
+      >
         <Text
-          className="text-sm font-semibold text-sage-900"
+          className="break-words text-sm font-semibold text-sage-900"
           data-testid="product-title"
         >
           {item.product_title}
@@ -74,32 +92,35 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
       </Table.Cell>
 
       {type === "full" && (
-        <Table.Cell>
-          <div className="flex gap-2 items-center w-28">
-            <DeleteButton id={item.id} data-testid="product-delete-button" />
-            <CartItemSelect
-              value={item.quantity}
-              onChange={(value) => changeQuantity(parseInt(value.target.value))}
-              className="w-14 h-10 p-4"
-              data-testid="product-select-button"
-            >
-              {/* TODO: Update this with the v2 way of managing inventory */}
-              {Array.from(
-                {
-                  length: Math.min(maxQuantity, 10),
-                },
-                (_, i) => (
-                  <option value={i + 1} key={i}>
-                    {i + 1}
-                  </option>
-                )
-              )}
-
-              <option value={1} key={1}>
-                1
-              </option>
-            </CartItemSelect>
-            {updating && <Spinner />}
+        <Table.Cell className="block px-0 py-3 small:table-cell small:p-4">
+          <div className="flex items-center justify-between gap-3 small:w-28 small:justify-start small:gap-2">
+            <span className="text-sm font-medium text-sage-700 small:hidden">
+              Quantity
+            </span>
+            <div className="flex items-center gap-2">
+              <DeleteButton id={item.id} data-testid="product-delete-button" />
+              <CartItemSelect
+                value={item.quantity}
+                onChange={(value) =>
+                  changeQuantity(parseInt(value.target.value))
+                }
+                className="h-11 w-16 p-0 small:h-10 small:w-14 small:p-4"
+                data-testid="product-select-button"
+              >
+                {/* TODO: Update this with the v2 way of managing inventory */}
+                {Array.from(
+                  {
+                    length: Math.min(maxQuantity, 10),
+                  },
+                  (_, i) => (
+                    <option value={i + 1} key={i}>
+                      {i + 1}
+                    </option>
+                  )
+                )}
+              </CartItemSelect>
+              {updating && <Spinner />}
+            </div>
           </div>
           <ErrorMessage error={error} data-testid="product-error-message" />
         </Table.Cell>
@@ -115,12 +136,23 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
         </Table.Cell>
       )}
 
-      <Table.Cell className="!pr-0">
+      <Table.Cell
+        className={clx("!pr-0", {
+          "block px-0 pt-3 small:table-cell small:p-4 small:!pr-0": !isPreview,
+        })}
+      >
         <span
           className={clx("!pr-0", {
             "flex flex-col items-end h-full justify-center": type === "preview",
+            "flex items-center justify-between text-right small:block":
+              !isPreview,
           })}
         >
+          {type === "full" && (
+            <span className="text-sm font-medium text-sage-700 small:hidden">
+              Total
+            </span>
+          )}
           {type === "preview" && (
             <span className="flex gap-x-1 ">
               <Text className="text-sage-500">{item.quantity}x </Text>

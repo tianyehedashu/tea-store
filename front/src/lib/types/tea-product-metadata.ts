@@ -1,5 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
 
+import { CdnVideo } from "@lib/types/cdn-video"
 import { extractBrewOverride } from "@lib/util/brew-data"
 
 export const DEFAULT_BRAND_NAME = "Zentee"
@@ -34,6 +35,12 @@ export type TeaProductMetadata = {
   origin_history?: string
   geographic_description?: string
   brew_override?: Record<string, unknown>
+  media_videos?: TeaProductVideo[]
+  story_video?: TeaProductVideo
+}
+
+export type TeaProductVideo = CdnVideo & {
+  placement?: "gallery" | "story" | "hero"
 }
 
 const TEA_TYPE_LABELS: Record<string, string> = {
@@ -52,6 +59,42 @@ export function getTeaMetadata(
   product: HttpTypes.StoreProduct
 ): TeaProductMetadata {
   return (product.metadata ?? {}) as TeaProductMetadata
+}
+
+function isProductVideo(value: unknown): value is TeaProductVideo {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    typeof (value as { url?: unknown }).url === "string"
+  )
+}
+
+function normalizeProductVideos(value: unknown): TeaProductVideo[] {
+  if (!Array.isArray(value)) {
+    return []
+  }
+
+  return value.filter(isProductVideo)
+}
+
+export function getProductMediaVideos(
+  product: HttpTypes.StoreProduct
+): TeaProductVideo[] {
+  return normalizeProductVideos(getTeaMetadata(product).media_videos)
+}
+
+export function getProductStoryVideo(
+  product: HttpTypes.StoreProduct
+): TeaProductVideo | undefined {
+  const metadata = getTeaMetadata(product)
+
+  if (isProductVideo(metadata.story_video)) {
+    return metadata.story_video
+  }
+
+  return normalizeProductVideos(metadata.media_videos).find(
+    (video) => video.placement === "story"
+  )
 }
 
 export function getBrandName(metadata: TeaProductMetadata): string {

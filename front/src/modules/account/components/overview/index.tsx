@@ -33,7 +33,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
         </span>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 small:gap-8">
+      <div className="grid grid-cols-1 gap-4 xsmall:grid-cols-2 small:gap-8">
         <div className="rounded-xl border border-sage-200 bg-sage-50/50 p-5">
           <h3 className="text-sm font-medium text-sage-600 uppercase tracking-wide">
             Profile
@@ -80,32 +80,38 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                   href={`/account/orders/details/${order.id}`}
                 >
                   <Container className="bg-sage-50 border border-sage-200 flex justify-between items-center p-4 rounded-xl">
-                    <div className="grid grid-cols-3 grid-rows-2 text-sm gap-x-4 flex-1 text-sage-700">
-                      <span className="font-semibold text-sage-900">
-                        Date placed
-                      </span>
-                      <span className="font-semibold text-sage-900">
-                        Order number
-                      </span>
-                      <span className="font-semibold text-sage-900">
-                        Total amount
-                      </span>
-                      <span data-testid="order-created-date">
-                        {new Date(order.created_at).toDateString()}
-                      </span>
-                      <span
-                        data-testid="order-id"
-                        data-value={order.display_id}
-                      >
-                        #{order.display_id}
-                      </span>
-                      <span data-testid="order-amount">
-                        {convertToLocale({
-                          amount: order.total,
-                          currency_code: order.currency_code,
-                        })}
-                      </span>
-                    </div>
+                    <dl className="grid flex-1 grid-cols-1 gap-3 text-sm text-sage-700 xsmall:grid-cols-3 xsmall:gap-x-4">
+                      <div>
+                        <dt className="font-semibold text-sage-900">
+                          Date placed
+                        </dt>
+                        <dd data-testid="order-created-date">
+                          {new Date(order.created_at).toDateString()}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="font-semibold text-sage-900">
+                          Order number
+                        </dt>
+                        <dd
+                          data-testid="order-id"
+                          data-value={order.display_id}
+                        >
+                          #{order.display_id}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="font-semibold text-sage-900">
+                          Total amount
+                        </dt>
+                        <dd data-testid="order-amount">
+                          {convertToLocale({
+                            amount: order.total,
+                            currency_code: order.currency_code,
+                          })}
+                        </dd>
+                      </div>
+                    </dl>
                     <span className="sr-only">
                       Go to order #{order.display_id}
                     </span>

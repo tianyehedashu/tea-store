@@ -14,6 +14,7 @@ import { notFound } from "next/navigation"
 import ProductActionsWrapper from "./product-actions-wrapper"
 import TeaProductTemplate from "./tea-product-template"
 import { HttpTypes } from "@medusajs/types"
+import { getProductMediaVideos } from "@lib/types/tea-product-metadata"
 
 type ProductTemplateProps = {
   product: HttpTypes.StoreProduct
@@ -78,6 +79,8 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     )
   }
 
+  const mediaVideos = getProductMediaVideos(product)
+
   return (
     <>
       <ProductBreadcrumb product={product} />
@@ -90,7 +93,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
           <ProductTabs product={product} />
         </div>
         <div className="block w-full relative">
-          <ImageGallery images={product?.images || []} />
+          <ImageGallery images={product?.images || []} videos={mediaVideos} />
         </div>
         <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12">
           <ProductOnboardingCta />

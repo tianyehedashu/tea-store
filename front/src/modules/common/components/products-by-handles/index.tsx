@@ -51,7 +51,7 @@ export default async function ProductsByHandles({
           <p className="mt-2 text-sage-600 leading-relaxed">{subtitle}</p>
         ) : null}
       </div>
-      <ul className="grid grid-cols-1 small:grid-cols-2 large:grid-cols-4 gap-6">
+      <ul className="grid grid-cols-1 gap-5 xsmall:gap-6 small:grid-cols-2 large:grid-cols-4">
         {products.map((product) => (
           <li key={product.id}>
             <ProductPreview product={product} region={region} />

@@ -52,7 +52,7 @@ export default async function ProductPreview({
         </div>
 
         {/* Content */}
-        <div className="space-y-4 p-5">
+        <div className="space-y-4 p-4 small:p-5">
           {/* Title and Origin */}
           <div className="space-y-2">
             <h3
@@ -81,16 +81,14 @@ export default async function ProductPreview({
           {Array.isArray(product.metadata?.flavor_notes) &&
             product.metadata.flavor_notes.length > 0 && (
               <div className="space-y-2">
-                <p className="section-eyebrow">
-                  Flavor Notes
-                </p>
+                <p className="section-eyebrow">Flavor Notes</p>
                 <div className="flex flex-wrap gap-1.5">
                   {product.metadata.flavor_notes
                     .slice(0, 4)
                     .map((note: string) => (
                       <span
                         key={note}
-                        className="inline-block rounded-full border border-[#eadbc4] bg-[#fffaf2] px-3 py-1 text-xs capitalize text-sage-700"
+                        className="inline-block rounded-full border border-[#eadbc4] bg-[#fffaf2] px-2.5 py-1 text-xs capitalize text-sage-700 small:px-3"
                       >
                         {note}
                       </span>

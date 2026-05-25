@@ -26,7 +26,7 @@ export default function GuideDetailTemplate({
   return (
     <div className="min-h-screen bg-[#fffaf2]">
       <section className="hero-gradient border-b border-[#eadbc4]">
-        <div className="content-container py-14 small:py-16 max-w-4xl">
+        <div className="content-container max-w-4xl py-12 small:py-16">
           <nav className="text-sm text-sage-600 mb-4 flex flex-wrap items-center gap-2">
             <LocalizedClientLink
               href="/guides"
@@ -39,10 +39,10 @@ export default function GuideDetailTemplate({
               {guide.teaType}
             </span>
           </nav>
-          <h1 className="font-display text-4xl capitalize text-sage-900 small:text-6xl">
+          <h1 className="break-words font-display text-4xl capitalize text-sage-900 xsmall:text-5xl small:text-6xl">
             How to brew {guide.teaType}
           </h1>
-          <p className="mt-4 text-lg text-sage-700 leading-relaxed">
+          <p className="mt-4 text-base leading-7 text-sage-700 xsmall:text-lg xsmall:leading-relaxed">
             A structured approach to water, leaf, and time — tuned for this tea
             type.
           </p>
@@ -64,8 +64,11 @@ export default function GuideDetailTemplate({
             subtitle="Recommended products that pair well with these parameters."
           />
         ) : null}
-        <div className="flex flex-wrap gap-4 border-t border-[#eadbc4] pt-4">
-          <LocalizedClientLink href="/store" className="brand-cta text-sm">
+        <div className="flex flex-col gap-4 border-t border-[#eadbc4] pt-4 xsmall:flex-row xsmall:flex-wrap">
+          <LocalizedClientLink
+            href="/store"
+            className="brand-cta w-full text-sm xsmall:w-auto"
+          >
             Find {guide.teaType} teas
           </LocalizedClientLink>
         </div>

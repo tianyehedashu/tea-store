@@ -2,6 +2,8 @@
 
 import { HttpTypes } from "@medusajs/types"
 import { Text, Heading } from "@medusajs/ui"
+import { getProductStoryVideo } from "@lib/types/tea-product-metadata"
+import CdnVideo from "@modules/common/components/cdn-video"
 
 type TeaCultureMetadata = {
   brand_story?: string
@@ -48,9 +50,36 @@ type TeaCultureStoryProps = {
 
 const TeaCultureStory = ({ product }: TeaCultureStoryProps) => {
   const metadata = (product.metadata as TeaCultureMetadata) || {}
+  const storyVideo = getProductStoryVideo(product)
 
   return (
     <div className="space-y-6">
+      {storyVideo && (
+        <div className="overflow-hidden rounded-lg border border-[#eadbc4] bg-white shadow-sm">
+          <CdnVideo
+            video={storyVideo}
+            className="aspect-video bg-sage-100"
+            videoClassName="block"
+            controls
+            muted={false}
+          />
+          {(storyVideo.title || storyVideo.description) && (
+            <div className="space-y-2 p-5">
+              {storyVideo.title && (
+                <h3 className="text-lg font-semibold text-sage-900">
+                  {storyVideo.title}
+                </h3>
+              )}
+              {storyVideo.description && (
+                <Text className="text-sm leading-6 text-sage-700">
+                  {storyVideo.description}
+                </Text>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Brand Story */}
       {metadata.brand_story && (
         <div className="border border-brand-200 rounded-lg p-6 bg-brand-50">

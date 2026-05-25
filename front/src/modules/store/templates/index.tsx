@@ -27,16 +27,16 @@ const StoreTemplate = async ({
   return (
     <div className="min-h-screen bg-[#fffaf2]">
       <section className="border-b border-[#203428] bg-[#111d16] text-white">
-        <div className="content-container grid gap-8 py-12 small:grid-cols-[1fr_0.72fr] small:items-end small:py-16">
+        <div className="content-container grid gap-7 py-10 small:grid-cols-[1fr_0.72fr] small:items-end small:py-16">
           <div className="max-w-4xl">
             <p className="section-eyebrow mb-4 text-[#d79b62]">Tea store</p>
             <h1
-              className="font-display text-5xl leading-tight text-[#fff7ec] small:text-6xl"
+              className="break-words font-display text-4xl leading-tight text-[#fff7ec] xsmall:text-5xl small:text-6xl"
               data-testid="store-page-title"
             >
               Premium teas, easier to choose.
             </h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-[#dce5d7]">
+            <p className="mt-5 max-w-2xl text-base leading-7 text-[#dce5d7] xsmall:text-lg xsmall:leading-8">
               Explore loose-leaf teas by type, origin, cup profile, and brewing
               confidence. Every product keeps taste notes and preparation close
               to the buying decision.
@@ -45,7 +45,7 @@ const StoreTemplate = async ({
           <div className="flex flex-col gap-3 small:items-end">
             <LocalizedClientLink
               href="/guides"
-              className="brand-outline border-white/25 bg-white/10 text-white hover:bg-white hover:text-sage-900"
+              className="brand-outline w-full border-white/25 bg-white/10 text-white hover:bg-white hover:text-sage-900 xsmall:w-fit"
             >
               <span>Tea Guide</span>
               <span aria-hidden>→</span>
@@ -62,12 +62,12 @@ const StoreTemplate = async ({
 
       <section className="bg-[#fffaf2]">
         <div
-          className="content-container flex flex-col gap-8 py-10 small:flex-row small:items-start small:py-12"
+          className="content-container flex flex-col gap-6 py-8 small:flex-row small:items-start small:gap-8 small:py-12"
           data-testid="category-container"
         >
           <RefinementList sortBy={sort} categories={categories} />
           <main className="flex-1 space-y-8">
-            <div className="rounded-lg border border-[#eadbc4] bg-white px-6 py-5">
+            <div className="rounded-lg border border-[#eadbc4] bg-white px-4 py-4 small:px-6 small:py-5">
               <p className="text-center text-sm leading-6 text-sage-700 small:text-left">
                 Use filters to explore by tea type, origin, and flavor. Every
                 product includes brewing guidance to help you choose with

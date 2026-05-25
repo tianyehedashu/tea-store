@@ -105,6 +105,8 @@ const TeaProductTabs = ({ product }: TeaProductTabsProps) => {
           "brand_story",
           "tea_tradition",
           "farm_story",
+          "story_video",
+          "media_videos",
           "celebrity_endorsements",
           "tea_master_profile",
         ].some((key) => hasMetadataValue(metadata, key))
@@ -121,9 +123,7 @@ const TeaProductTabs = ({ product }: TeaProductTabsProps) => {
   return (
     <section className="w-full rounded-lg border border-[#eadbc4] bg-white p-6 shadow-sm small:p-8">
       <div className="mb-8 max-w-2xl">
-        <p className="section-eyebrow">
-          Deeper knowledge
-        </p>
+        <p className="section-eyebrow">Deeper knowledge</p>
         <Heading
           level="h2"
           className="mt-3 font-display text-3xl font-semibold text-sage-900"
@@ -160,8 +160,9 @@ const TeaProductTabs = ({ product }: TeaProductTabsProps) => {
           Tea culture, without the noise
         </Heading>
         <p className="max-w-3xl text-sm leading-6 text-cream-800">
-          Each cup carries land, craft, and time. The page keeps that story close
-          to the purchase decision, but never lets it obscure the essentials.
+          Each cup carries land, craft, and time. The page keeps that story
+          close to the purchase decision, but never lets it obscure the
+          essentials.
         </p>
       </div>
     </section>

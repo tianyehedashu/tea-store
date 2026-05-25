@@ -2,6 +2,7 @@ import { OriginDTO } from "@lib/data/cms/types"
 import ProductsByHandles from "@modules/common/components/products-by-handles"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import OriginHero from "@modules/origins/components/origin-hero"
+import OriginStoryVideo from "@modules/origins/components/origin-story-video"
 import OriginTerroirGrid from "@modules/origins/components/origin-terroir-grid"
 
 export default function OriginDetailTemplate({
@@ -32,6 +33,8 @@ export default function OriginDetailTemplate({
 
           <OriginTerroirGrid origin={origin} />
 
+          <OriginStoryVideo origin={origin} />
+
           {origin.teaStyles?.length ? (
             <section className="space-y-4">
               <h2 className="text-xl font-semibold text-sage-900">
@@ -40,7 +43,10 @@ export default function OriginDetailTemplate({
               <ul className="space-y-2 text-sage-700">
                 {origin.teaStyles.map((style) => (
                   <li key={style} className="flex gap-2">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#a6602e]" aria-hidden />
+                    <span
+                      className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#a6602e]"
+                      aria-hidden
+                    />
                     <span>{style}</span>
                   </li>
                 ))}

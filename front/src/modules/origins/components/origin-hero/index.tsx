@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { OriginDTO } from "@lib/data/cms/types"
 import { resolveOriginHeroImageUrl } from "@lib/util/origin-hero-image"
+import CdnVideo from "@modules/common/components/cdn-video"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 export default function OriginHero({ origin }: { origin: OriginDTO }) {
@@ -12,7 +13,18 @@ export default function OriginHero({ origin }: { origin: OriginDTO }) {
   return (
     <section className="relative isolate overflow-hidden bg-[#111d16]">
       <div className="absolute inset-0">
-        {imageUrl ? (
+        {origin.heroVideo ? (
+          <CdnVideo
+            video={origin.heroVideo}
+            className="absolute inset-0"
+            videoClassName="absolute inset-0"
+            autoPlay
+            controls={false}
+            loop
+            muted
+            preload="metadata"
+          />
+        ) : imageUrl ? (
           <Image
             src={imageUrl}
             alt=""
@@ -31,7 +43,7 @@ export default function OriginHero({ origin }: { origin: OriginDTO }) {
         />
       </div>
 
-      <div className="content-container relative z-10 flex min-h-[min(52vh,28rem)] flex-col justify-end pb-10 pt-24 small:min-h-[min(56vh,32rem)] small:pb-12">
+      <div className="content-container relative z-10 flex min-h-[min(52svh,28rem)] flex-col justify-end pb-9 pt-20 small:min-h-[min(56vh,32rem)] small:pb-12 small:pt-24">
         <nav className="mb-4 flex flex-wrap items-center gap-2 text-sm text-white/85">
           <LocalizedClientLink
             href="/origins"
@@ -44,7 +56,7 @@ export default function OriginHero({ origin }: { origin: OriginDTO }) {
           </span>
           <span className="font-medium text-white">{origin.title}</span>
         </nav>
-        <h1 className="max-w-4xl font-display text-4xl leading-[1.1] text-[#fff7ec] small:text-5xl lg:text-6xl">
+        <h1 className="max-w-4xl break-words font-display text-4xl leading-[1.1] text-[#fff7ec] xsmall:text-5xl lg:text-6xl">
           {origin.title}
         </h1>
         {location ? (

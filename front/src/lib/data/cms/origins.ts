@@ -21,8 +21,26 @@ const ORIGIN_FIELDS = `
   highlights,
   tea_styles,
   history,
+  hero_video_url,
+  hero_video_poster,
+  hero_video_title,
+  story_video_url,
+  story_video_poster,
+  story_video_title,
   "hero_image": hero_image{
     "url": asset->url
+  },
+  "hero_video": hero_video{
+    title,
+    description,
+    "url": asset->url,
+    "poster": poster.asset->url
+  },
+  "story_video": story_video{
+    title,
+    description,
+    "url": asset->url,
+    "poster": poster.asset->url
   },
   "products": related_products[]->{"handle": medusa_handle}
 `
@@ -39,7 +57,31 @@ const ORIGIN_BY_SLUG_GROQ = `
   }
 `
 
-const mapOrigin = (o: Record<string, unknown> | null | undefined): OriginDTO => ({
+const mapVideo = (
+  o: Record<string, unknown> | null | undefined,
+  field: "hero_video" | "story_video",
+  urlField: "hero_video_url" | "story_video_url",
+  posterField: "hero_video_poster" | "story_video_poster",
+  titleField: "hero_video_title" | "story_video_title"
+) => {
+  const nested = o?.[field] as Record<string, unknown> | undefined
+  const url = (nested?.url || o?.[urlField]) as string | undefined
+
+  if (!url) {
+    return undefined
+  }
+
+  return {
+    url,
+    poster: (nested?.poster || o?.[posterField]) as string | undefined,
+    title: (nested?.title || o?.[titleField]) as string | undefined,
+    description: nested?.description as string | undefined,
+  }
+}
+
+const mapOrigin = (
+  o: Record<string, unknown> | null | undefined
+): OriginDTO => ({
   id: o?.id as string,
   title: o?.title as string,
   slug: o?.slug as string,
@@ -57,6 +99,20 @@ const mapOrigin = (o: Record<string, unknown> | null | undefined): OriginDTO => 
   teaStyles: o?.tea_styles as string[] | undefined,
   history: o?.history as string | undefined,
   heroImage: o?.hero_image,
+  heroVideo: mapVideo(
+    o,
+    "hero_video",
+    "hero_video_url",
+    "hero_video_poster",
+    "hero_video_title"
+  ),
+  storyVideo: mapVideo(
+    o,
+    "story_video",
+    "story_video_url",
+    "story_video_poster",
+    "story_video_title"
+  ),
   products: o?.products as { handle: string }[] | undefined,
 })
 

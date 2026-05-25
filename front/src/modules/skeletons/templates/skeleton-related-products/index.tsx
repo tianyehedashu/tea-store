@@ -7,11 +7,11 @@ const SkeletonRelatedProducts = () => {
       <div className="flex flex-col gap-8 items-center text-center mb-8">
         <div className="w-20 h-6 animate-pulse bg-gray-100"></div>
         <div className="flex flex-col gap-4 items-center text-center mb-16">
-          <div className="w-96 h-10 animate-pulse bg-gray-100"></div>
+          <div className="h-10 w-full max-w-96 animate-pulse bg-gray-100"></div>
           <div className="w-48 h-10 animate-pulse bg-gray-100"></div>
         </div>
       </div>
-      <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-6 gap-y-8 flex-1">
+      <ul className="grid flex-1 grid-cols-1 gap-5 xsmall:grid-cols-2 xsmall:gap-6 small:grid-cols-3 small:gap-y-8 medium:grid-cols-4">
         {repeat(3).map((index) => (
           <li key={index}>
             <SkeletonProductPreview />

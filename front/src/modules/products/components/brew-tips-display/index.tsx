@@ -14,7 +14,7 @@ export default function BrewTipsDisplay({
   return (
     <div className={className}>
       <p className="mb-3 text-base font-semibold text-sage-900">{title}</p>
-      <div className="grid grid-cols-2 gap-3 text-sm">
+      <div className="grid grid-cols-1 gap-3 text-sm xsmall:grid-cols-2">
         {typeof brew.waterTempC === "number" && (
           <div className="rounded-xl bg-white/70 p-3">
             <div className="text-sage-500">Water Temp</div>

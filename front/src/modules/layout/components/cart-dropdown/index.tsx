@@ -82,7 +82,7 @@ const CartDropdown = ({
       <Popover className="relative h-full">
         <PopoverButton className="h-full">
           <LocalizedClientLink
-            className="text-sm font-semibold text-sage-800 transition-colors hover:text-[#82471f]"
+            className="flex h-full min-w-11 items-center justify-end text-sm font-semibold text-sage-800 transition-colors hover:text-[#82471f]"
             href="/cart"
             data-testid="nav-cart-link"
           >{`Cart (${totalItems})`}</LocalizedClientLink>

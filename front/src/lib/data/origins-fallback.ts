@@ -1,4 +1,7 @@
-import { ORIGIN_CATALOG, OriginCatalogEntry } from "@lib/constants/origin-catalog"
+import {
+  ORIGIN_CATALOG,
+  OriginCatalogEntry,
+} from "@lib/constants/origin-catalog"
 import { resolveMedusaAssetUrl } from "@lib/util/medusa-image-url"
 import { OriginDTO } from "./cms/types"
 
@@ -32,6 +35,8 @@ function catalogEntryToOrigin(entry: OriginCatalogEntry): OriginDTO {
     teaStyles: entry.teaStyles,
     history: entry.history,
     heroImage: resolveCatalogHeroImage(entry.heroImagePath),
+    heroVideo: entry.heroVideo,
+    storyVideo: entry.storyVideo,
     products: entry.productHandles.map((handle) => ({ handle })),
   }
 }

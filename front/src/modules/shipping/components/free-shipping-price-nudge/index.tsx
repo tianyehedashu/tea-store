@@ -200,7 +200,7 @@ function FreeShippingPopup({
   return (
     <div
       className={clx(
-        "fixed bottom-5 right-5 flex flex-col items-end gap-2 transition-all duration-500 ease-in-out z-10",
+        "fixed inset-x-4 bottom-4 z-10 flex flex-col items-end gap-2 transition-all duration-500 ease-in-out small:inset-x-auto small:right-5",
         {
           "opacity-0 invisible delay-1000": price.target_reached,
           "opacity-0 invisible": isClosed,
@@ -217,10 +217,10 @@ function FreeShippingPopup({
         </Button>
       </div>
 
-      <div className="w-[400px] bg-black text-white p-6 rounded-lg ">
+      <div className="w-full rounded-lg bg-black p-4 text-white xsmall:p-5 small:w-[400px] small:p-6">
         <div className="pb-4">
           <div className="space-y-3">
-            <div className="flex justify-between text-[15px] text-neutral-400">
+            <div className="flex flex-col gap-1 text-[15px] text-neutral-400 xsmall:flex-row xsmall:justify-between">
               <div>
                 {price.target_reached ? (
                   <div className="flex items-center gap-1.5">
@@ -262,16 +262,16 @@ function FreeShippingPopup({
           </div>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex flex-col gap-3 xsmall:flex-row">
           <LocalizedClientLink
-            className="rounded-lg bg-transparent shadow-none outline-none border-[1px] border-white text-[15px] py-2.5 px-4"
+            className="rounded-lg border-[1px] border-white bg-transparent px-4 py-2.5 text-center text-[15px] shadow-none outline-none"
             href="/cart"
           >
             View cart
           </LocalizedClientLink>
 
           <LocalizedClientLink
-            className="flex-grow rounded-lg bg-white text-neutral-950 shadow-none outline-none border-[1px] border-white text-[15px] py-2.5 px-4 text-center"
+            className="flex-grow rounded-lg border-[1px] border-white bg-white px-4 py-2.5 text-center text-[15px] text-neutral-950 shadow-none outline-none"
             href="/store"
           >
             View products

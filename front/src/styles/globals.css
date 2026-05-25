@@ -62,16 +62,22 @@
     --zentee-muted: #647567;
   }
 
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
   .content-container {
-    @apply max-w-[1440px] w-full mx-auto px-6 small:px-8 medium:px-12;
+    @apply max-w-[1440px] w-full mx-auto px-4 xsmall:px-5 small:px-8 medium:px-12;
   }
 
   .content-container-narrow {
-    @apply max-w-4xl w-full mx-auto px-6 small:px-8;
+    @apply max-w-4xl w-full mx-auto px-4 xsmall:px-5 small:px-8;
   }
 
   .content-container-wide {
-    @apply max-w-7xl w-full mx-auto px-6 small:px-8 medium:px-12;
+    @apply max-w-7xl w-full mx-auto px-4 xsmall:px-5 small:px-8 medium:px-12;
   }
 
   .contrast-btn {
@@ -123,8 +129,11 @@
   }
 
   .hero-gradient {
-    background:
-      radial-gradient(circle at 84% 12%, rgba(166, 96, 46, 0.08), transparent 30%),
+    background: radial-gradient(
+        circle at 84% 12%,
+        rgba(166, 96, 46, 0.08),
+        transparent 30%
+      ),
       linear-gradient(135deg, #fffaf2 0%, #f5eddf 52%, #eef4e7 100%);
   }
 
@@ -166,11 +175,11 @@
   }
 
   .checkout-option {
-    @apply flex cursor-pointer py-4 border border-sage-200 rounded-xl px-6 mb-2 text-sm text-sage-800 transition-all duration-200 hover:border-brand-300 hover:bg-sage-50/50;
+    @apply flex cursor-pointer py-4 border border-sage-200 rounded-xl px-4 small:px-6 mb-2 text-sm text-sage-800 transition-all duration-200 hover:border-brand-300 hover:bg-sage-50/50;
   }
 
   .checkout-option-row {
-    @apply items-center justify-between;
+    @apply flex-col items-start justify-start gap-3 xsmall:flex-row xsmall:items-center xsmall:justify-between;
   }
 
   .checkout-option-col {
@@ -186,11 +195,11 @@
   }
 
   .form-field {
-    @apply pt-4 pb-1 block w-full h-11 px-4 mt-0 bg-white border border-sage-200 rounded-lg appearance-none text-sage-900 transition-colors focus:outline-none focus:ring-1 focus:ring-brand-200 focus:border-brand-400 hover:border-sage-300;
+    @apply pt-4 pb-1 block w-full h-12 small:h-11 px-4 mt-0 bg-white border border-sage-200 rounded-lg appearance-none text-base small:text-sm text-sage-900 transition-colors focus:outline-none focus:ring-1 focus:ring-brand-200 focus:border-brand-400 hover:border-sage-300;
   }
 
   .form-select {
-    @apply relative flex items-center text-sm text-sage-900 border border-sage-200 bg-white rounded-lg transition-colors hover:border-sage-300 focus-within:ring-1 focus-within:ring-brand-200 focus-within:border-brand-400;
+    @apply relative flex min-h-12 items-center text-base small:text-sm text-sage-900 border border-sage-200 bg-white rounded-lg transition-colors hover:border-sage-300 focus-within:ring-1 focus-within:ring-brand-200 focus-within:border-brand-400;
   }
 
   .text-xsmall-regular {
@@ -293,6 +302,17 @@
 
   .responsive-stack {
     @apply space-y-6 small:space-y-8 medium:space-y-12;
+  }
+
+  .safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+  }
+
+  .safe-bottom-lg {
+    padding-bottom: max(
+      1.5rem,
+      calc(1rem + env(safe-area-inset-bottom))
+    ) !important;
   }
 }
 

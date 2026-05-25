@@ -15,7 +15,7 @@ export default function GuideCard({ guide }: { guide: BrewingGuideDTO }) {
           <span className="brand-badge shrink-0">{guide.waterTempC}°C</span>
         ) : null}
       </div>
-      <dl className="grid grid-cols-2 gap-3 text-sm">
+      <dl className="grid grid-cols-1 gap-3 text-sm xsmall:grid-cols-2">
         {guide.vessel ? (
           <div>
             <dt className="text-sage-500">Vessel</dt>

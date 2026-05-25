@@ -14,7 +14,7 @@ export default async function Nav() {
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
       <header className="relative mx-auto border-b border-[#eadbc4] bg-[#fffaf2]/95 shadow-sm backdrop-blur-md duration-200">
-        <nav className="content-container flex items-center justify-between h-20">
+        <nav className="content-container flex h-16 items-center justify-between small:h-20">
           {/* Mobile Menu */}
           <div className="flex-1 basis-0 h-full flex items-center small:hidden">
             <div className="h-full">

@@ -214,15 +214,15 @@ const Shipping: React.FC<ShippingProps> = ({
                         showPickupOptions === PICKUP_OPTION_ON
                       )}
                     >
-                      <div className="flex items-center gap-x-4">
+                      <div className="flex min-w-0 items-center gap-x-4">
                         <MedusaRadio
                           checked={showPickupOptions === PICKUP_OPTION_ON}
                         />
-                        <span className="text-base-regular">
+                        <span className="text-base-regular min-w-0">
                           Pick up your order
                         </span>
                       </div>
-                      <span className="justify-self-end text-sage-700 font-medium">
+                      <span className="shrink-0 justify-self-end text-sage-700 font-medium">
                         —
                       </span>
                     </Radio>
@@ -251,15 +251,15 @@ const Shipping: React.FC<ShippingProps> = ({
                           { disabled: isDisabled }
                         )}
                       >
-                        <div className="flex items-center gap-x-4">
+                        <div className="flex min-w-0 items-center gap-x-4">
                           <MedusaRadio
                             checked={option.id === shippingMethodId}
                           />
-                          <span className="text-base-regular">
+                          <span className="text-base-regular min-w-0">
                             {option.name}
                           </span>
                         </div>
-                        <span className="justify-self-end text-sage-900 font-medium">
+                        <span className="shrink-0 justify-self-end text-sage-900 font-medium">
                           {option.price_type === "flat" ? (
                             convertToLocale({
                               amount: option.amount!,
@@ -316,7 +316,7 @@ const Shipping: React.FC<ShippingProps> = ({
                             <MedusaRadio
                               checked={option.id === shippingMethodId}
                             />
-                            <div className="flex flex-col">
+                            <div className="flex min-w-0 flex-col">
                               <span className="text-base-regular">
                                 {option.name}
                               </span>
@@ -328,7 +328,7 @@ const Shipping: React.FC<ShippingProps> = ({
                               </span>
                             </div>
                           </div>
-                          <span className="justify-self-end text-sage-900 font-medium">
+                          <span className="shrink-0 justify-self-end text-sage-900 font-medium">
                             {convertToLocale({
                               amount: option.amount!,
                               currency_code: cart?.currency_code,
@@ -364,7 +364,7 @@ const Shipping: React.FC<ShippingProps> = ({
         <div>
           <div className="text-small-regular">
             {cart && (cart.shipping_methods?.length ?? 0) > 0 && (
-              <div className="flex flex-col w-1/3">
+              <div className="flex w-full flex-col small:w-1/3">
                 <Text className="text-sm font-semibold text-sage-900 mb-1">
                   Method
                 </Text>

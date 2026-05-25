@@ -6,6 +6,8 @@ import Hero from "@modules/home/components/hero"
 import { listCollections } from "@lib/data/collections"
 import { listCategories } from "@lib/data/categories"
 import { getRegion } from "@lib/data/regions"
+import { CDN_VIDEO_ASSETS } from "@lib/constants/video-assets"
+import CdnVideo from "@modules/common/components/cdn-video"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 export const metadata: Metadata = {
@@ -97,7 +99,10 @@ export default async function Home(props: {
                 beginners and serious drinkers can move quickly.
               </p>
             </div>
-            <LocalizedClientLink href="/store" className="brand-outline">
+            <LocalizedClientLink
+              href="/store"
+              className="brand-outline w-full justify-center xsmall:w-fit"
+            >
               View all teas
             </LocalizedClientLink>
           </div>
@@ -157,7 +162,7 @@ export default async function Home(props: {
 
       <section className="bg-[#fffaf2] py-16 small:py-24">
         <div className="content-container grid gap-10 large:grid-cols-[0.92fr_1.08fr] large:items-center">
-          <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-[#eadbc4] bg-sage-100">
+          <div className="relative min-h-[320px] overflow-hidden rounded-lg border border-[#eadbc4] bg-sage-100 xsmall:min-h-[420px]">
             <Image
               src="/images/origins/longjing-hero.jpg"
               alt="Longjing tea garden and fresh leaves"
@@ -165,6 +170,16 @@ export default async function Home(props: {
               className="object-cover object-center"
               sizes="(max-width: 1024px) 100vw, 48vw"
               quality={88}
+            />
+            <CdnVideo
+              video={CDN_VIDEO_ASSETS.hotWaterTeaCup}
+              className="absolute inset-0"
+              videoClassName="absolute inset-0"
+              autoPlay
+              controls={false}
+              loop
+              muted
+              preload="metadata"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#111d16]/55 via-transparent to-transparent" />
             <div className="absolute bottom-5 left-5 right-5 rounded-lg border border-white/25 bg-[#111d16]/70 p-5 text-[#fffaf2] backdrop-blur">
@@ -210,10 +225,16 @@ export default async function Home(props: {
             </div>
 
             <div className="flex flex-col gap-3 xsmall:flex-row">
-              <LocalizedClientLink href="/origins" className="brand-cta">
+              <LocalizedClientLink
+                href="/origins"
+                className="brand-cta w-full xsmall:w-auto"
+              >
                 Browse origins
               </LocalizedClientLink>
-              <LocalizedClientLink href="/guides" className="brand-outline">
+              <LocalizedClientLink
+                href="/guides"
+                className="brand-outline w-full xsmall:w-auto"
+              >
                 Read brew guides
               </LocalizedClientLink>
             </div>
@@ -224,7 +245,9 @@ export default async function Home(props: {
       <section className="border-y border-[#203428] bg-[#111d16] py-16 text-[#fffaf2] small:py-20">
         <div className="content-container grid gap-10 large:grid-cols-[0.9fr_1.1fr] large:items-center">
           <div className="space-y-4">
-            <p className="section-eyebrow text-[#d79b62]">The Zentee standard</p>
+            <p className="section-eyebrow text-[#d79b62]">
+              The Zentee standard
+            </p>
             <h2 className="font-display text-3xl leading-tight small:text-5xl">
               Less noise. More confidence in every product decision.
             </h2>
@@ -256,7 +279,10 @@ export default async function Home(props: {
               Build a tea shelf with better information from the start.
             </h2>
           </div>
-          <LocalizedClientLink href="/store" className="brand-cta">
+          <LocalizedClientLink
+            href="/store"
+            className="brand-cta w-full xsmall:w-fit"
+          >
             Shop the store
           </LocalizedClientLink>
         </div>

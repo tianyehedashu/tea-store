@@ -44,7 +44,10 @@ export default async function Footer() {
               Single-origin loose-leaf teas with origin stories, tasting notes,
               and practical brewing guidance for a better daily cup.
             </p>
-            <LocalizedClientLink href="/store" className="brand-cta">
+            <LocalizedClientLink
+              href="/store"
+              className="brand-cta w-full justify-center xsmall:w-fit"
+            >
               Shop teas
             </LocalizedClientLink>
           </div>

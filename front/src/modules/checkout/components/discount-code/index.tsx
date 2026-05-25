@@ -65,18 +65,18 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
 
         {isOpen ? (
           <div className="mt-3 space-y-3">
-            <div className="flex w-full gap-2">
+            <div className="flex w-full flex-col gap-2 xsmall:flex-row">
               <input
                 id="promotion-input"
                 name="code"
                 type="text"
                 placeholder="Enter code"
-                className="flex-1 rounded-lg border border-sage-200 bg-white px-4 py-2.5 text-sm text-sage-900 placeholder:text-sage-400 focus:outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-200"
+                className="h-12 flex-1 rounded-lg border border-sage-200 bg-white px-4 py-2.5 text-base text-sage-900 placeholder:text-sage-400 focus:border-brand-400 focus:outline-none focus:ring-1 focus:ring-brand-200 small:text-sm"
                 data-testid="discount-input"
               />
               <SubmitButton
                 variant="secondary"
-                className="!px-5 shrink-0"
+                className="h-12 shrink-0 !px-5"
                 data-testid="discount-apply-button"
               >
                 Apply

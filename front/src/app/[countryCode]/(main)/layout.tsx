@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 function LoadingNav() {
   return (
     <div className="sticky top-0 inset-x-0 z-50">
-      <div className="h-20 bg-white/95 backdrop-blur-md border-b border-sage-200 animate-pulse">
+      <div className="h-16 bg-white/95 backdrop-blur-md border-b border-sage-200 animate-pulse small:h-20">
         <div className="content-container flex items-center justify-between h-full">
           <div className="w-32 h-6 bg-sage-200 rounded"></div>
           <div className="flex gap-4">

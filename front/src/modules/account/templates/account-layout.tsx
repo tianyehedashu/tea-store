@@ -27,7 +27,7 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
                 <AccountNav customer={customer} />
               </div>
             ) : null}
-            <div className="flex-1 p-6 small:p-10">{children}</div>
+            <div className="flex-1 p-4 xsmall:p-6 small:p-10">{children}</div>
           </div>
           <div className="flex flex-col items-start justify-between gap-4 border-t border-[#eadbc4] bg-[#f5eddf] px-6 py-8 small:flex-row small:items-center small:px-10">
             <div>
